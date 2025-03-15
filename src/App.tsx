@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Application from "./pages/Application";
+import ApplicationReview from "./pages/ApplicationReview";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -32,6 +33,11 @@ const App = () => (
             <Route path="/application" element={
               <ProtectedRoute>
                 <Application />
+              </ProtectedRoute>
+            } />
+            <Route path="/application-review/:id" element={
+              <ProtectedRoute allowedRoles={['Loan Officer']}>
+                <ApplicationReview />
               </ProtectedRoute>
             } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

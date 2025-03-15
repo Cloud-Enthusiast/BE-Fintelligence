@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
@@ -17,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ChartContainer } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Link } from 'react-router-dom';
 
 // Sample data
 const loanPerformanceData = [
@@ -160,6 +160,12 @@ const Dashboard = () => {
                             </td>
                             <td className="py-3 text-sm">
                               <Button size="sm" variant="outline" className="mr-2">Review</Button>
+                              <Link 
+                                to="/application-review/APP-2023-005"
+                                className="text-finance-600 hover:text-finance-800 font-medium"
+                              >
+                                Review Application
+                              </Link>
                             </td>
                           </tr>
                         ))}
