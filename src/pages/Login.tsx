@@ -20,15 +20,16 @@ const Login = () => {
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [loginType, setLoginType] = useState<'officer' | 'applicant'>('officer');
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
     try {
-      const success = await login(username, password);
+      const success = await login(username, password, loginType);
       if (success) {
-        navigate('/dashboard');
+        navigate(loginType === 'officer' ? '/dashboard' : '/application');
       }
     } finally {
       setIsLoading(false);
@@ -70,12 +71,31 @@ const Login = () => {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-finance-900">LoanWise Portal</h1>
-          <p className="text-finance-600">Loan Officer Authentication</p>
+          <p className="text-finance-600">Commercial Loan Platform</p>
         </div>
+
+        <Tabs defaultValue="officer" className="w-full mb-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger 
+              value="officer" 
+              onClick={() => setLoginType('officer')}
+            >
+              Loan Officer
+            </TabsTrigger>
+            <TabsTrigger 
+              value="applicant" 
+              onClick={() => setLoginType('applicant')}
+            >
+              Loan Applicant
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         <Card className="border-none shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">Sign in</CardTitle>
+            <CardTitle className="text-2xl text-center">
+              {loginType === 'officer' ? 'Officer Login' : 'Applicant Login'}
+            </CardTitle>
             <CardDescription className="text-center">
               Enter your credentials to access your account
             </CardDescription>
@@ -97,7 +117,7 @@ const Login = () => {
                         <Input 
                           id="username"
                           type="text"
-                          placeholder="admin"
+                          placeholder={loginType === 'officer' ? 'admin' : 'username'}
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           className="pl-10"
@@ -129,6 +149,17 @@ const Login = () => {
                   <Button className="w-full mt-6" type="submit" disabled={isLoading}>
                     {isLoading ? "Signing In..." : "Sign In"}
                   </Button>
+                  
+                  {loginType === 'applicant' && (
+                    <div className="mt-4 text-center">
+                      <p className="text-sm text-muted-foreground">
+                        Don't have an account?{' '}
+                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/register')}>
+                          Register
+                        </Button>
+                      </p>
+                    </div>
+                  )}
                 </form>
               </TabsContent>
 
@@ -143,7 +174,7 @@ const Login = () => {
                           <Input 
                             id="otpUsername"
                             type="text"
-                            placeholder="admin"
+                            placeholder={loginType === 'officer' ? 'admin' : 'username@example.com'}
                             value={otpUsername}
                             onChange={(e) => setOtpUsername(e.target.value)}
                             className="pl-10"
@@ -172,7 +203,7 @@ const Login = () => {
                             render={({ slots }) => (
                               <InputOTPGroup>
                                 {slots.map((slot, index) => (
-                                  <InputOTPSlot key={index} {...slot} />
+                                  <InputOTPSlot key={index} {...slot} index={index} />
                                 ))}
                               </InputOTPGroup>
                             )}
@@ -198,7 +229,11 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-sm text-muted-foreground text-center mt-2">
-              <span>Demo credentials: username: admin, password: admin</span>
+              {loginType === 'officer' ? (
+                <span>Demo credentials: username: admin, password: admin</span>
+              ) : (
+                <span>Demo credentials: username: user, password: user</span>
+              )}
             </div>
           </CardFooter>
         </Card>

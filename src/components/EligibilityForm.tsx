@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -47,7 +46,11 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 }
 };
 
-const EligibilityForm = () => {
+interface EligibilityFormProps {
+  onComplete?: () => void;
+}
+
+const EligibilityForm = ({ onComplete }: EligibilityFormProps) => {
   const [formData, setFormData] = useState({
     businessName: '',
     fullName: '',
@@ -493,7 +496,11 @@ const EligibilityForm = () => {
                   <Button
                     type="button"
                     className="bg-finance-600 hover:bg-finance-700 text-white"
-                    onClick={() => {}}
+                    onClick={() => {
+                      if (onComplete) {
+                        onComplete();
+                      }
+                    }}
                   >
                     Continue to Application
                     <ChevronRightIcon className="ml-2 h-4 w-4" />

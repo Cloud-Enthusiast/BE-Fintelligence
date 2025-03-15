@@ -2,9 +2,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from '@/hooks/use-toast';
 
+type UserRole = 'Loan Officer' | 'Applicant';
+
 type User = {
   username: string;
-  role: string;
+  role: UserRole;
   name: string;
   avatar?: string;
 };
@@ -12,7 +14,7 @@ type User = {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
+  login: (username: string, password: string, loginType?: 'officer' | 'applicant') => Promise<boolean>;
   loginWithOTP: (username: string, otp: string) => Promise<boolean>;
   logout: () => void;
 }
@@ -40,12 +42,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
-    // Normally would call an API, but for demo purposes we'll use a hardcoded check
-    if (username === 'admin' && password === 'admin') {
+  const login = async (username: string, password: string, loginType: 'officer' | 'applicant' = 'officer'): Promise<boolean> => {
+    // For officer login
+    if (loginType === 'officer' && username === 'admin' && password === 'admin') {
       const user = {
         username: 'admin',
-        role: 'Loan Officer',
+        role: 'Loan Officer' as UserRole,
         name: 'Alex Johnson',
         avatar: '/avatar-placeholder.png',
       };
@@ -57,6 +59,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       toast({
         title: "Login successful",
         description: "Welcome back, Alex Johnson",
+      });
+      
+      return true;
+    } 
+    // For applicant login
+    else if (loginType === 'applicant' && username === 'user' && password === 'user') {
+      const user = {
+        username: 'user',
+        role: 'Applicant' as UserRole,
+        name: 'John Smith',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, John Smith",
       });
       
       return true;
@@ -75,7 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (username === 'admin' && otp.length === 6 && /^\d+$/.test(otp)) {
       const user = {
         username: 'admin',
-        role: 'Loan Officer',
+        role: 'Loan Officer' as UserRole,
         name: 'Alex Johnson',
         avatar: '/avatar-placeholder.png',
       };
@@ -87,6 +109,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       toast({
         title: "Login successful",
         description: "Welcome back, Alex Johnson",
+      });
+      
+      return true;
+    } else if (username === 'user' && otp.length === 6 && /^\d+$/.test(otp)) {
+      const user = {
+        username: 'user',
+        role: 'Applicant' as UserRole,
+        name: 'John Smith',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, John Smith",
       });
       
       return true;

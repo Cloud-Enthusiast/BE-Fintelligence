@@ -1,17 +1,26 @@
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { ReactNode } from 'react';
 
 interface ProtectedRouteProps {
   children: ReactNode;
+  allowedRoles?: ('Loan Officer' | 'Applicant')[];
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useAuth();
+const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
+  const { isAuthenticated, user } = useAuth();
+  const location = useLocation();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  // If specific roles are required, check if the user has one of those roles
+  if (allowedRoles && user && !allowedRoles.includes(user.role as any)) {
+    // Redirect officers to dashboard and applicants to application page
+    const redirectPath = user.role === 'Loan Officer' ? '/dashboard' : '/application';
+    return <Navigate to={redirectPath} replace />;
   }
 
   return <>{children}</>;
