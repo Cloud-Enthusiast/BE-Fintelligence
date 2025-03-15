@@ -1,13 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { motion } from 'framer-motion';
+import Layout from '@/components/Layout';
+import EligibilityForm from '@/components/EligibilityForm';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <Layout>
+      <div className="max-w-4xl mx-auto space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center space-y-4"
+        >
+          <h1 className="text-4xl font-bold text-finance-900">
+            Commercial Loan Eligibility
+          </h1>
+          <p className="text-lg text-finance-600 max-w-2xl mx-auto">
+            Check if your business qualifies for our commercial loan products by completing the assessment below.
+          </p>
+        </motion.div>
+        
+        <EligibilityForm />
       </div>
-    </div>
+    </Layout>
   );
 };
 
