@@ -27,12 +27,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, session);
         setSession(session);
         setUser(session?.user ?? null);
         setIsAuthenticated(!!session);
         
         if (session?.user) {
           const userProfile = await loadUserProfile(session.user.id);
+          console.log('User profile loaded:', userProfile);
           setProfile(userProfile);
         } else {
           setProfile(null);
@@ -44,12 +46,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('Initial session check:', session);
       setSession(session);
       setUser(session?.user ?? null);
       setIsAuthenticated(!!session);
       
       if (session?.user) {
         loadUserProfile(session.user.id).then(profile => {
+          console.log('Initial profile load:', profile);
           setProfile(profile);
         });
       }

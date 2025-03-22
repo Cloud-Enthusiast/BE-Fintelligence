@@ -48,8 +48,6 @@ export const registerUser = async (
         data: {
           full_name: fullName,
         },
-        // Disable email verification requirement
-        emailRedirectTo: window.location.origin,
       },
     });
 
@@ -116,6 +114,36 @@ export const loginWithPassword = async (
   password: string
 ): Promise<{ success: boolean; error?: string }> => {
   try {
+    // For demo accounts, handle them separately
+    if (email === 'admin@example.com' && password === 'admin123') {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (!error) {
+        toast({
+          title: "Login successful",
+          description: "Welcome back, Admin",
+        });
+        return { success: true };
+      }
+    } else if (email === 'user@example.com' && password === 'user123') {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (!error) {
+        toast({
+          title: "Login successful",
+          description: "Welcome back, User",
+        });
+        return { success: true };
+      }
+    }
+
+    // Regular login for other users
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
