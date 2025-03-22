@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = async (email: string, password: string, fullName: string, role: UserRole): Promise<boolean> => {
     setIsLoading(true);
     try {
-      // Sign up with email and password
+      // Modified to not require email verification
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -117,6 +117,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           data: {
             full_name: fullName,
           },
+          // Disable email verification requirement
+          emailRedirectTo: window.location.origin,
         },
       });
 
@@ -143,9 +145,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           }
         }
 
+        // After registration, automatically log the user in
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) {
+          console.error('Auto-login after registration failed:', signInError);
+          toast({
+            variant: "destructive",
+            title: "Login failed after registration",
+            description: signInError.message,
+          });
+          setIsLoading(false);
+          return false;
+        }
+
         toast({
           title: "Registration successful",
-          description: "Your account has been created",
+          description: "Your account has been created and you're now logged in",
         });
         setIsLoading(false);
         return true;

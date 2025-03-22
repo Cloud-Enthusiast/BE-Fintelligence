@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Application = () => {
-  const { user, profile, logout } = useAuth();
+  const { profile, logout } = useAuth();
   const [hasApplication, setHasApplication] = useState(false);
 
   return (
@@ -43,7 +42,7 @@ const Application = () => {
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">{profile?.full_name}</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {user?.email}
+                      Applicant
                     </p>
                   </div>
                 </DropdownMenuLabel>
