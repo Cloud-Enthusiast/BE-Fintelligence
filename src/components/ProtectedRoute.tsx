@@ -9,17 +9,27 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, profile, isLoading } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-finance-600"></div>
+      </div>
+    );
   }
 
-  // If specific roles are required, check if the user has one of those roles
-  if (allowedRoles && user && !allowedRoles.includes(user.role as any)) {
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // Check role access if specific roles are required
+  if (allowedRoles && profile && !allowedRoles.includes(profile.role)) {
     // Redirect officers to dashboard and applicants to application page
-    const redirectPath = user.role === 'Loan Officer' ? '/dashboard' : '/application';
+    const redirectPath = profile.role === 'Loan Officer' ? '/dashboard' : '/application';
     return <Navigate to={redirectPath} replace />;
   }
 

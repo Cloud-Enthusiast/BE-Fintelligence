@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '@/components/ui/input';
@@ -9,58 +10,94 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { BuildingIcon, KeyIcon, MailIcon, UserIcon } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+
 const Login = () => {
   const navigate = useNavigate();
   const {
     login,
-    loginWithOTP
+    loginWithOTP,
+    isLoading,
+    isAuthenticated,
+    profile
   } = useAuth();
-  const [username, setUsername] = useState('');
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [otpUsername, setOtpUsername] = useState('');
+  const [otpEmail, setOtpEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [loginType, setLoginType] = useState<'officer' | 'applicant'>('officer');
+
+  // If already authenticated, redirect to appropriate page
+  if (isAuthenticated && profile) {
+    const redirectPath = profile.role === 'Loan Officer' ? '/dashboard' : '/application';
+    navigate(redirectPath, { replace: true });
+    return null;
+  }
+
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const success = await login(username, password, loginType);
-      if (success) {
-        navigate(loginType === 'officer' ? '/dashboard' : '/application');
-      }
-    } finally {
-      setIsLoading(false);
+    if (!email || !password) {
+      toast({
+        variant: "destructive",
+        title: "Invalid input",
+        description: "Please enter both email and password",
+      });
+      return;
+    }
+
+    const success = await login(email, password);
+    if (success) {
+      // Auth context will handle the redirect
     }
   };
+
   const handleSendOTP = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate sending OTP
+    if (!otpEmail) {
+      toast({
+        variant: "destructive",
+        title: "Invalid input",
+        description: "Please enter your email",
+      });
+      return;
+    }
+    
+    // In a real implementation, this would call an API to send OTP
+    // For demo, just simulate OTP sending
+    toast({
+      title: "OTP Sent",
+      description: "A 6-digit code has been sent to your email",
+    });
     setOtpSent(true);
   };
+
   const handleOTPLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const success = await loginWithOTP(otpUsername, otp);
-      if (success) {
-        navigate('/dashboard');
-      }
-    } finally {
-      setIsLoading(false);
+    if (!otpEmail || !otp || otp.length !== 6) {
+      toast({
+        variant: "destructive",
+        title: "Invalid input",
+        description: "Please enter a valid 6-digit OTP",
+      });
+      return;
+    }
+    
+    const success = await loginWithOTP(otpEmail, otp);
+    if (success) {
+      // Auth context will handle the redirect
     }
   };
-  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-blue-50 p-4">
-      <motion.div initial={{
-      opacity: 0,
-      y: 10
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      duration: 0.5
-    }} className="w-full max-w-md">
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-blue-50 p-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
+      >
         <div className="text-center mb-8">
           <div className="flex justify-center mb-2">
             <div className="bg-finance-600 rounded-lg p-2 shadow-lg">
@@ -102,10 +139,18 @@ const Login = () => {
                 <form onSubmit={handlePasswordLogin}>
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="username">Username</Label>
+                      <Label htmlFor="email">Email</Label>
                       <div className="relative">
-                        <UserIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                        <Input id="username" type="text" placeholder={loginType === 'officer' ? 'admin' : 'username'} value={username} onChange={e => setUsername(e.target.value)} className="pl-10" required />
+                        <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          placeholder={loginType === 'officer' ? 'admin@example.com' : 'user@example.com'} 
+                          value={email} 
+                          onChange={e => setEmail(e.target.value)} 
+                          className="pl-10" 
+                          required 
+                        />
                       </div>
                     </div>
                     <div className="space-y-2">
@@ -117,7 +162,15 @@ const Login = () => {
                       </div>
                       <div className="relative">
                         <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                        <Input id="password" type="password" placeholder="••••••" value={password} onChange={e => setPassword(e.target.value)} className="pl-10" required />
+                        <Input 
+                          id="password" 
+                          type="password" 
+                          placeholder="••••••" 
+                          value={password} 
+                          onChange={e => setPassword(e.target.value)} 
+                          className="pl-10" 
+                          required 
+                        />
                       </div>
                     </div>
                   </div>
@@ -125,32 +178,45 @@ const Login = () => {
                     {isLoading ? "Signing In..." : "Sign In"}
                   </Button>
                   
-                  {loginType === 'applicant' && <div className="mt-4 text-center">
+                  {loginType === 'applicant' && (
+                    <div className="mt-4 text-center">
                       <p className="text-sm text-muted-foreground">
                         Don't have an account?{' '}
                         <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/register')}>
                           Register
                         </Button>
                       </p>
-                    </div>}
+                    </div>
+                  )}
                 </form>
               </TabsContent>
 
               <TabsContent value="otp">
-                {!otpSent ? <form onSubmit={handleSendOTP}>
+                {!otpSent ? (
+                  <form onSubmit={handleSendOTP}>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="otpUsername">Username or Email</Label>
+                        <Label htmlFor="otpEmail">Email</Label>
                         <div className="relative">
                           <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input id="otpUsername" type="text" placeholder={loginType === 'officer' ? 'admin' : 'username@example.com'} value={otpUsername} onChange={e => setOtpUsername(e.target.value)} className="pl-10" required />
+                          <Input 
+                            id="otpEmail" 
+                            type="email" 
+                            placeholder={loginType === 'officer' ? 'admin@example.com' : 'user@example.com'} 
+                            value={otpEmail} 
+                            onChange={e => setOtpEmail(e.target.value)} 
+                            className="pl-10" 
+                            required 
+                          />
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full mt-6" type="submit">
-                      Send One-Time Password
+                    <Button className="w-full mt-6" type="submit" disabled={isLoading}>
+                      {isLoading ? "Sending..." : "Send One-Time Password"}
                     </Button>
-                  </form> : <form onSubmit={handleOTPLogin}>
+                  </form>
+                ) : (
+                  <form onSubmit={handleOTPLogin}>
                     <div className="space-y-4">
                       <div className="space-y-2 text-center">
                         <Label htmlFor="otp">Enter One-Time Password</Label>
@@ -158,31 +224,51 @@ const Login = () => {
                           We've sent a 6-digit code to your email
                         </p>
                         <div className="flex justify-center">
-                          <InputOTP maxLength={6} value={otp} onChange={setOtp} render={({
-                        slots
-                      }) => <InputOTPGroup>
-                                {slots.map((slot, index) => <InputOTPSlot key={index} {...slot} index={index} />)}
-                              </InputOTPGroup>} />
+                          <InputOTP 
+                            maxLength={6} 
+                            value={otp} 
+                            onChange={setOtp} 
+                            render={({ slots }) => (
+                              <InputOTPGroup>
+                                {slots.map((slot, index) => (
+                                  <InputOTPSlot key={index} {...slot} index={index} />
+                                ))}
+                              </InputOTPGroup>
+                            )} 
+                          />
                         </div>
                       </div>
                     </div>
                     <Button className="w-full mt-6" type="submit" disabled={isLoading || otp.length !== 6}>
                       {isLoading ? "Verifying..." : "Verify & Sign In"}
                     </Button>
-                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => setOtpSent(false)}>
+                    <Button 
+                      variant="ghost" 
+                      type="button" 
+                      className="w-full mt-2" 
+                      onClick={() => setOtpSent(false)}
+                      disabled={isLoading}
+                    >
                       Try Another Method
                     </Button>
-                  </form>}
+                  </form>
+                )}
               </TabsContent>
             </Tabs>
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-sm text-muted-foreground text-center mt-2">
-              {loginType === 'officer' ? <span>Demo credentials: username: admin, password: admin</span> : <span>Demo credentials: username: user, password: user</span>}
+              {loginType === 'officer' ? (
+                <span>Demo credentials: Email: admin@example.com, Password: admin123</span>
+              ) : (
+                <span>Demo credentials: Email: user@example.com, Password: user123</span>
+              )}
             </div>
           </CardFooter>
         </Card>
       </motion.div>
-    </div>;
+    </div>
+  );
 };
+
 export default Login;
