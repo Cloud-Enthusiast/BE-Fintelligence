@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import DashboardHeader from '@/components/DashboardHeader';
@@ -18,6 +18,7 @@ import { ChartContainer } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Link } from 'react-router-dom';
 
+// Sample data
 const loanPerformanceData = [
   { name: 'Jan', approved: 65, rejected: 12 },
   { name: 'Feb', approved: 59, rejected: 15 },
@@ -41,7 +42,7 @@ const riskAlerts = [
 ];
 
 const Dashboard = () => {
-  const { user, profile, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSidebarToggle = () => {
@@ -81,11 +82,7 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col">
         <DashboardHeader 
           onSidebarToggle={handleSidebarToggle} 
-          user={{
-            name: profile?.full_name || 'User',
-            role: profile?.role || 'Unknown',
-            avatar: profile?.avatar
-          }}
+          user={user} 
           onLogout={logout}
         />
         
@@ -97,7 +94,7 @@ const Dashboard = () => {
           >
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600">Welcome back, {profile?.full_name}</p>
+              <p className="text-gray-600">Welcome back, {user?.name}</p>
             </div>
             
             {/* Stats Row */}

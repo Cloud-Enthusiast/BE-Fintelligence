@@ -1,36 +1,25 @@
 
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { ReactNode } from 'react';
-import { UserRole } from '@/types/auth';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles?: UserRole[];
+  allowedRoles?: ('Loan Officer' | 'Applicant')[];
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const { isAuthenticated, profile, isLoading } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-finance-600"></div>
-      </div>
-    );
-  }
-
-  // Redirect to login if not authenticated
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  // Check role access if specific roles are required
-  if (allowedRoles && profile && !allowedRoles.includes(profile.role)) {
+  // If specific roles are required, check if the user has one of those roles
+  if (allowedRoles && user && !allowedRoles.includes(user.role as any)) {
     // Redirect officers to dashboard and applicants to application page
-    const redirectPath = profile.role === 'Loan Officer' ? '/dashboard' : '/application';
+    const redirectPath = user.role === 'Loan Officer' ? '/dashboard' : '/application';
     return <Navigate to={redirectPath} replace />;
   }
 

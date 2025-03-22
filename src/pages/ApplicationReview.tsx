@@ -1,6 +1,7 @@
+
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/contexts/AuthContext';
 import LoanApplicationReview from '@/components/LoanApplicationReview';
 import { toast } from '@/hooks/use-toast';
 
@@ -9,6 +10,7 @@ const ApplicationReview = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   
+  // Check if user is a loan officer
   useEffect(() => {
     if (user?.role !== 'Loan Officer') {
       navigate('/dashboard');

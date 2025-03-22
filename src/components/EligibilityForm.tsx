@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/use-auth';
-import { supabase } from '@/integrations/supabase/client';
 import { 
   BuildingIcon, 
   UserIcon, 
@@ -17,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { toast } from '@/hooks/use-toast';
 import { 
   Card,
   CardContent,
@@ -54,8 +51,6 @@ interface EligibilityFormProps {
 }
 
 const EligibilityForm = ({ onComplete }: EligibilityFormProps) => {
-  const { user } = useAuth();
-  
   const [formData, setFormData] = useState({
     businessName: '',
     fullName: '',
@@ -94,87 +89,40 @@ const EligibilityForm = ({ onComplete }: EligibilityFormProps) => {
     setCurrentStep(prev => prev - 1);
   };
   
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Calculate eligibility
-    const monthlyRevenue = formData.annualRevenue / 12;
-    const debtToIncomeRatio = (formData.loanAmount / formData.loanTerm) / formData.monthlyIncome;
-    const revenueCoverage = monthlyRevenue / (formData.loanAmount / formData.loanTerm);
-    
-    const isEligible = 
-      formData.creditScore >= 650 && 
-      debtToIncomeRatio <= 0.5 && 
-      revenueCoverage >= 2;
-    
-    const score = Math.min(
-      Math.round(
-        (formData.creditScore / 850) * 0.4 * 100 +
-        (1 - debtToIncomeRatio) * 0.3 * 100 +
-        Math.min(revenueCoverage / 5, 1) * 0.3 * 100
-      ), 100);
-    
-    let reason;
-    if (!isEligible) {
-      if (formData.creditScore < 650) reason = "Credit score below required threshold";
-      else if (debtToIncomeRatio > 0.5) reason = "Debt-to-income ratio too high";
-      else reason = "Insufficient revenue to support repayment";
-    }
-    
-    // Save application to Supabase
-    if (user) {
-      try {
-        const { error } = await supabase
-          .from('loan_applications')
-          .insert({
-            applicant_id: user.id,
-            business_name: formData.businessName,
-            full_name: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            business_type: formData.businessType,
-            annual_revenue: formData.annualRevenue,
-            monthly_income: formData.monthlyIncome,
-            loan_amount: formData.loanAmount,
-            loan_term: formData.loanTerm,
-            credit_score: formData.creditScore,
-            eligibility_score: score,
-            is_eligible: isEligible,
-            status: isEligible ? 'under_review' : 'rejected',
-            rejection_reason: reason || null
-          });
-          
-        if (error) {
-          console.error('Error saving application:', error);
-          toast({
-            variant: "destructive",
-            title: "Error submitting application",
-            description: error.message,
-          });
-        } else {
-          toast({
-            title: "Application submitted",
-            description: "Your loan application has been submitted successfully",
-          });
-        }
-      } catch (error) {
-        console.error('Error saving application:', error);
+    // Simulate API call
+    setTimeout(() => {
+      // Simple eligibility calculation
+      const monthlyRevenue = formData.annualRevenue / 12;
+      const debtToIncomeRatio = (formData.loanAmount / formData.loanTerm) / formData.monthlyIncome;
+      const revenueCoverage = monthlyRevenue / (formData.loanAmount / formData.loanTerm);
+      
+      const isEligible = 
+        formData.creditScore >= 650 && 
+        debtToIncomeRatio <= 0.5 && 
+        revenueCoverage >= 2;
+      
+      const score = Math.min(
+        Math.round(
+          (formData.creditScore / 850) * 0.4 * 100 +
+          (1 - debtToIncomeRatio) * 0.3 * 100 +
+          Math.min(revenueCoverage / 5, 1) * 0.3 * 100
+        ), 100);
+      
+      let reason;
+      if (!isEligible) {
+        if (formData.creditScore < 650) reason = "Credit score below required threshold";
+        else if (debtToIncomeRatio > 0.5) reason = "Debt-to-income ratio too high";
+        else reason = "Insufficient revenue to support repayment";
       }
-    } else {
-      // Handle case where user is not authenticated
-      console.error('User not authenticated');
-      toast({
-        variant: "destructive",
-        title: "Authentication required",
-        description: "Please log in to submit your application",
-      });
-    }
-    
-    // Set result and move to final step
-    setResult({ eligible: isEligible, score, reason });
-    setIsSubmitting(false);
-    setCurrentStep(4);
+      
+      setResult({ eligible: isEligible, score, reason });
+      setIsSubmitting(false);
+      setCurrentStep(4);
+    }, 1500);
   };
   
   const renderStepIndicator = () => (
@@ -597,7 +545,7 @@ const EligibilityForm = ({ onComplete }: EligibilityFormProps) => {
               } text-white`}
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Processing..." : "Check Eligibility"}
+              {isSubmitting ? 'Processing...' : 'Check Eligibility'}
               {!isSubmitting && <ChevronRightIcon className="ml-2 h-4 w-4" />}
             </Button>
           )}

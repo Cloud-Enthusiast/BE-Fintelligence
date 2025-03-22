@@ -1,109 +1,157 @@
 
-import { createContext, useState, useEffect, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
-import { UserProfile, UserRole, AuthContextType } from '@/types/auth';
-import { 
-  loadUserProfile,
-  registerUser,
-  loginWithPassword,
-  loginWithOneTimePassword,
-  logoutUser
-} from '@/utils/auth-utils';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { toast } from '@/hooks/use-toast';
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+type UserRole = 'Loan Officer' | 'Applicant';
+
+type User = {
+  username: string;
+  role: UserRole;
+  name: string;
+  avatar?: string;
+};
+
+interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (username: string, password: string, loginType?: 'officer' | 'applicant') => Promise<boolean>;
+  loginWithOTP: (username: string, otp: string) => Promise<boolean>;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [session, setSession] = useState<Session | null>(null);
 
-  // Initialize auth state
+  // Check for existing user session in localStorage on mount
   useEffect(() => {
-    setIsLoading(true);
-    
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session);
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsAuthenticated(!!session);
-        
-        if (session?.user) {
-          const userProfile = await loadUserProfile(session.user.id);
-          console.log('User profile loaded:', userProfile);
-          setProfile(userProfile);
-        } else {
-          setProfile(null);
-        }
-        
-        setIsLoading(false);
-      }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session);
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsAuthenticated(!!session);
-      
-      if (session?.user) {
-        loadUserProfile(session.user.id).then(profile => {
-          console.log('Initial profile load:', profile);
-          setProfile(profile);
-        });
-      }
-      
-      setIsLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+    }
   }, []);
 
-  // Register new user
-  const register = async (email: string, password: string, fullName: string, role: UserRole): Promise<boolean> => {
-    setIsLoading(true);
-    const result = await registerUser(email, password, fullName, role);
-    setIsLoading(false);
-    return result.success;
+  const login = async (username: string, password: string, loginType: 'officer' | 'applicant' = 'officer'): Promise<boolean> => {
+    // For officer login
+    if (loginType === 'officer' && username === 'admin' && password === 'admin') {
+      const user = {
+        username: 'admin',
+        role: 'Loan Officer' as UserRole,
+        name: 'Alex Johnson',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, Alex Johnson",
+      });
+      
+      return true;
+    } 
+    // For applicant login
+    else if (loginType === 'applicant' && username === 'user' && password === 'user') {
+      const user = {
+        username: 'user',
+        role: 'Applicant' as UserRole,
+        name: 'John Smith',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, John Smith",
+      });
+      
+      return true;
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: "Invalid username or password",
+      });
+      return false;
+    }
   };
 
-  // Login with email and password
-  const login = async (email: string, password: string): Promise<boolean> => {
-    setIsLoading(true);
-    const result = await loginWithPassword(email, password);
-    setIsLoading(false);
-    return result.success;
+  const loginWithOTP = async (username: string, otp: string): Promise<boolean> => {
+    // For demo purposes, any 6-digit OTP will succeed for the admin user
+    if (username === 'admin' && otp.length === 6 && /^\d+$/.test(otp)) {
+      const user = {
+        username: 'admin',
+        role: 'Loan Officer' as UserRole,
+        name: 'Alex Johnson',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, Alex Johnson",
+      });
+      
+      return true;
+    } else if (username === 'user' && otp.length === 6 && /^\d+$/.test(otp)) {
+      const user = {
+        username: 'user',
+        role: 'Applicant' as UserRole,
+        name: 'John Smith',
+        avatar: '/avatar-placeholder.png',
+      };
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back, John Smith",
+      });
+      
+      return true;
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: "Invalid username or OTP",
+      });
+      return false;
+    }
   };
 
-  // Login with OTP
-  const loginWithOTP = async (email: string, otp: string): Promise<boolean> => {
-    setIsLoading(true);
-    const result = await loginWithOneTimePassword(email, otp);
-    setIsLoading(false);
-    return result.success;
-  };
-
-  // Logout
-  const logout = async () => {
-    await logoutUser();
+  const logout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('user');
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      profile, 
-      isAuthenticated, 
-      isLoading,
-      login, 
-      register,
-      loginWithOTP, 
-      logout 
-    }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, loginWithOTP, logout }}>
       {children}
     </AuthContext.Provider>
   );

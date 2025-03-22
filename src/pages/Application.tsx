@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/contexts/AuthContext';
 import EligibilityForm from '@/components/EligibilityForm';
 import { Button } from '@/components/ui/button';
 import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react';
@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Application = () => {
-  const { profile, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [hasApplication, setHasApplication] = useState(false);
 
   return (
@@ -33,17 +33,17 @@ const Application = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={profile?.avatar} alt={profile?.full_name} />
-                    <AvatarFallback>{profile?.full_name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={user?.avatar} alt={user?.name} />
+                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{profile?.full_name}</p>
+                    <p className="text-sm font-medium leading-none">{user?.name}</p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      Applicant
+                      {user?.username}
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -77,7 +77,7 @@ const Application = () => {
           {!hasApplication ? (
             <div className="px-4 py-6">
               <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold text-gray-900">Welcome, {profile?.full_name}</h2>
+                <h2 className="text-3xl font-bold text-gray-900">Welcome, {user?.name}</h2>
                 <p className="mt-2 text-lg text-gray-600">Let's check your loan eligibility</p>
               </div>
               
