@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -52,21 +51,19 @@ type Application = {
 
 const Applications = () => {
   const navigate = useNavigate();
-  const { profile, isAuthenticated } = useAuth();
+  const { profile, isAuthenticated, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   
-  // Check if user is authorized to access this page
   useEffect(() => {
     if (isAuthenticated && profile && profile.role !== 'Loan Officer') {
       navigate('/dashboard');
     }
   }, [isAuthenticated, profile, navigate]);
   
-  // Fetch applications from Supabase
   useEffect(() => {
     const fetchApplications = async () => {
       setIsLoading(true);
@@ -105,7 +102,6 @@ const Applications = () => {
     }
   }, [isAuthenticated, profile, statusFilter]);
   
-  // Filter applications by search term
   const filteredApplications = applications.filter((app) => {
     if (!searchTerm) return true;
     
@@ -117,7 +113,6 @@ const Applications = () => {
     );
   });
   
-  // Update application status
   const updateApplicationStatus = async (id: string, newStatus: string) => {
     try {
       const { error } = await supabase
@@ -133,7 +128,6 @@ const Applications = () => {
           description: error.message,
         });
       } else {
-        // Update local state
         setApplications(prev => 
           prev.map(app => 
             app.id === id ? { ...app, status: newStatus as Application['status'] } : app
@@ -150,7 +144,6 @@ const Applications = () => {
     }
   };
   
-  // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -159,7 +152,6 @@ const Applications = () => {
     }).format(amount);
   };
   
-  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -169,7 +161,6 @@ const Applications = () => {
     });
   };
   
-  // Render status badge
   const renderStatusBadge = (status: Application['status']) => {
     switch (status) {
       case 'approved':
@@ -204,7 +195,15 @@ const Applications = () => {
   
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader isSidebarOpen={isSidebarOpen} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+      <DashboardHeader 
+        onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+        user={{
+          name: profile?.full_name || 'User',
+          role: profile?.role || 'Unknown',
+          avatar: profile?.avatar
+        }}
+        onLogout={logout}
+      />
       <DashboardSidebar isOpen={isSidebarOpen} />
       
       <div className={`p-4 sm:p-6 lg:p-8 ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16'} transition-all duration-300`}>
