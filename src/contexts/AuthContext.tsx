@@ -1,38 +1,17 @@
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
+import { UserProfile, UserRole, AuthContextType } from '@/types/auth';
+import { 
+  loadUserProfile,
+  registerUser,
+  loginWithPassword,
+  loginWithOneTimePassword,
+  logoutUser
+} from '@/utils/auth-utils';
 
-type UserRole = 'Loan Officer' | 'Applicant';
-
-type UserProfile = {
-  id: string;
-  role: UserRole;
-  full_name: string;
-  avatar?: string;
-};
-
-interface AuthContextType {
-  user: User | null;
-  profile: UserProfile | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (email: string, password: string, fullName: string, role: UserRole) => Promise<boolean>;
-  loginWithOTP: (email: string, otp: string) => Promise<boolean>;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -53,7 +32,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAuthenticated(!!session);
         
         if (session?.user) {
-          await loadUserProfile(session.user.id);
+          const userProfile = await loadUserProfile(session.user.id);
+          setProfile(userProfile);
         } else {
           setProfile(null);
         }
@@ -69,7 +49,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsAuthenticated(!!session);
       
       if (session?.user) {
-        loadUserProfile(session.user.id);
+        loadUserProfile(session.user.id).then(profile => {
+          setProfile(profile);
+        });
       }
       
       setIsLoading(false);
@@ -78,233 +60,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Load user profile from database
-  const loadUserProfile = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error loading user profile:', error);
-        return;
-      }
-
-      if (data) {
-        setProfile({
-          id: data.id,
-          role: data.role as UserRole,
-          full_name: data.full_name || '',
-          avatar: '/avatar-placeholder.png',
-        });
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error);
-    }
-  };
-
   // Register new user
   const register = async (email: string, password: string, fullName: string, role: UserRole): Promise<boolean> => {
     setIsLoading(true);
-    try {
-      // Modified to not require email verification
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName,
-          },
-          // Disable email verification requirement
-          emailRedirectTo: window.location.origin,
-        },
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Registration failed",
-          description: error.message,
-        });
-        setIsLoading(false);
-        return false;
-      }
-
-      if (data?.user) {
-        // Update the role if needed (by default trigger creates as Applicant)
-        if (role === 'Loan Officer') {
-          const { error: updateError } = await supabase
-            .from('profiles')
-            .update({ role: 'Loan Officer' })
-            .eq('id', data.user.id);
-
-          if (updateError) {
-            console.error('Error updating role:', updateError);
-          }
-        }
-
-        // After registration, automatically log the user in
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (signInError) {
-          console.error('Auto-login after registration failed:', signInError);
-          toast({
-            variant: "destructive",
-            title: "Login failed after registration",
-            description: signInError.message,
-          });
-          setIsLoading(false);
-          return false;
-        }
-
-        toast({
-          title: "Registration successful",
-          description: "Your account has been created and you're now logged in",
-        });
-        setIsLoading(false);
-        return true;
-      }
-
-      setIsLoading(false);
-      return false;
-    } catch (error) {
-      console.error('Registration error:', error);
-      toast({
-        variant: "destructive",
-        title: "Registration failed",
-        description: "An unexpected error occurred",
-      });
-      setIsLoading(false);
-      return false;
-    }
+    const result = await registerUser(email, password, fullName, role);
+    setIsLoading(false);
+    return result.success;
   };
 
   // Login with email and password
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: error.message,
-        });
-        setIsLoading(false);
-        return false;
-      }
-
-      if (data?.user) {
-        toast({
-          title: "Login successful",
-          description: `Welcome back${profile?.full_name ? ', ' + profile.full_name : ''}`,
-        });
-        setIsLoading(false);
-        return true;
-      }
-
-      setIsLoading(false);
-      return false;
-    } catch (error) {
-      console.error('Login error:', error);
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: "An unexpected error occurred",
-      });
-      setIsLoading(false);
-      return false;
-    }
+    const result = await loginWithPassword(email, password);
+    setIsLoading(false);
+    return result.success;
   };
 
-  // Login with OTP (one-time password)
+  // Login with OTP
   const loginWithOTP = async (email: string, otp: string): Promise<boolean> => {
     setIsLoading(true);
-    // In a real implementation, this would use Supabase's OTP functionality
-    // For demo purposes, we'll use a simulated OTP verification
-    try {
-      // This is a placeholder for actual OTP verification
-      // In a production environment, you would verify the OTP with Supabase
-      // For demo, we'll allow any 6-digit OTP to work with our demo emails
-      if (email && otp.length === 6 && /^\d+$/.test(otp)) {
-        // For demo purposes only - in real app, use supabase.auth.verifyOtp
-        if (email === 'admin@example.com') {
-          // Mock login as an officer for demo
-          const { error } = await supabase.auth.signInWithPassword({
-            email: 'admin@example.com',
-            password: 'admin123',
-          });
-          
-          if (error) throw error;
-          
-          toast({
-            title: "Login successful",
-            description: "Welcome back, Admin",
-          });
-          setIsLoading(false);
-          return true;
-        } else if (email === 'user@example.com') {
-          // Mock login as an applicant for demo
-          const { error } = await supabase.auth.signInWithPassword({
-            email: 'user@example.com',
-            password: 'user123',
-          });
-          
-          if (error) throw error;
-          
-          toast({
-            title: "Login successful",
-            description: "Welcome back, User",
-          });
-          setIsLoading(false);
-          return true;
-        }
-      }
-      
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: "Invalid OTP code",
-      });
-      setIsLoading(false);
-      return false;
-    } catch (error) {
-      console.error('OTP login error:', error);
-      toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: "An unexpected error occurred",
-      });
-      setIsLoading(false);
-      return false;
-    }
+    const result = await loginWithOneTimePassword(email, otp);
+    setIsLoading(false);
+    return result.success;
   };
 
   // Logout
   const logout = async () => {
-    try {
-      await supabase.auth.signOut();
-      toast({
-        title: "Logged out",
-        description: "You have been logged out successfully",
-      });
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        variant: "destructive",
-        title: "Logout failed",
-        description: "An unexpected error occurred",
-      });
-    }
+    await logoutUser();
   };
 
   return (

@@ -1,6 +1,7 @@
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/use-auth';
 import EligibilityForm from '@/components/EligibilityForm';
 import { Button } from '@/components/ui/button';
 import { LogOutIcon, SettingsIcon, UserIcon } from 'lucide-react';

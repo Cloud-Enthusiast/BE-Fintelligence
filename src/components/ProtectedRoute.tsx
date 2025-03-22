@@ -1,11 +1,12 @@
 
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/use-auth';
 import { ReactNode } from 'react';
+import { UserRole } from '@/types/auth';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles?: ('Loan Officer' | 'Applicant')[];
+  allowedRoles?: UserRole[];
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {

@@ -1,8 +1,7 @@
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/use-auth';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,6 @@ const Login = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [loginType, setLoginType] = useState<'officer' | 'applicant'>('officer');
 
-  // If already authenticated, redirect to appropriate page
   if (isAuthenticated && profile) {
     const redirectPath = profile.role === 'Loan Officer' ? '/dashboard' : '/application';
     navigate(redirectPath, { replace: true });
@@ -64,8 +62,6 @@ const Login = () => {
       return;
     }
     
-    // In a real implementation, this would call an API to send OTP
-    // For demo, just simulate OTP sending
     toast({
       title: "OTP Sent",
       description: "A 6-digit code has been sent to your email",
