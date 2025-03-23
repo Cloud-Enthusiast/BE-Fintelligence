@@ -67,8 +67,8 @@ const Login = () => {
               <BuildingIcon className="h-8 w-8 text-white" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-finance-900">BE Fintelligence</h1>
-          <p className="text-finance-600">Commercial Loan Platform</p>
+          <h1 className="text-finance-900 text-2xl font-bold text-center">BE Fintelligence</h1>
+          <p className="text-finance-600 text-lg">Your partner in funding dreams</p>
         </div>
 
         <Tabs defaultValue="officer" className="w-full mb-6">
