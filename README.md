@@ -1,26 +1,69 @@
-# Welcome to your Lovable project
 
-## Project info
+# LoanWise - Loan Management Application
 
 **URL**: https://lovable.dev/projects/d5efe87d-43e4-4dc5-8005-7794d3a76a61
 
-## How can I edit this code?
+## Project Overview
 
-There are several ways of editing your application.
+LoanWise is a comprehensive loan application and management system designed for financial institutions. It provides a secure platform for loan officers to review and process loan applications, while offering applicants an intuitive interface to submit their loan requests.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d5efe87d-43e4-4dc5-8005-7794d3a76a61) and start prompting.
+### For Loan Officers
+- **Secure Authentication**: Dedicated login system for loan officers
+- **Dashboard**: Comprehensive overview of loan applications with key metrics
+- **Application Review**: Detailed examination of applicant information, financial data, and eligibility
+- **Approval Process**: Tools for approving, rejecting, or requesting additional information
 
-Changes made via Lovable will be committed automatically to this repo.
+### For Loan Applicants
+- **User Registration & Login**: Simple account creation and authentication
+- **Application Form**: Intuitive form for submitting loan applications
+- **Application Status Tracking**: Monitor the progress and status of submitted applications
 
-**Use your preferred IDE**
+## Technology Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+This project is built with modern web technologies:
+
+- **Frontend**: 
+  - React with TypeScript for type safety
+  - Vite for fast development and building
+  - Tailwind CSS for responsive styling
+  - Shadcn UI for beautiful component library
+  - Framer Motion for smooth animations
+  - Tanstack React Query for data fetching
+
+- **Backend**:
+  - Supabase for authentication, database, and storage
+  - PostgreSQL database (provided by Supabase)
+
+## Authentication
+
+The application utilizes Supabase authentication with the following features:
+- Username/password authentication
+- Role-based access control (Loan Officer vs Applicant)
+- Demo credentials:
+  - Loan Officer: username: admin, password: admin123
+  - Applicant: username: user, password: user123
+
+## Project Structure
+
+- `/src`
+  - `/components` - Reusable UI components
+  - `/contexts` - React context providers
+  - `/hooks` - Custom React hooks
+  - `/integrations` - External service integrations
+  - `/lib` - Utility functions and helpers
+  - `/pages` - Page components
+  - `/types` - TypeScript type definitions
+  - `/utils` - Utility functions
+
+## Getting Started
+
+### Prerequisites
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
+### Installation
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
@@ -36,34 +79,29 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The application can be deployed directly from Lovable by clicking on Share -> Publish.
 
-**Use GitHub Codespaces**
+### Custom Domain Setup
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+For custom domain setup, please refer to the [Lovable documentation on custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/).
 
-## What technologies are used for this project?
+## Contributing
 
-This project is built with .
+This project is developed using Lovable AI. You can make changes through:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Using Lovable**: Visit the [Lovable Project](https://lovable.dev/projects/d5efe87d-43e4-4dc5-8005-7794d3a76a61) and start prompting.
+2. **Direct GitHub editing**: Edit files on GitHub and commit your changes.
+3. **Local development**: Clone the repo, make changes, and push them back.
+4. **GitHub Codespaces**: Use GitHub's cloud development environment.
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/d5efe87d-43e4-4dc5-8005-7794d3a76a61) and click on Share -> Publish.
+This project is proprietary and confidential. All rights reserved.
 
-## I want to use a custom domain - is that possible?
+## Acknowledgments
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+- Built with [Lovable](https://lovable.dev)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Backend powered by [Supabase](https://supabase.io/)

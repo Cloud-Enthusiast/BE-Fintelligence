@@ -9,7 +9,93 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      loan_applications: {
+        Row: {
+          annual_revenue: number
+          applicant_id: string
+          business_name: string
+          business_type: string | null
+          created_at: string
+          credit_score: number
+          eligibility_score: number | null
+          email: string
+          full_name: string
+          id: string
+          is_eligible: boolean | null
+          loan_amount: number
+          loan_term: number
+          monthly_income: number
+          phone: string
+          rejection_reason: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          annual_revenue: number
+          applicant_id: string
+          business_name: string
+          business_type?: string | null
+          created_at?: string
+          credit_score: number
+          eligibility_score?: number | null
+          email: string
+          full_name: string
+          id?: string
+          is_eligible?: boolean | null
+          loan_amount: number
+          loan_term: number
+          monthly_income: number
+          phone: string
+          rejection_reason?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          annual_revenue?: number
+          applicant_id?: string
+          business_name?: string
+          business_type?: string | null
+          created_at?: string
+          credit_score?: number
+          eligibility_score?: number | null
+          email?: string
+          full_name?: string
+          id?: string
+          is_eligible?: boolean | null
+          loan_amount?: number
+          loan_term?: number
+          monthly_income?: number
+          phone?: string
+          rejection_reason?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
