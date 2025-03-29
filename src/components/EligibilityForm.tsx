@@ -47,7 +47,7 @@ const EligibilityForm = ({
     businessType: '',
     annualRevenue: 5000000,
     monthlyIncome: 400000,
-    existingLoanAmount: 1000000, // New field for existing loan amount
+    existingLoanAmount: 1000000,
     loanAmount: 2500000,
     loanTerm: 36,
     creditScore: 750
@@ -59,6 +59,16 @@ const EligibilityForm = ({
     score: number;
     reason?: string;
   }>(null);
+  
+  // Store temporary input values as strings to avoid input issues
+  const [tempInputValues, setTempInputValues] = useState({
+    annualRevenue: formData.annualRevenue.toString(),
+    monthlyIncome: formData.monthlyIncome.toString(),
+    existingLoanAmount: formData.existingLoanAmount.toString(),
+    loanAmount: formData.loanAmount.toString(),
+    loanTerm: formData.loanTerm.toString(),
+    creditScore: formData.creditScore.toString()
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -68,24 +78,71 @@ const EligibilityForm = ({
     }));
   };
 
-  const handleNumericChange = (e: React.ChangeEvent<HTMLInputElement>, name: string, min: number, max: number) => {
-    const value = e.target.value.replace(/[^0-9]/g, '');
+  // Improved numeric input handler that works with the tempInputValues
+  const handleNumericInputChange = (name: string, value: string, min: number, max: number) => {
+    // Store the raw string value for display
+    setTempInputValues(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Only update the formData with numeric value when it's a valid number
     if (value === '') {
       setFormData(prev => ({ ...prev, [name]: 0 }));
       return;
     }
-
+    
+    const numValue = Number(value);
+    if (!isNaN(numValue)) {
+      // Clamp the value only when user finishes typing and blurs the field
+      setFormData(prev => ({
+        ...prev,
+        [name]: numValue
+      }));
+    }
+  };
+  
+  // Handle blur event to apply min/max constraints
+  const handleInputBlur = (name: string, min: number, max: number) => {
+    const value = tempInputValues[name as keyof typeof tempInputValues];
+    if (value === '') {
+      // If empty on blur, reset to minimum value
+      setTempInputValues(prev => ({
+        ...prev,
+        [name]: min.toString()
+      }));
+      setFormData(prev => ({
+        ...prev,
+        [name]: min
+      }));
+      return;
+    }
+    
     const numValue = Number(value);
     if (!isNaN(numValue)) {
       const clampedValue = Math.max(min, Math.min(max, numValue));
-      setFormData(prev => ({ ...prev, [name]: clampedValue }));
+      setTempInputValues(prev => ({
+        ...prev,
+        [name]: clampedValue.toString()
+      }));
+      setFormData(prev => ({
+        ...prev,
+        [name]: clampedValue
+      }));
     }
   };
 
   const handleSliderChange = (name: string, value: number[]) => {
+    const newValue = value[0];
     setFormData(prev => ({
       ...prev,
-      [name]: value[0]
+      [name]: newValue
+    }));
+    
+    // Update the temp input value to match the slider
+    setTempInputValues(prev => ({
+      ...prev,
+      [name]: newValue.toString()
     }));
   };
 
@@ -180,7 +237,7 @@ const EligibilityForm = ({
     return `${value}%`;
   };
 
-  // Helper for rendering slider with input box
+  // Helper for rendering slider with input box - updated to use the new input handling
   const renderSliderWithInput = (
     label: string, 
     icon: React.ReactNode, 
@@ -220,8 +277,9 @@ const EligibilityForm = ({
           </div>
           <Input
             type="text"
-            value={value}
-            onChange={(e) => handleNumericChange(e, name, min, max)}
+            value={tempInputValues[name as keyof typeof tempInputValues]}
+            onChange={(e) => handleNumericInputChange(name, e.target.value, min, max)}
+            onBlur={() => handleInputBlur(name, min, max)}
             className={`${name !== 'creditScore' ? 'pl-8' : 'pl-3'}`}
           />
         </div>
@@ -426,8 +484,9 @@ const EligibilityForm = ({
                     <div className="w-32">
                       <Input
                         type="text"
-                        value={formData.loanTerm}
-                        onChange={(e) => handleNumericChange(e, 'loanTerm', 12, 120)}
+                        value={tempInputValues.loanTerm}
+                        onChange={(e) => handleNumericInputChange('loanTerm', e.target.value, 12, 120)}
+                        onBlur={() => handleInputBlur('loanTerm', 12, 120)}
                       />
                     </div>
                   </div>
