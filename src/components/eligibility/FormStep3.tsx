@@ -100,7 +100,7 @@ const FormStep3 = ({
                 value={formData.loanTerm}
                 tempValue={tempInputValues.loanTerm}
                 min={12}
-                max={120}
+                max={360}
                 step={12}
                 formatValue={(value) => `${value} months`}
                 onSliderChange={handleSliderChange}
@@ -125,7 +125,7 @@ const FormStep3 = ({
               <SelectValue placeholder="Select business type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="corporation">Corporation</SelectItem>
+              <SelectItem value="individual">Individual</SelectItem>
               <SelectItem value="llc">LLC</SelectItem>
               <SelectItem value="partnership">Partnership</SelectItem>
               <SelectItem value="sole-proprietorship">Sole Proprietorship</SelectItem>

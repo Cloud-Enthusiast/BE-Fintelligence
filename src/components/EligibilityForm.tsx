@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,8 +22,8 @@ const EligibilityForm = ({
     email: '',
     phone: '',
     businessType: '',
-    annualRevenue: 5000000,
-    monthlyIncome: 400000,
+    annualRevenue: 2500000,
+    monthlyIncome: 200000,
     existingLoanAmount: 1000000,
     loanAmount: 2500000,
     loanTerm: 36,

@@ -38,7 +38,7 @@ const itemVariants = {
 };
 
 const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultProps) => {
-  const idealScore = 100; // Ideal score is always 100
+  const minEligibleScore = 70; // Minimum eligible score is 70
 
   return (
     <motion.div className="space-y-8 py-4" variants={containerVariants} initial="hidden" animate="visible">
@@ -61,14 +61,10 @@ const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultPr
       <motion.div variants={itemVariants} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
         <div className="flex justify-between items-center mb-4">
           <h4 className="text-lg font-medium text-gray-900">Eligibility Score</h4>
-          <div className="flex gap-4 text-sm">
+          <div className="text-sm">
             <span className="flex items-center">
               <span className="w-3 h-3 bg-finance-600 rounded-full mr-2"></span>
-              Your Score: {result.score}
-            </span>
-            <span className="flex items-center">
-              <span className="w-3 h-3 bg-gray-400 rounded-full mr-2"></span>
-              Ideal Score: {idealScore}
+              Min. Eligible Score: {minEligibleScore}
             </span>
           </div>
         </div>
@@ -81,7 +77,7 @@ const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultPr
           />
         </div>
         <div className="mt-2 text-right font-medium text-gray-700">
-          {result.score}/{idealScore}
+          {result.score}/100
         </div>
       </motion.div>
       
