@@ -36,6 +36,16 @@ const SliderWithInput = ({
   onBlur,
   showCurrencyIcon = true
 }: SliderWithInputProps) => {
+  // Handle numeric input - only allows numbers
+  const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Allow only numbers (empty string is also allowed for backspace/delete operations)
+    if (value === '' || /^[0-9]+$/.test(value)) {
+      onInputChange(name, value, min, max);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-2">
@@ -69,9 +79,10 @@ const SliderWithInput = ({
           <Input
             type="text"
             value={tempValue}
-            onChange={(e) => onInputChange(name, e.target.value, min, max)}
+            onChange={handleNumericInput}
             onBlur={() => onBlur(name, min, max)}
             className={`${showCurrencyIcon ? 'pl-8' : 'pl-3'}`}
+            inputMode="numeric"
           />
         </div>
       </div>

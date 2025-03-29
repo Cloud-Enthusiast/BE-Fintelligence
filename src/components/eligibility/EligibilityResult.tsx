@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ChevronRightIcon } from 'lucide-react';
+import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 
 interface EligibilityResultProps {
   result: {
@@ -11,6 +11,7 @@ interface EligibilityResultProps {
     reason?: string;
   };
   onComplete?: () => void;
+  onGoBack?: () => void;
 }
 
 const containerVariants = {
@@ -36,7 +37,9 @@ const itemVariants = {
   }
 };
 
-const EligibilityResult = ({ result, onComplete }: EligibilityResultProps) => {
+const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultProps) => {
+  const idealScore = 100; // Ideal score is always 100
+
   return (
     <motion.div className="space-y-8 py-4" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div 
@@ -56,7 +59,19 @@ const EligibilityResult = ({ result, onComplete }: EligibilityResultProps) => {
       </motion.div>
       
       <motion.div variants={itemVariants} className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-        <h4 className="text-lg font-medium text-gray-900 mb-4">Eligibility Score</h4>
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-lg font-medium text-gray-900">Eligibility Score</h4>
+          <div className="flex gap-4 text-sm">
+            <span className="flex items-center">
+              <span className="w-3 h-3 bg-finance-600 rounded-full mr-2"></span>
+              Your Score: {result.score}
+            </span>
+            <span className="flex items-center">
+              <span className="w-3 h-3 bg-gray-400 rounded-full mr-2"></span>
+              Ideal Score: {idealScore}
+            </span>
+          </div>
+        </div>
         <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden">
           <motion.div 
             className={`absolute top-0 left-0 h-full rounded-full ${result.score >= 70 ? 'bg-green-500' : result.score >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} 
@@ -66,26 +81,32 @@ const EligibilityResult = ({ result, onComplete }: EligibilityResultProps) => {
           />
         </div>
         <div className="mt-2 text-right font-medium text-gray-700">
-          {result.score}/100
+          {result.score}/{idealScore}
         </div>
       </motion.div>
       
-      {result.eligible && (
-        <motion.div variants={itemVariants} className="text-center">
+      <motion.div variants={itemVariants} className="flex justify-between">
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="border-finance-200 text-finance-700 hover:bg-finance-50"
+          onClick={onGoBack}
+        >
+          <ChevronLeftIcon className="mr-2 h-4 w-4" />
+          Go Back
+        </Button>
+        
+        {result.eligible && (
           <Button 
             type="button" 
             className="bg-finance-600 hover:bg-finance-700 text-white" 
-            onClick={() => {
-              if (onComplete) {
-                onComplete();
-              }
-            }}
+            onClick={onComplete}
           >
             Continue to Application
             <ChevronRightIcon className="ml-2 h-4 w-4" />
           </Button>
-        </motion.div>
-      )}
+        )}
+      </motion.div>
     </motion.div>
   );
 };

@@ -151,6 +151,11 @@ const EligibilityForm = ({
       setCurrentStep(4);
     }, 1500);
   };
+  
+  const handleGoBack = () => {
+    setCurrentStep(3);
+    setResult(null);
+  };
 
   return (
     <Card className="w-full max-w-4xl mx-auto shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
@@ -194,7 +199,11 @@ const EligibilityForm = ({
           )}
           
           {currentStep === 4 && result && (
-            <EligibilityResult result={result} onComplete={onComplete} />
+            <EligibilityResult 
+              result={result} 
+              onComplete={onComplete}
+              onGoBack={handleGoBack} 
+            />
           )}
         </form>
       </CardContent>
