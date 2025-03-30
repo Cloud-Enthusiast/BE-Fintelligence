@@ -195,7 +195,9 @@ const EligibilityForm = ({
         credit_score: formData.creditScore,
         eligibility_score: result.score,
         is_eligible: result.eligible,
-        rejection_reason: result.reason || null
+        rejection_reason: result.reason || null,
+        // Add a default applicant_id since we're not using authentication yet
+        applicant_id: '00000000-0000-0000-0000-000000000000' // Default UUID for non-authenticated users
       };
       
       // Insert the data into the database
