@@ -28,12 +28,18 @@ export const calculateEligibility = (formData: LoanDetails): EligibilityResult =
   // Check if eligible - credit score >= 700, debt-to-income ratio <= 0.4, and revenue covers loan at least 2x
   const isEligible = formData.creditScore >= 700 && debtToIncomeRatio <= 0.4 && revenueCoverage >= 2;
   
-  // Calculate score based on updated criteria (credit score out of 900)
+  // Calculate components for score
+  const creditScoreComponent = formData.creditScore / 900 * 0.4 * 100;
+  const debtToIncomeComponent = (1 - debtToIncomeRatio) * 0.3 * 100;
+  const revenueCoverageComponent = Math.min(revenueCoverage / 5, 1) * 0.3 * 100;
+  
+  // Calculate score but ensure it's never negative 
+  // Apply a Math.max(0, x) to each component to prevent them from being negative
   const score = Math.min(
     Math.round(
-      formData.creditScore / 900 * 0.4 * 100 + 
-      (1 - debtToIncomeRatio) * 0.3 * 100 + 
-      Math.min(revenueCoverage / 5, 1) * 0.3 * 100
+      Math.max(0, creditScoreComponent) + 
+      Math.max(0, debtToIncomeComponent) + 
+      Math.max(0, revenueCoverageComponent)
     ), 
     100
   );
@@ -47,7 +53,7 @@ export const calculateEligibility = (formData: LoanDetails): EligibilityResult =
   
   return {
     eligible: isEligible,
-    score,
+    score: Math.max(0, score), // Final safeguard to ensure score is never negative
     reason
   };
 };
