@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BarChart3Icon, IndianRupeeIcon, CalendarIcon } from 'lucide-react';
 import SliderWithInput from './SliderWithInput';
@@ -57,6 +57,13 @@ const FormStep2 = ({
   handleNumericInputChange,
   handleInputBlur
 }: FormStep2Props) => {
+  
+  // Auto-calculate Annual Revenue when Monthly Income changes
+  useEffect(() => {
+    const annualRevenueValue = formData.monthlyIncome * 12;
+    handleSliderChange('annualRevenue', [annualRevenueValue]);
+  }, [formData.monthlyIncome]);
+  
   return (
     <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
@@ -64,21 +71,6 @@ const FormStep2 = ({
       </motion.div>
       
       <motion.div variants={itemVariants} className="space-y-8">
-        <SliderWithInput
-          label="Annual Revenue"
-          icon={<BarChart3Icon className="h-5 w-5 text-finance-600" />}
-          name="annualRevenue"
-          value={formData.annualRevenue}
-          tempValue={tempInputValues.annualRevenue}
-          min={500000}
-          max={20000000}
-          step={100000}
-          formatValue={formatCurrency}
-          onSliderChange={handleSliderChange}
-          onInputChange={handleNumericInputChange}
-          onBlur={handleInputBlur}
-        />
-        
         <SliderWithInput
           label="Monthly Income"
           icon={<IndianRupeeIcon className="h-5 w-5 text-finance-600" />}
@@ -92,6 +84,22 @@ const FormStep2 = ({
           onSliderChange={handleSliderChange}
           onInputChange={handleNumericInputChange}
           onBlur={handleInputBlur}
+        />
+        
+        <SliderWithInput
+          label="Annual Revenue"
+          icon={<BarChart3Icon className="h-5 w-5 text-finance-600" />}
+          name="annualRevenue"
+          value={formData.annualRevenue}
+          tempValue={tempInputValues.annualRevenue}
+          min={500000}
+          max={20000000}
+          step={100000}
+          formatValue={formatCurrency}
+          onSliderChange={handleSliderChange}
+          onInputChange={handleNumericInputChange}
+          onBlur={handleInputBlur}
+          readOnly={true}
         />
         
         <SliderWithInput

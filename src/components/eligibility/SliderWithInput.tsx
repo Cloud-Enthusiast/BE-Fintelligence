@@ -19,6 +19,7 @@ interface SliderWithInputProps {
   onInputChange: (name: string, value: string, min: number, max: number) => void;
   onBlur: (name: string, min: number, max: number) => void;
   showCurrencyIcon?: boolean;
+  readOnly?: boolean;
 }
 
 const SliderWithInput = ({
@@ -34,7 +35,8 @@ const SliderWithInput = ({
   onSliderChange,
   onInputChange,
   onBlur,
-  showCurrencyIcon = true
+  showCurrencyIcon = true,
+  readOnly = false
 }: SliderWithInputProps) => {
   // Handle numeric input - only allows numbers
   const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,8 @@ const SliderWithInput = ({
             max={max} 
             step={step} 
             onValueChange={value => onSliderChange(name, value)} 
-            className="w-full" 
+            className="w-full"
+            disabled={readOnly}
           />
           <div className="flex justify-between mt-1 text-sm text-gray-500">
             <span>{formatValue(min)}</span>
@@ -83,6 +86,8 @@ const SliderWithInput = ({
             onBlur={() => onBlur(name, min, max)}
             className={`${showCurrencyIcon ? 'pl-8' : 'pl-3'}`}
             inputMode="numeric"
+            readOnly={readOnly}
+            disabled={readOnly}
           />
         </div>
       </div>

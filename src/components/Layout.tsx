@@ -1,3 +1,4 @@
+
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { ScaleIcon, BarChart3Icon, DollarSignIcon, BuildingIcon } from 'lucide-react';
@@ -24,7 +25,7 @@ const Layout = ({
                 <div className="bg-finance-600 rounded-lg p-1.5">
                   <BuildingIcon className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-semibold text-finance-950">BE Fintelligence</span>
+                <span className="text-xl font-semibold text-finance-950">BE Finance</span>
               </motion.div>
               
               <motion.nav className="hidden md:flex space-x-1" initial={{
@@ -60,7 +61,7 @@ const Layout = ({
 
       <footer className="py-6 border-t border-gray-200 bg-white/50">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} LoanWise. All rights reserved.
+          © {new Date().getFullYear()} BE Finance. All rights reserved.
         </div>
       </footer>
     </div>;

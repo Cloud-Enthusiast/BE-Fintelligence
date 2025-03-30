@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,7 @@ const EligibilityForm = ({
     email: '',
     phone: '',
     businessType: '',
-    annualRevenue: 2500000,
+    annualRevenue: 2400000, // 12 * monthly income
     monthlyIncome: 200000,
     existingLoanAmount: 1000000,
     loanAmount: 2500000,
@@ -46,6 +47,19 @@ const EligibilityForm = ({
     loanTerm: formData.loanTerm.toString(),
     creditScore: formData.creditScore.toString()
   });
+
+  // Update annual revenue when monthly income changes
+  useEffect(() => {
+    const annualRevenue = formData.monthlyIncome * 12;
+    setFormData(prev => ({
+      ...prev,
+      annualRevenue
+    }));
+    setTempInputValues(prev => ({
+      ...prev,
+      annualRevenue: annualRevenue.toString()
+    }));
+  }, [formData.monthlyIncome]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

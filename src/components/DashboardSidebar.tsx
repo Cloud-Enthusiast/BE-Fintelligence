@@ -26,7 +26,7 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
             <div className="bg-finance-600 rounded-lg p-1.5">
               <BuildingIcon className={`text-white ${isOpen ? 'h-5 w-5' : 'h-6 w-6'}`} />
             </div>
-            {isOpen && <span className="text-xl font-semibold text-finance-950">LoanWise</span>}
+            {isOpen && <span className="text-xl font-semibold text-finance-950">BE Finance</span>}
           </Link>
         </div>
         
