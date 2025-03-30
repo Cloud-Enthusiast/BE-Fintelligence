@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboardIcon, 
   FileTextIcon, 
@@ -16,6 +16,8 @@ interface DashboardSidebarProps {
 }
 
 const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
+  const location = useLocation();
+  
   return (
     <aside className={`fixed top-0 left-0 z-40 h-screen bg-white border-r border-gray-200 transition-all duration-300 ${
       isOpen ? 'w-64' : 'w-0 -translate-x-full lg:translate-x-0 lg:w-16'
@@ -37,31 +39,35 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
               title="Dashboard" 
               path="/dashboard" 
               isOpen={isOpen}
-              active 
+              active={location.pathname === '/dashboard'}
             />
             <SidebarItem 
               icon={<FileTextIcon />} 
               title="Applications" 
               path="/applications" 
-              isOpen={isOpen} 
+              isOpen={isOpen}
+              active={location.pathname === '/applications'}
             />
             <SidebarItem 
               icon={<BarChart3Icon />} 
               title="Analytics" 
               path="/analytics" 
-              isOpen={isOpen} 
+              isOpen={isOpen}
+              active={location.pathname === '/analytics'}
             />
             <SidebarItem 
               icon={<UsersIcon />} 
               title="Customers" 
               path="/customers" 
-              isOpen={isOpen} 
+              isOpen={isOpen}
+              active={location.pathname === '/customers'}
             />
             <SidebarItem 
               icon={<AlertTriangleIcon />} 
               title="Risk Management" 
               path="/risk" 
               isOpen={isOpen} 
+              active={location.pathname === '/risk'}
             />
             
             <li className="pt-4 mt-4 border-t border-gray-200">
@@ -74,13 +80,15 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
               icon={<SettingsIcon />} 
               title="Settings" 
               path="/settings" 
-              isOpen={isOpen} 
+              isOpen={isOpen}
+              active={location.pathname === '/settings'} 
             />
             <SidebarItem 
               icon={<HelpCircleIcon />} 
               title="Help & Support" 
               path="/help" 
-              isOpen={isOpen} 
+              isOpen={isOpen}
+              active={location.pathname === '/help'}
             />
           </ul>
         </div>

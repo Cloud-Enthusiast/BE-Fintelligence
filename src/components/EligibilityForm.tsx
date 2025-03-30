@@ -11,6 +11,7 @@ import FormStep2 from './eligibility/FormStep2';
 import FormStep3 from './eligibility/FormStep3';
 import EligibilityResult from './eligibility/EligibilityResult';
 import { calculateEligibility } from '@/utils/eligibilityCalculator';
+import { useApplications } from '@/contexts/ApplicationContext';
 
 interface EligibilityFormProps {
   onComplete?: () => void;
@@ -20,6 +21,7 @@ const EligibilityForm = ({
   onComplete
 }: EligibilityFormProps) => {
   const { toast } = useToast();
+  const { addApplication } = useApplications();
   const [formData, setFormData] = useState({
     businessName: '',
     fullName: '',
@@ -180,33 +182,54 @@ const EligibilityForm = ({
     setIsSavingToDatabase(true);
     
     try {
-      // Prepare the data to be saved
-      const loanApplicationData = {
-        business_name: formData.businessName,
-        full_name: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        business_type: formData.businessType,
-        annual_revenue: formData.annualRevenue,
-        monthly_income: formData.monthlyIncome,
-        existing_loan_amount: formData.existingLoanAmount,
-        loan_amount: formData.loanAmount,
-        loan_term: formData.loanTerm,
-        credit_score: formData.creditScore,
-        eligibility_score: result.score,
-        is_eligible: result.eligible,
-        rejection_reason: result.reason || null,
-        // Add a default applicant_id since we're not using authentication yet
-        applicant_id: '00000000-0000-0000-0000-000000000000' // Default UUID for non-authenticated users
-      };
-      
-      // Insert the data into the database
-      const { error } = await supabase
-        .from('loan_applications')
-        .insert(loanApplicationData);
-      
-      if (error) {
-        throw error;
+      // First try to save to Supabase if connected
+      try {
+        const loanApplicationData = {
+          business_name: formData.businessName,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          business_type: formData.businessType,
+          annual_revenue: formData.annualRevenue,
+          monthly_income: formData.monthlyIncome,
+          existing_loan_amount: formData.existingLoanAmount,
+          loan_amount: formData.loanAmount,
+          loan_term: formData.loanTerm,
+          credit_score: formData.creditScore,
+          eligibility_score: result.score,
+          is_eligible: result.eligible,
+          rejection_reason: result.reason || null,
+          applicant_id: '00000000-0000-0000-0000-000000000000' // Default UUID for non-authenticated users
+        };
+        
+        // Insert the data into the database
+        const { error } = await supabase
+          .from('loan_applications')
+          .insert(loanApplicationData);
+        
+        if (error) {
+          console.log("Supabase error, falling back to local storage", error);
+          // If Supabase fails, we'll fall through to the local storage option
+          throw error;
+        }
+      } catch (error) {
+        // Always save to application context/local storage
+        addApplication({
+          businessName: formData.businessName,
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          businessType: formData.businessType,
+          annualRevenue: formData.annualRevenue,
+          monthlyIncome: formData.monthlyIncome,
+          existingLoanAmount: formData.existingLoanAmount,
+          loanAmount: formData.loanAmount,
+          loanTerm: formData.loanTerm,
+          creditScore: formData.creditScore,
+          eligibilityScore: result.score,
+          isEligible: result.eligible,
+          rejectionReason: result.reason
+        });
       }
       
       toast({

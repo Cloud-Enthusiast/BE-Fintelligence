@@ -1,10 +1,13 @@
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardSidebar from '@/components/DashboardSidebar';
+import { useApplications } from '@/contexts/ApplicationContext';
 import { 
   BarChart3Icon, 
   AlertTriangleIcon, 
@@ -12,11 +15,12 @@ import {
   TrendingUpIcon, 
   CheckCircleIcon,
   XCircleIcon,
-  ClockIcon
+  ClockIcon,
+  FileTextIcon,
+  UsersIcon
 } from 'lucide-react';
 import { ChartContainer } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Link } from 'react-router-dom';
 
 // Sample data
 const loanPerformanceData = [
@@ -28,26 +32,19 @@ const loanPerformanceData = [
   { name: 'Jun', approved: 55, rejected: 15 },
 ];
 
-const pendingApplications = [
-  { id: 'APP-2023-001', business: 'Green Valley Farms', amount: 125000, risk: 'low', date: '2023-06-01' },
-  { id: 'APP-2023-002', business: 'Tech Innovations Inc.', amount: 350000, risk: 'medium', date: '2023-06-02' },
-  { id: 'APP-2023-003', business: 'City Builders LLC', amount: 780000, risk: 'high', date: '2023-06-03' },
-  { id: 'APP-2023-004', business: 'Global Shipping Co.', amount: 450000, risk: 'medium', date: '2023-06-03' },
-];
-
-const riskAlerts = [
-  { id: 'RISK-001', business: 'Oceanview Resorts', issue: 'Declining revenue trend in last 3 quarters', severity: 'high' },
-  { id: 'RISK-002', business: 'FastTrack Logistics', issue: 'Recent leadership changes', severity: 'medium' },
-  { id: 'RISK-003', business: 'MediTech Solutions', issue: 'Regulatory compliance concerns', severity: 'high' },
-];
-
 const Dashboard = () => {
   const { user, logout } = useAuth();
+  const { applications } = useApplications();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  // Filter applications by status
+  const pendingApplications = applications.filter(app => app.status === 'pending');
+  const approvedApplications = applications.filter(app => app.status === 'approved');
+  const rejectedApplications = applications.filter(app => app.status === 'rejected');
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -101,27 +98,53 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <StatsCard 
                 title="Pending Applications" 
-                value="4" 
+                value={pendingApplications.length.toString()} 
                 description="Applications awaiting review"
                 icon={<ClockIcon className="h-5 w-5 text-blue-600" />}
                 trend="+2 since yesterday"
                 trendUp={true}
+                linkTo="/applications?tab=pending"
               />
               <StatsCard 
                 title="Approved Loans" 
-                value="28" 
+                value={approvedApplications.length.toString()} 
                 description="Applications approved this month"
                 icon={<CheckCircleIcon className="h-5 w-5 text-green-600" />}
                 trend="+8% from last month"
                 trendUp={true}
+                linkTo="/applications?tab=approved"
               />
               <StatsCard 
                 title="Rejected Applications" 
-                value="12" 
+                value={rejectedApplications.length.toString()}
                 description="Applications rejected this month"
                 icon={<XCircleIcon className="h-5 w-5 text-red-600" />}
                 trend="-3% from last month"
                 trendUp={false}
+                linkTo="/applications?tab=rejected"
+              />
+            </div>
+            
+            {/* Quick Access Cards */}
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Access</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <QuickAccessCard 
+                title="Manage Applications" 
+                description="Review and process loan applications"
+                icon={<FileTextIcon className="h-8 w-8 text-blue-600" />}
+                linkTo="/applications"
+              />
+              <QuickAccessCard 
+                title="View Analytics" 
+                description="Monitor lending performance metrics"
+                icon={<BarChart3Icon className="h-8 w-8 text-purple-600" />}
+                linkTo="/analytics"
+              />
+              <QuickAccessCard 
+                title="Customer Directory" 
+                description="Manage customer profiles and history"
+                icon={<UsersIcon className="h-8 w-8 text-green-600" />}
+                linkTo="/customers"
               />
             </div>
             
@@ -131,7 +154,9 @@ const Dashboard = () => {
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg font-medium">Pending Applications</CardTitle>
-                    <Button variant="ghost" size="sm">View All</Button>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link to="/applications?tab=pending">View All</Link>
+                    </Button>
                   </div>
                   <CardDescription>Applications awaiting review</CardDescription>
                 </CardHeader>
@@ -148,20 +173,24 @@ const Dashboard = () => {
                         </tr>
                       </thead>
                       <tbody className="divide-y">
-                        {pendingApplications.map((app) => (
+                        {pendingApplications.slice(0, 4).map((app) => (
                           <tr key={app.id} className="hover:bg-gray-50">
-                            <td className="py-3 text-sm">{app.id}</td>
-                            <td className="py-3 text-sm font-medium">{app.business}</td>
-                            <td className="py-3 text-sm">${app.amount.toLocaleString()}</td>
+                            <td className="py-3 text-sm">APP-{app.id.slice(0, 5)}</td>
+                            <td className="py-3 text-sm font-medium">{app.businessName}</td>
+                            <td className="py-3 text-sm">${app.loanAmount.toLocaleString()}</td>
                             <td className="py-3 text-sm">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(app.risk)}`}>
-                                {app.risk}
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                app.eligibilityScore >= 80 ? 'bg-green-100 text-green-800' :
+                                app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-red-100 text-red-800'
+                              }`}>
+                                {app.eligibilityScore >= 80 ? 'low' : 
+                                 app.eligibilityScore >= 60 ? 'medium' : 'high'}
                               </span>
                             </td>
                             <td className="py-3 text-sm">
-                              <Button size="sm" variant="outline" className="mr-2">Review</Button>
                               <Link 
-                                to="/application-review/APP-2023-005"
+                                to={`/application-review/${app.id}`}
                                 className="text-finance-600 hover:text-finance-800 font-medium"
                               >
                                 Review Application
@@ -169,6 +198,14 @@ const Dashboard = () => {
                             </td>
                           </tr>
                         ))}
+
+                        {pendingApplications.length === 0 && (
+                          <tr>
+                            <td colSpan={5} className="py-6 text-center text-gray-500">
+                              No pending applications
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -186,28 +223,28 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {riskAlerts.map((alert) => (
+                    {rejectedApplications.slice(0, 3).map((alert) => (
                       <div key={alert.id} className="flex items-start p-3 border rounded-lg hover:bg-gray-50">
-                        <div className={`rounded-full p-2 mr-3 ${
-                          alert.severity === 'high' ? 'bg-red-100' : 
-                          alert.severity === 'medium' ? 'bg-yellow-100' : 'bg-blue-100'
-                        }`}>
-                          <AlertTriangleIcon className={`h-5 w-5 ${
-                            alert.severity === 'high' ? 'text-red-600' : 
-                            alert.severity === 'medium' ? 'text-yellow-600' : 'text-blue-600'
-                          }`} />
+                        <div className="rounded-full p-2 mr-3 bg-red-100">
+                          <AlertTriangleIcon className="h-5 w-5 text-red-600" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <h4 className="font-medium">{alert.business}</h4>
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(alert.severity)}`}>
-                              {alert.severity}
+                            <h4 className="font-medium">{alert.businessName}</h4>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                              high
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">{alert.issue}</p>
+                          <p className="text-sm text-gray-600 mt-1">{alert.rejectionReason || "Risk factors detected"}</p>
                         </div>
                       </div>
                     ))}
+
+                    {rejectedApplications.length === 0 && (
+                      <div className="py-6 text-center text-gray-500">
+                        No risk alerts
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -249,10 +286,11 @@ interface StatsCardProps {
   icon: React.ReactNode;
   trend: string;
   trendUp: boolean;
+  linkTo?: string;
 }
 
-const StatsCard = ({ title, value, description, icon, trend, trendUp }: StatsCardProps) => (
-  <Card>
+const StatsCard = ({ title, value, description, icon, trend, trendUp, linkTo }: StatsCardProps) => {
+  const content = (
     <CardContent className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-medium text-gray-500">{title}</h3>
@@ -269,6 +307,41 @@ const StatsCard = ({ title, value, description, icon, trend, trendUp }: StatsCar
       </div>
       <p className="mt-1 text-sm text-gray-600">{description}</p>
     </CardContent>
+  );
+
+  if (linkTo) {
+    return (
+      <Card className="transition hover:shadow-md">
+        <Link to={linkTo} className="block h-full">
+          {content}
+        </Link>
+      </Card>
+    );
+  }
+
+  return <Card>{content}</Card>;
+};
+
+interface QuickAccessCardProps {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  linkTo: string;
+}
+
+const QuickAccessCard = ({ title, description, icon, linkTo }: QuickAccessCardProps) => (
+  <Card className="overflow-hidden transition hover:shadow-md">
+    <Link to={linkTo} className="block h-full">
+      <CardContent className="p-6 flex gap-4 items-center">
+        <div className="rounded-full bg-gray-100 p-3">
+          {icon}
+        </div>
+        <div>
+          <h3 className="font-semibold text-lg">{title}</h3>
+          <p className="text-sm text-gray-600">{description}</p>
+        </div>
+      </CardContent>
+    </Link>
   </Card>
 );
 
