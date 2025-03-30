@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import FormStepIndicator from './eligibility/FormStepIndicator';
 import FormStep1 from './eligibility/FormStep1';
 import FormStep2 from './eligibility/FormStep2';
@@ -17,6 +19,7 @@ interface EligibilityFormProps {
 const EligibilityForm = ({
   onComplete
 }: EligibilityFormProps) => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     businessName: '',
     fullName: '',
@@ -32,6 +35,7 @@ const EligibilityForm = ({
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSavingToDatabase, setIsSavingToDatabase] = useState(false);
   const [result, setResult] = useState<null | {
     eligible: boolean;
     score: number;
@@ -170,6 +174,60 @@ const EligibilityForm = ({
     setResult(null);
   };
 
+  const handleSaveToDatabase = async () => {
+    if (!result) return;
+    
+    setIsSavingToDatabase(true);
+    
+    try {
+      // Prepare the data to be saved
+      const loanApplicationData = {
+        business_name: formData.businessName,
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        business_type: formData.businessType,
+        annual_revenue: formData.annualRevenue,
+        monthly_income: formData.monthlyIncome,
+        existing_loan_amount: formData.existingLoanAmount,
+        loan_amount: formData.loanAmount,
+        loan_term: formData.loanTerm,
+        credit_score: formData.creditScore,
+        eligibility_score: result.score,
+        is_eligible: result.eligible,
+        rejection_reason: result.reason || null
+      };
+      
+      // Insert the data into the database
+      const { error } = await supabase
+        .from('loan_applications')
+        .insert(loanApplicationData);
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast({
+        title: "Application Submitted",
+        description: "Your loan application has been successfully submitted.",
+      });
+      
+      // Call onComplete if provided (to navigate to next step)
+      if (onComplete) {
+        onComplete();
+      }
+    } catch (error) {
+      console.error("Error saving application:", error);
+      toast({
+        title: "Submission Failed",
+        description: "There was a problem submitting your application. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSavingToDatabase(false);
+    }
+  };
+
   return (
     <Card className="w-full max-w-4xl mx-auto shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
       <CardHeader className="bg-finance-50 border-b border-gray-200">
@@ -215,7 +273,8 @@ const EligibilityForm = ({
             <EligibilityResult 
               result={result} 
               onComplete={onComplete}
-              onGoBack={handleGoBack} 
+              onGoBack={handleGoBack}
+              onSubmit={handleSaveToDatabase}
             />
           )}
         </form>
@@ -253,6 +312,12 @@ const EligibilityForm = ({
               {isSubmitting ? 'Processing...' : 'Check Eligibility'}
               {!isSubmitting && <ChevronRightIcon className="ml-2 h-4 w-4" />}
             </Button>
+          )}
+          
+          {currentStep === 4 && isSavingToDatabase && (
+            <div className="ml-auto text-finance-600">
+              Submitting application...
+            </div>
           )}
         </div>
       </CardFooter>

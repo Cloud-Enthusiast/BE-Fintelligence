@@ -3,6 +3,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface EligibilityResultProps {
   result: {
@@ -12,6 +23,7 @@ interface EligibilityResultProps {
   };
   onComplete?: () => void;
   onGoBack?: () => void;
+  onSubmit?: () => void;
 }
 
 const containerVariants = {
@@ -37,7 +49,7 @@ const itemVariants = {
   }
 };
 
-const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultProps) => {
+const EligibilityResult = ({ result, onComplete, onGoBack, onSubmit }: EligibilityResultProps) => {
   const minEligibleScore = 70; // Minimum eligible score is 70
 
   return (
@@ -93,14 +105,36 @@ const EligibilityResult = ({ result, onComplete, onGoBack }: EligibilityResultPr
         </Button>
         
         {result.eligible && (
-          <Button 
-            type="button" 
-            className="bg-finance-600 hover:bg-finance-700 text-white" 
-            onClick={onComplete}
-          >
-            Continue to Application
-            <ChevronRightIcon className="ml-2 h-4 w-4" />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button 
+                type="button" 
+                className="bg-finance-600 hover:bg-finance-700 text-white"
+              >
+                Continue to Application
+                <ChevronRightIcon className="ml-2 h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Confirm Submission</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure the details entered by you are correct and want to proceed to submit?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="bg-gray-100 hover:bg-gray-200">
+                  No, go back and edit
+                </AlertDialogCancel>
+                <AlertDialogAction 
+                  className="bg-finance-600 hover:bg-finance-700 text-white"
+                  onClick={onSubmit}
+                >
+                  Confirm submit
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </motion.div>
     </motion.div>
