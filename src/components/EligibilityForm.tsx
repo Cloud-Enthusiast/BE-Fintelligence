@@ -1,10 +1,10 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import FormStepIndicator from './eligibility/FormStepIndicator';
 import FormStep1 from './eligibility/FormStep1';
 import FormStep2 from './eligibility/FormStep2';
@@ -22,6 +22,7 @@ const EligibilityForm = ({
 }: EligibilityFormProps) => {
   const { toast } = useToast();
   const { addApplication } = useApplications();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     businessName: '',
     fullName: '',
@@ -185,10 +186,10 @@ const EligibilityForm = ({
       // First try to save to Supabase if connected
       try {
         const loanApplicationData = {
-          business_name: formData.businessName,
           full_name: formData.fullName,
           email: formData.email,
           phone: formData.phone,
+          business_name: formData.businessName,
           business_type: formData.businessType,
           annual_revenue: formData.annualRevenue,
           monthly_income: formData.monthlyIncome,
@@ -199,10 +200,11 @@ const EligibilityForm = ({
           eligibility_score: result.score,
           is_eligible: result.eligible,
           rejection_reason: result.reason || null,
-          applicant_id: '00000000-0000-0000-0000-000000000000' // Default UUID for non-authenticated users
+          applicant_id: user?.id || null,
+          status: 'pending'
         };
         
-        // Insert the data into the database
+        // Insert the data into the loan_applications table
         const { error } = await supabase
           .from('loan_applications')
           .insert(loanApplicationData);

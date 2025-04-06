@@ -16,58 +16,75 @@ import ApplicationReview from "./pages/ApplicationReview";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { useEffect } from "react";
+import { supabase } from "./lib/supabase";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthProvider>
-        <ApplicationProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } />
-              <Route path="/application" element={
-                <ProtectedRoute>
-                  <Application />
-                </ProtectedRoute>
-              } />
-              <Route path="/applications" element={
-                <ProtectedRoute allowedRoles={['Loan Officer']}>
-                  <Applications />
-                </ProtectedRoute>
-              } />
-              <Route path="/analytics" element={
-                <ProtectedRoute allowedRoles={['Loan Officer']}>
-                  <Analytics />
-                </ProtectedRoute>
-              } />
-              <Route path="/customers" element={
-                <ProtectedRoute allowedRoles={['Loan Officer']}>
-                  <Customers />
-                </ProtectedRoute>
-              } />
-              <Route path="/application-review/:id" element={
-                <ProtectedRoute allowedRoles={['Loan Officer']}>
-                  <ApplicationReview />
-                </ProtectedRoute>
-              } />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </ApplicationProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  useEffect(() => {
+    // Log current session on app start
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error getting session:", error);
+      }
+      console.log("Current session:", data);
+    };
+    
+    checkSession();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AuthProvider>
+          <ApplicationProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/application" element={
+                  <ProtectedRoute>
+                    <Application />
+                  </ProtectedRoute>
+                } />
+                <Route path="/applications" element={
+                  <ProtectedRoute allowedRoles={['Loan Officer']}>
+                    <Applications />
+                  </ProtectedRoute>
+                } />
+                <Route path="/analytics" element={
+                  <ProtectedRoute allowedRoles={['Loan Officer']}>
+                    <Analytics />
+                  </ProtectedRoute>
+                } />
+                <Route path="/customers" element={
+                  <ProtectedRoute allowedRoles={['Loan Officer']}>
+                    <Customers />
+                  </ProtectedRoute>
+                } />
+                <Route path="/application-review/:id" element={
+                  <ProtectedRoute allowedRoles={['Loan Officer']}>
+                    <ApplicationReview />
+                  </ProtectedRoute>
+                } />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </ApplicationProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
