@@ -1,122 +1,110 @@
 
-import { Database as OriginalDatabase } from '@/integrations/supabase/types';
+import { Database as GeneratedDatabase } from '@/integrations/supabase/types';
 
-// Extend the original Database type with our tables
-export interface Database extends OriginalDatabase {
+// Extend the database type with our specific tables
+export interface Database extends GeneratedDatabase {
   public: {
     Tables: {
-      profiles: {
+      loan_applicants: {
         Row: {
           id: string;
-          auth_id: string | null;
-          role: string;
-          full_name: string | null;
-          email: string | null;
-          phone: string | null;
+          first_name: string;
+          last_name: string;
+          email: string;
+          phone_number: string;
+          address: string;
+          date_of_birth: string;
           created_at: string;
-          updated_at: string;
         };
         Insert: {
           id?: string;
-          auth_id?: string | null;
-          role?: string;
-          full_name?: string | null;
-          email?: string | null;
-          phone?: string | null;
+          first_name?: string;
+          last_name?: string;
+          email?: string;
+          phone_number?: string;
+          address?: string;
+          date_of_birth?: string;
           created_at?: string;
-          updated_at?: string;
         };
         Update: {
           id?: string;
-          auth_id?: string | null;
-          role?: string;
-          full_name?: string | null;
-          email?: string | null;
-          phone?: string | null;
+          first_name?: string;
+          last_name?: string;
+          email?: string;
+          phone_number?: string;
+          address?: string;
+          date_of_birth?: string;
           created_at?: string;
-          updated_at?: string;
         };
+        Relationships: [];
       };
-      loan_applications: {
+      loan_eligibility_assessments: {
         Row: {
           id: string;
           applicant_id: string | null;
-          business_id: string | null;
-          loan_amount: number;
-          loan_term: number;
+          business_name: string;
+          monthly_income: number;
+          annual_revenue: number;
           existing_loan_amount: number;
           credit_score: number;
+          requested_loan_amount: number;
+          requested_loan_term_months: number;
+          business_type: string;
           eligibility_score: number;
           is_eligible: boolean;
-          rejection_reason: string | null;
-          status: string;
+          ineligibility_reason: string | null;
+          assessment_status: string;
           created_at: string;
-          updated_at: string;
-          business_name?: string | null;
-          full_name?: string | null;
-          email?: string | null;
-          phone?: string | null;
-          business_type?: string | null;
-          annual_revenue?: number | null;
-          monthly_income?: number | null;
         };
         Insert: {
           id?: string;
           applicant_id?: string | null;
-          business_id?: string | null;
-          loan_amount: number;
-          loan_term: number;
-          existing_loan_amount: number;
-          credit_score: number;
-          eligibility_score: number;
-          is_eligible: boolean;
-          rejection_reason?: string | null;
-          status?: string;
+          business_name?: string;
+          monthly_income?: number;
+          annual_revenue?: number;
+          existing_loan_amount?: number;
+          credit_score?: number;
+          requested_loan_amount?: number;
+          requested_loan_term_months?: number;
+          business_type?: string;
+          eligibility_score?: number;
+          is_eligible?: boolean;
+          ineligibility_reason?: string | null;
+          assessment_status?: string;
           created_at?: string;
-          updated_at?: string;
-          business_name?: string | null;
-          full_name?: string | null;
-          email?: string | null;
-          phone?: string | null;
-          business_type?: string | null;
-          annual_revenue?: number | null;
-          monthly_income?: number | null;
         };
         Update: {
           id?: string;
           applicant_id?: string | null;
-          business_id?: string | null;
-          loan_amount?: number;
-          loan_term?: number;
+          business_name?: string;
+          monthly_income?: number;
+          annual_revenue?: number;
           existing_loan_amount?: number;
           credit_score?: number;
+          requested_loan_amount?: number;
+          requested_loan_term_months?: number;
+          business_type?: string;
           eligibility_score?: number;
           is_eligible?: boolean;
-          rejection_reason?: string | null;
-          status?: string;
+          ineligibility_reason?: string | null;
+          assessment_status?: string;
           created_at?: string;
-          updated_at?: string;
-          business_name?: string | null;
-          full_name?: string | null;
-          email?: string | null;
-          phone?: string | null;
-          business_type?: string | null;
-          annual_revenue?: number | null;
-          monthly_income?: number | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "loan_eligibility_assessments_applicant_id_fkey";
+            columns: ["applicant_id"];
+            referencedRelation: "loan_applicants";
+            referencedColumns: ["id"];
+          }
+        ];
       };
+      // Add any other tables from the generated type here
+      profiles: GeneratedDatabase['public']['Tables']['profiles'];
+      loan_applications: GeneratedDatabase['public']['Tables']['loan_applications'];
     };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      [_ in never]: never;
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
+    Views: GeneratedDatabase['public']['Views'];
+    Functions: GeneratedDatabase['public']['Functions'];
+    Enums: GeneratedDatabase['public']['Enums'];
   };
 }

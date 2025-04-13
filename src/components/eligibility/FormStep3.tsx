@@ -62,7 +62,8 @@ const FormStep3 = ({
   return (
     <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
-        <h3 className="text-lg font-medium text-finance-900 mb-4">Loan Requirements</h3>
+        <h3 className="text-xl font-semibold text-finance-900 mb-4">Customize your loan request</h3>
+        <p className="text-finance-600 mb-6">Tell us what you're looking for and we'll assess if it's a good match</p>
       </motion.div>
       
       <motion.div variants={itemVariants} className="space-y-8">

@@ -44,7 +44,8 @@ const FormStep1 = ({ formData, onChange }: FormStep1Props) => {
   return (
     <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
-        <h3 className="text-lg font-medium text-finance-900 mb-4">Business Information</h3>
+        <h3 className="text-xl font-semibold text-finance-900 mb-4">Tell us about your business</h3>
+        <p className="text-finance-600 mb-6">We'll use this information to personalize your eligibility assessment</p>
       </motion.div>
       
       <motion.div variants={itemVariants}>

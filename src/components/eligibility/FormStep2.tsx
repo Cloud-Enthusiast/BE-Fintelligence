@@ -67,7 +67,8 @@ const FormStep2 = ({
   return (
     <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
-        <h3 className="text-lg font-medium text-finance-900 mb-4">Financial Information</h3>
+        <h3 className="text-xl font-semibold text-finance-900 mb-4">Share your financial details</h3>
+        <p className="text-finance-600 mb-6">This helps us understand your business's financial health and capacity</p>
       </motion.div>
       
       <motion.div variants={itemVariants} className="space-y-8">
