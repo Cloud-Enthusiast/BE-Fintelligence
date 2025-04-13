@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IndianRupeeIcon, ClockIcon, BuildingIcon } from 'lucide-react';
@@ -7,18 +6,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import SliderWithInput from './SliderWithInput';
 import { formatCurrency } from '@/utils/formatters';
 import { Input } from '@/components/ui/input';
-
 interface FormData {
   loanAmount: number;
   loanTerm: number;
   businessType: string;
 }
-
 interface TempInputValues {
   loanAmount: string;
   loanTerm: string;
 }
-
 interface FormStep3Props {
   formData: FormData;
   tempInputValues: TempInputValues;
@@ -27,7 +23,6 @@ interface FormStep3Props {
   handleInputBlur: (name: string, min: number, max: number) => void;
   handleSelectChange: (name: string, value: string) => void;
 }
-
 const containerVariants = {
   hidden: {
     opacity: 0
@@ -39,7 +34,6 @@ const containerVariants = {
     }
   }
 };
-
 const itemVariants = {
   hidden: {
     opacity: 0,
@@ -50,7 +44,6 @@ const itemVariants = {
     y: 0
   }
 };
-
 const FormStep3 = ({
   formData,
   tempInputValues,
@@ -59,28 +52,14 @@ const FormStep3 = ({
   handleInputBlur,
   handleSelectChange
 }: FormStep3Props) => {
-  return (
-    <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
+  return <motion.div className="space-y-6" variants={containerVariants} initial="hidden" animate="visible">
       <motion.div variants={itemVariants}>
         <h3 className="text-xl font-semibold text-finance-900 mb-4">Customize your loan request</h3>
-        <p className="text-finance-600 mb-6">Tell us what you're looking for and we'll assess if it's a good match</p>
+        <p className="text-finance-600 mb-6">Tell us what you're looking for</p>
       </motion.div>
       
       <motion.div variants={itemVariants} className="space-y-8">
-        <SliderWithInput
-          label="Loan Amount"
-          icon={<IndianRupeeIcon className="h-5 w-5 text-finance-600" />}
-          name="loanAmount"
-          value={formData.loanAmount}
-          tempValue={tempInputValues.loanAmount}
-          min={500000}
-          max={50000000}
-          step={100000}
-          formatValue={formatCurrency}
-          onSliderChange={handleSliderChange}
-          onInputChange={handleNumericInputChange}
-          onBlur={handleInputBlur}
-        />
+        <SliderWithInput label="Loan Amount" icon={<IndianRupeeIcon className="h-5 w-5 text-finance-600" />} name="loanAmount" value={formData.loanAmount} tempValue={tempInputValues.loanAmount} min={500000} max={50000000} step={100000} formatValue={formatCurrency} onSliderChange={handleSliderChange} onInputChange={handleNumericInputChange} onBlur={handleInputBlur} />
         
         <div>
           <div className="flex justify-between items-center mb-2">
@@ -94,21 +73,7 @@ const FormStep3 = ({
           </div>
           <div className="flex items-center gap-4">
             <div className="flex-1">
-              <SliderWithInput
-                label=""
-                icon={<></>}
-                name="loanTerm"
-                value={formData.loanTerm}
-                tempValue={tempInputValues.loanTerm}
-                min={12}
-                max={360}
-                step={12}
-                formatValue={(value) => `${value} months`}
-                onSliderChange={handleSliderChange}
-                onInputChange={handleNumericInputChange}
-                onBlur={handleInputBlur}
-                showCurrencyIcon={false}
-              />
+              <SliderWithInput label="" icon={<></>} name="loanTerm" value={formData.loanTerm} tempValue={tempInputValues.loanTerm} min={12} max={360} step={12} formatValue={value => `${value} months`} onSliderChange={handleSliderChange} onInputChange={handleNumericInputChange} onBlur={handleInputBlur} showCurrencyIcon={false} />
             </div>
           </div>
         </div>
@@ -118,10 +83,7 @@ const FormStep3 = ({
             <BuildingIcon className="h-5 w-5 text-finance-600" />
             <Label className="text-sm font-medium">Business Type</Label>
           </div>
-          <Select 
-            value={formData.businessType} 
-            onValueChange={value => handleSelectChange('businessType', value)}
-          >
+          <Select value={formData.businessType} onValueChange={value => handleSelectChange('businessType', value)}>
             <SelectTrigger>
               <SelectValue placeholder="Select business type" />
             </SelectTrigger>
@@ -134,8 +96,6 @@ const FormStep3 = ({
           </Select>
         </div>
       </motion.div>
-    </motion.div>
-  );
+    </motion.div>;
 };
-
 export default FormStep3;
