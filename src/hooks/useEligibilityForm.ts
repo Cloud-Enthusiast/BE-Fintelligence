@@ -194,73 +194,58 @@ export const useEligibilityForm = (onComplete?: () => void) => {
     setIsSavingToDatabase(true);
     
     try {
-      // First try to save to Supabase if connected
+      // Save the assessment data to Supabase
       try {
-        const loanApplicationData = {
-          full_name: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
+        const assessmentData = {
+          applicant_id: user?.id || null, // Link to the logged-in user if available
           business_name: formData.businessName,
-          business_type: formData.businessType,
-          annual_revenue: formData.annualRevenue,
           monthly_income: formData.monthlyIncome,
+          annual_revenue: formData.annualRevenue,
           existing_loan_amount: formData.existingLoanAmount,
-          loan_amount: formData.loanAmount,
-          loan_term: formData.loanTerm,
           credit_score: formData.creditScore,
+          requested_loan_amount: formData.loanAmount,
+          requested_loan_term_months: formData.loanTerm,
+          business_type: formData.businessType,
           eligibility_score: result.score,
           is_eligible: result.eligible,
-          rejection_reason: result.reason || null,
-          applicant_id: user?.id || null,
-          status: 'pending'
+          ineligibility_reason: result.reason || null,
+          assessment_status: 'completed' // Mark assessment as completed
         };
-        
-        // Insert the data into the loan_applications table
+
+        // Insert the data into the loan_eligibility_assessments table
         const { error } = await supabase
-          .from('loan_applications')
-          .insert(loanApplicationData);
-        
+          .from('loan_eligibility_assessments')
+          .insert(assessmentData);
+
         if (error) {
-          console.log("Supabase error, falling back to local storage", error);
-          // If Supabase fails, we'll fall through to the local storage option
-          throw error;
+          console.error("Supabase error saving assessment:", error);
+          throw error; // Re-throw the error to be caught by the outer catch block
+        }
+
+        toast({
+          title: "Assessment Saved",
+          description: "Your eligibility assessment has been saved.",
+        });
+
+        // Call onComplete if provided (e.g., to navigate)
+        if (onComplete) {
+          onComplete();
         }
       } catch (error) {
-        // Always save to application context/local storage
-        addApplication({
-          businessName: formData.businessName,
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          businessType: formData.businessType,
-          annualRevenue: formData.annualRevenue,
-          monthlyIncome: formData.monthlyIncome,
-          existingLoanAmount: formData.existingLoanAmount,
-          loanAmount: formData.loanAmount,
-          loanTerm: formData.loanTerm,
-          creditScore: formData.creditScore,
-          eligibilityScore: result.score,
-          isEligible: result.eligible,
-          rejectionReason: result.reason
+        // Log the error and show a generic failure message
+        console.error("Error saving assessment:", error);
+        toast({
+          title: "Save Failed",
+          description: "There was a problem saving your assessment. Please try again.",
+          variant: "destructive",
         });
       }
-      
-      toast({
-        title: "Application Submitted",
-        description: "Your loan application has been successfully submitted.",
-      });
-      
-      // Call onComplete if provided (to navigate to next step)
-      if (onComplete) {
-        onComplete();
-      }
     } catch (error) {
-      console.error("Error saving application:", error);
-      toast({
-        title: "Submission Failed",
-        description: "There was a problem submitting your application. Please try again.",
-        variant: "destructive",
-      });
+      // This catch block is now primarily for handling errors from the try block above
+      // or potential future logic outside the Supabase call.
+      // The specific Supabase error handling is inside the inner try/catch.
+      console.error("Error during save process:", error);
+      // Ensure isSavingToDatabase is reset even if outer logic fails
     } finally {
       setIsSavingToDatabase(false);
     }
