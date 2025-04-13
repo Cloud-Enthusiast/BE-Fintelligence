@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '@/components/ui/input';
@@ -9,12 +9,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { BuildingIcon, KeyIcon, MailIcon, UserIcon } from 'lucide-react';
+
 const Login = () => {
   const navigate = useNavigate();
-  const {
-    login,
-    loginWithOTP
-  } = useAuth();
+  const location = useLocation();
+  const { login, loginWithOTP } = useAuth();
+  
+  const from = (location.state as any)?.from || '/';
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [otpUsername, setOtpUsername] = useState('');
@@ -22,35 +24,39 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [loginType, setLoginType] = useState<'officer' | 'applicant'>('officer');
+  
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const success = await login(username, password, loginType);
       if (success) {
-        navigate(loginType === 'officer' ? '/dashboard' : '/application');
+        const defaultPath = loginType === 'officer' ? '/dashboard' : '/application';
+        navigate(from !== '/' ? from : defaultPath);
       }
     } finally {
       setIsLoading(false);
     }
   };
+  
   const handleSendOTP = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate sending OTP
     setOtpSent(true);
   };
+  
   const handleOTPLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const success = await loginWithOTP(otpUsername, otp);
       if (success) {
-        navigate('/dashboard');
+        navigate(from !== '/' ? from : '/dashboard');
       }
     } finally {
       setIsLoading(false);
     }
   };
+  
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-blue-50 p-4">
       <motion.div initial={{
       opacity: 0,
@@ -185,4 +191,5 @@ const Login = () => {
       </motion.div>
     </div>;
 };
+
 export default Login;
