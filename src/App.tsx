@@ -44,43 +44,72 @@ const App = () => {
             <Sonner />
             <BrowserRouter>
               <Routes>
+                {/* Public routes */}
                 <Route path="/login" element={<Login />} />
-                <Route path="/" element={
-                  <ProtectedRoute>
-                    <Index />
-                  </ProtectedRoute>
-                } />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
-                <Route path="/application" element={
-                  <ProtectedRoute>
-                    <Application />
-                  </ProtectedRoute>
-                } />
-                <Route path="/applications" element={
-                  <ProtectedRoute allowedRoles={['Loan Officer']}>
-                    <Applications />
-                  </ProtectedRoute>
-                } />
-                <Route path="/analytics" element={
-                  <ProtectedRoute allowedRoles={['Loan Officer']}>
-                    <Analytics />
-                  </ProtectedRoute>
-                } />
-                <Route path="/customers" element={
-                  <ProtectedRoute allowedRoles={['Loan Officer']}>
-                    <Customers />
-                  </ProtectedRoute>
-                } />
-                <Route path="/application-review/:id" element={
-                  <ProtectedRoute allowedRoles={['Loan Officer']}>
-                    <ApplicationReview />
-                  </ProtectedRoute>
-                } />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                
+                {/* Root route redirects based on role */}
+                <Route 
+                  path="/" 
+                  element={
+                    <ProtectedRoute>
+                      <Index />
+                    </ProtectedRoute>
+                  } 
+                />
+
+                {/* Officer-only routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/applications"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Applications />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/analytics"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Analytics />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/customers"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Customers />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/application-review/:id"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <ApplicationReview />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Applicant-only routes */}
+                <Route
+                  path="/application"
+                  element={
+                    <ProtectedRoute allowedRoles={['Applicant']} redirectPath="/dashboard">
+                      <Application />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

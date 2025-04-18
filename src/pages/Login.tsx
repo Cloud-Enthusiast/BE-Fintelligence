@@ -15,7 +15,7 @@ const Login = () => {
   const location = useLocation();
   const { login, loginWithOTP } = useAuth();
   
-  const from = (location.state as any)?.from || '/';
+  const from = (location.state as any)?.from;
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -32,7 +32,7 @@ const Login = () => {
       const success = await login(username, password, loginType);
       if (success) {
         const defaultPath = loginType === 'officer' ? '/dashboard' : '/application';
-        navigate(from !== '/' ? from : defaultPath);
+        navigate(from || defaultPath);
       }
     } finally {
       setIsLoading(false);
@@ -50,7 +50,7 @@ const Login = () => {
     try {
       const success = await loginWithOTP(otpUsername, otp);
       if (success) {
-        navigate(from !== '/' ? from : '/dashboard');
+        navigate(from || '/dashboard');
       }
     } finally {
       setIsLoading(false);
