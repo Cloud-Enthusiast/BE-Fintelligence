@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import Applications from "./pages/Applications";
 import Analytics from "./pages/Analytics";
 import Customers from "./pages/Customers";
 import ApplicationReview from "./pages/ApplicationReview";
+import Register from "./pages/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -46,6 +46,7 @@ const App = () => {
               <Routes>
                 {/* Public routes */}
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 
                 {/* Root route redirects based on role */}
                 <Route 
