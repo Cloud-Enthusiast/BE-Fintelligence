@@ -50,13 +50,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         try {
+          // Fetch profile from user_profiles using the session user's ID
           const { data, error } = await supabase
-            .from('profiles')
+            .from('user_profiles') // Correct table name
             .select('*')
-            .eq('auth_id', session.user.id)
+            .eq('id', session.user.id) // Correct column name (matches auth.users.id)
             .single();
 
-          if (error) throw error;
+          if (error && error.code !== 'PGRST116') { // Ignore 'PGRST116' (No rows found) if profile doesn't exist yet
+             console.error('Error fetching user profile during session check:', error);
+             // Decide if you want to throw or handle gracefully
+             // throw error; 
+          }
 
           if (data) {
             const userData: User = {
@@ -81,144 +86,134 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (username: string, password: string, loginType: 'officer' | 'applicant' = 'officer'): Promise<boolean> => {
-    // For demo purposes - local authentication
-    if (loginType === 'officer' && username === 'admin' && password === 'admin') {
-      const user = {
-        username: 'admin',
-        role: 'Loan Officer' as UserRole,
-        name: 'Alex Johnson',
-        avatar: '/avatar-placeholder.png',
-      };
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      toast({
-        title: "Login successful",
-        description: "Welcome back, Alex Johnson",
+    // Attempt to login with Supabase using email/password
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username, // Use username input as email
+        password: password,
       });
-      
-      return true;
-    } 
-    // For applicant login
-    else if (loginType === 'applicant' && username === 'user' && password === 'user') {
-      const user = {
-        username: 'user',
-        role: 'Applicant' as UserRole,
-        name: 'John Smith',
-        avatar: '/avatar-placeholder.png',
-      };
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      toast({
-        title: "Login successful",
-        description: "Welcome back, John Smith",
-      });
-      
-      return true;
-    } 
-    // Attempt to login with Supabase
-    else {
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: username,
-          password: password,
-        });
 
-        if (error) throw error;
+      if (error) throw error;
 
-        if (data.user) {
-          // Fetch user profile from profiles table
-          const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('auth_id', data.user.id)
-            .single();
+      if (data.user) {
+        // Fetch user profile from user_profiles table
+        const { data: profileData, error: profileError } = await supabase
+          .from('user_profiles') // Correct table name
+          .select('*')
+          .eq('id', data.user.id) // Correct column name (matches auth.users.id)
+          .single();
 
-          if (profileError) throw profileError;
-
-          const userData: User = {
-            username: data.user.email || '',
-            role: (profileData?.role || 'Applicant') as UserRole,
-            name: profileData?.full_name || '',
-            avatar: '/avatar-placeholder.png',
-            id: profileData?.id
-          };
-
-          setUser(userData);
-          setIsAuthenticated(true);
-          localStorage.setItem('user', JSON.stringify(userData));
-
-          toast({
-            title: "Login successful",
-            description: `Welcome back, ${userData.name}`,
-          });
-
-          return true;
+        // Handle profile not found error specifically
+        if (profileError && profileError.code !== 'PGRST116') { 
+          console.error('Error fetching user profile during login:', profileError);
+          throw new Error('Could not retrieve user profile after login.'); 
         }
-      } catch (error: any) {
-        console.error('Login error:', error);
+        // If profileData is null/undefined (PGRST116 or other issue), handle it
+        if (!profileData) {
+           console.error('User profile not found for id:', data.user.id);
+           throw new Error('User profile not found.');
+        }
+
+        // Check if the fetched role matches the loginType selected in the UI
+        const fetchedRole = (profileData?.role || 'Applicant') as UserRole;
+        if ((loginType === 'officer' && fetchedRole !== 'Loan Officer') || (loginType === 'applicant' && fetchedRole !== 'Applicant')) {
+           throw new Error(`Incorrect login type selected for this user role.`);
+        }
+
+        const userData: User = {
+          username: data.user.email || '',
+          role: fetchedRole,
+          name: profileData?.full_name || '',
+          avatar: '/avatar-placeholder.png', // Keep placeholder or fetch from profile if available
+          id: profileData.id // Use the fetched profile ID
+        };
+
+        setUser(userData);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(userData)); // Store user data locally
+
         toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: error.message || "Invalid username or password",
+          title: "Login successful",
+          description: `Welcome back, ${userData.name}`,
         });
+
+        return true;
       }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: error.message || "Invalid email or password, or incorrect login type selected.",
+      });
     }
     
     return false;
   };
 
   const loginWithOTP = async (username: string, otp: string): Promise<boolean> => {
-    // For demo purposes, any 6-digit OTP will succeed for the admin user
-    if (username === 'admin' && otp.length === 6 && /^\d+$/.test(otp)) {
-      const user = {
-        username: 'admin',
-        role: 'Loan Officer' as UserRole,
-        name: 'Alex Johnson',
-        avatar: '/avatar-placeholder.png',
-      };
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      toast({
-        title: "Login successful",
-        description: "Welcome back, Alex Johnson",
+    // Attempt to verify OTP with Supabase
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email: username, // Use username input as email
+        token: otp,
+        type: 'email', // Specify 'email' type for OTP verification
       });
-      
-      return true;
-    } else if (username === 'user' && otp.length === 6 && /^\d+$/.test(otp)) {
-      const user = {
-        username: 'user',
-        role: 'Applicant' as UserRole,
-        name: 'John Smith',
-        avatar: '/avatar-placeholder.png',
-      };
-      
-      setUser(user);
-      setIsAuthenticated(true);
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      toast({
-        title: "Login successful",
-        description: "Welcome back, John Smith",
-      });
-      
-      return true;
-    } else {
+
+      if (error) throw error;
+
+      if (data.user) {
+        // Fetch user profile from user_profiles table
+        const { data: profileData, error: profileError } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', data.user.id)
+          .single();
+
+        // Handle profile not found error specifically
+        if (profileError && profileError.code !== 'PGRST116') {
+          console.error('Error fetching user profile after OTP login:', profileError);
+          throw new Error('Could not retrieve user profile after OTP login.');
+        }
+        if (!profileData) {
+           console.error('User profile not found for id:', data.user.id);
+           throw new Error('User profile not found.');
+        }
+
+        // Note: OTP login doesn't typically involve selecting a role type in the UI,
+        // so we don't need the role check here like in password login.
+        // We just use the role fetched from the profile.
+        const fetchedRole = profileData.role as UserRole;
+
+        const userData: User = {
+          username: data.user.email || '',
+          role: fetchedRole,
+          name: profileData.full_name || '',
+          avatar: '/avatar-placeholder.png',
+          id: profileData.id
+        };
+
+        setUser(userData);
+        setIsAuthenticated(true);
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        toast({
+          title: "Login successful",
+          description: `Welcome back, ${userData.name}`,
+        });
+
+        return true;
+      }
+    } catch (error: any) {
+      console.error('OTP Login error:', error);
       toast({
         variant: "destructive",
-        title: "Login failed",
-        description: "Invalid username or OTP",
+        title: "OTP Login failed",
+        description: error.message || "Invalid email or OTP.",
       });
-      return false;
     }
+    
+    return false;
   };
 
   const logout = async () => {

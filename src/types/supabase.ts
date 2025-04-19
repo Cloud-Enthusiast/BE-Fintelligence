@@ -1,110 +1,259 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
-import { Database as GeneratedDatabase } from '@/integrations/supabase/types';
-
-// Extend the database type with our specific tables
-export interface Database extends GeneratedDatabase {
+export type Database = {
   public: {
     Tables: {
       loan_applicants: {
         Row: {
-          id: string;
-          first_name: string;
-          last_name: string;
-          email: string;
-          phone_number: string;
-          address: string;
-          date_of_birth: string;
-          created_at: string;
-        };
+          address: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone_number: string | null
+        }
         Insert: {
-          id?: string;
-          first_name?: string;
-          last_name?: string;
-          email?: string;
-          phone_number?: string;
-          address?: string;
-          date_of_birth?: string;
-          created_at?: string;
-        };
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone_number?: string | null
+        }
         Update: {
-          id?: string;
-          first_name?: string;
-          last_name?: string;
-          email?: string;
-          phone_number?: string;
-          address?: string;
-          date_of_birth?: string;
-          created_at?: string;
-        };
-        Relationships: [];
-      };
+          address?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone_number?: string | null
+        }
+        Relationships: []
+      }
       loan_eligibility_assessments: {
         Row: {
-          id: string;
-          applicant_id: string | null;
-          business_name: string;
-          monthly_income: number;
-          annual_revenue: number;
-          existing_loan_amount: number;
-          credit_score: number;
-          requested_loan_amount: number;
-          requested_loan_term_months: number;
-          business_type: string;
-          eligibility_score: number;
-          is_eligible: boolean;
-          ineligibility_reason: string | null;
-          assessment_status: string;
-          created_at: string;
-        };
+          annual_revenue: number | null
+          applicant_id: string | null
+          assessment_status: string | null
+          business_name: string | null
+          business_type: string | null
+          created_at: string
+          credit_score: number | null
+          eligibility_score: number | null
+          existing_loan_amount: number | null
+          id: string
+          ineligibility_reason: string | null
+          is_eligible: boolean | null
+          monthly_income: number | null
+          requested_loan_amount: number | null
+          requested_loan_term_months: number | null
+        }
         Insert: {
-          id?: string;
-          applicant_id?: string | null;
-          business_name?: string;
-          monthly_income?: number;
-          annual_revenue?: number;
-          existing_loan_amount?: number;
-          credit_score?: number;
-          requested_loan_amount?: number;
-          requested_loan_term_months?: number;
-          business_type?: string;
-          eligibility_score?: number;
-          is_eligible?: boolean;
-          ineligibility_reason?: string | null;
-          assessment_status?: string;
-          created_at?: string;
-        };
+          annual_revenue?: number | null
+          applicant_id?: string | null
+          assessment_status?: string | null
+          business_name?: string | null
+          business_type?: string | null
+          created_at?: string
+          credit_score?: number | null
+          eligibility_score?: number | null
+          existing_loan_amount?: number | null
+          id?: string
+          ineligibility_reason?: string | null
+          is_eligible?: boolean | null
+          monthly_income?: number | null
+          requested_loan_amount?: number | null
+          requested_loan_term_months?: number | null
+        }
         Update: {
-          id?: string;
-          applicant_id?: string | null;
-          business_name?: string;
-          monthly_income?: number;
-          annual_revenue?: number;
-          existing_loan_amount?: number;
-          credit_score?: number;
-          requested_loan_amount?: number;
-          requested_loan_term_months?: number;
-          business_type?: string;
-          eligibility_score?: number;
-          is_eligible?: boolean;
-          ineligibility_reason?: string | null;
-          assessment_status?: string;
-          created_at?: string;
-        };
+          annual_revenue?: number | null
+          applicant_id?: string | null
+          assessment_status?: string | null
+          business_name?: string | null
+          business_type?: string | null
+          created_at?: string
+          credit_score?: number | null
+          eligibility_score?: number | null
+          existing_loan_amount?: number | null
+          id?: string
+          ineligibility_reason?: string | null
+          is_eligible?: boolean | null
+          monthly_income?: number | null
+          requested_loan_amount?: number | null
+          requested_loan_term_months?: number | null
+        }
         Relationships: [
           {
-            foreignKeyName: "loan_eligibility_assessments_applicant_id_fkey";
-            columns: ["applicant_id"];
-            referencedRelation: "loan_applicants";
-            referencedColumns: ["id"];
-          }
-        ];
-      };
-      // Add any other tables from the generated type here
-      profiles: GeneratedDatabase['public']['Tables']['profiles'];
-      loan_applications: GeneratedDatabase['public']['Tables']['loan_applications'];
-    };
-    Views: GeneratedDatabase['public']['Views'];
-    Functions: GeneratedDatabase['public']['Functions'];
-    Enums: GeneratedDatabase['public']['Enums'];
-  };
+            foreignKeyName: "loan_eligibility_assessments_applicant_id_fkey"
+            columns: ["applicant_id"]
+            isOneToOne: false
+            referencedRelation: "loan_applicants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
+
+type DefaultSchema = Database[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {},
+  },
+} as const

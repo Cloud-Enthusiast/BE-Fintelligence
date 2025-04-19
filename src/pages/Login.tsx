@@ -2,18 +2,21 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase'; // Import supabase client
+import { useToast } from '@/hooks/use-toast'; // Import useToast
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { BuildingIcon, KeyIcon, MailIcon, UserIcon } from 'lucide-react';
+import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react'; // Import Loader2
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, loginWithOTP } = useAuth();
+  const { toast } = useToast(); // Initialize toast
   
   const from = (location.state as any)?.from;
   
@@ -39,9 +42,37 @@ const Login = () => {
     }
   };
   
-  const handleSendOTP = (e: React.FormEvent) => {
+  const handleSendOTP = async (e: React.FormEvent) => {
     e.preventDefault();
-    setOtpSent(true);
+    setIsLoading(true);
+    try {
+      // Request OTP from Supabase
+      const { error } = await supabase.auth.signInWithOtp({
+        email: otpUsername,
+        options: {
+          // shouldCreateUser: false, // Optional: prevent creating new users via OTP
+        }
+      });
+
+      if (error) throw error;
+
+      setOtpSent(true); // Move to OTP entry screen on success
+      toast({
+        title: "OTP Sent",
+        description: "Check your email for the one-time password.",
+      });
+
+    } catch (error: any) {
+      console.error("Send OTP error:", error);
+      toast({
+        variant: "destructive",
+        title: "Failed to Send OTP",
+        description: error.message || "Could not send OTP. Please check the email and try again.",
+      });
+      setOtpSent(false); // Stay on the email entry screen
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   const handleOTPLogin = async (e: React.FormEvent) => {
@@ -153,8 +184,9 @@ const Login = () => {
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full mt-6" type="submit">
-                      Send One-Time Password
+                    <Button className="w-full mt-6" type="submit" disabled={isLoading}>
+                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      {isLoading ? "Sending..." : "Send One-Time Password"}
                     </Button>
                   </form> : <form onSubmit={handleOTPLogin}>
                     <div className="space-y-4">
@@ -173,9 +205,10 @@ const Login = () => {
                       </div>
                     </div>
                     <Button className="w-full mt-6" type="submit" disabled={isLoading || otp.length !== 6}>
+                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isLoading ? "Verifying..." : "Verify & Sign In"}
                     </Button>
-                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => setOtpSent(false)}>
+                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => { setOtpSent(false); setOtp(''); /* Clear OTP on switch */ }}>
                       Try Another Method
                     </Button>
                   </form>}

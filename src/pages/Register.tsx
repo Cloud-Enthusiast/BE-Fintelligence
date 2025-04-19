@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { BuildingIcon, UserIcon, MailIcon, PhoneIcon, KeyIcon } from 'lucide-react';
+import { BuildingIcon, UserIcon, MailIcon, PhoneIcon, KeyIcon, Loader2 } from 'lucide-react'; // Added Loader2
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase'; // Import Supabase client
 
 const Register = () => {
   const navigate = useNavigate();
@@ -31,27 +32,62 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    // Validation
+    // Basic Validation
     if (formData.password !== formData.confirmPassword) {
-      toast({
+      return toast({
         variant: "destructive",
         title: "Passwords don't match",
         description: "Please make sure both passwords are the same",
       });
-      setIsLoading(false);
-      return;
+    }
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+       return toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill out all required fields.",
+      });
     }
 
-    // For demo purposes - simulate registration
-    setTimeout(() => {
-      toast({
-        title: "Registration successful",
-        description: "Please log in with your new account",
+    setIsLoading(true);
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+
+    try {
+      // Call Supabase signUp
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: fullName,
+            // We don't need to pass 'role' here, as the DB trigger defaults it to 'Applicant'
+            // phone: formData.phone // Optionally pass phone if you add it to user_profiles
+          }
+        }
       });
-      navigate('/login');
-    }, 1500);
+
+      if (error) {
+        throw error; // Throw error to be caught below
+      }
+
+      // Handle successful signup (Supabase often requires email confirmation)
+      toast({
+        title: "Registration Submitted",
+        description: "Please check your email for a confirmation link to activate your account.",
+      });
+      // Navigate to login or a confirmation pending page
+      navigate('/login'); 
+
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast({
+        variant: "destructive",
+        title: "Registration Failed",
+        description: error.message || "An unexpected error occurred. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -183,6 +219,7 @@ const Register = () => {
               </div>
 
               <Button className="w-full mt-6" type="submit" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isLoading ? "Creating Account..." : "Create Account"}
               </Button>
             </form>
