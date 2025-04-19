@@ -12,7 +12,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -44,16 +44,30 @@ const Layout = ({ children }: LayoutProps) => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
-                <NavItem icon={<ScaleIcon className="h-4 w-4" />} label="Eligibility" active />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-                  onClick={handleLogout}
-                >
-                  <LogOutIcon className="h-4 w-4" />
-                  <span>Logout</span>
-                </Button>
+                {user?.role === 'Loan Officer' ? (
+                  <>
+                    <NavItem icon={<ScaleIcon className="h-4 w-4" />} label="Eligibility" active />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+                      onClick={handleLogout}
+                    >
+                      <LogOutIcon className="h-4 w-4" />
+                      <span>Logout</span>
+                    </Button>
+                  </>
+                ) : user?.role === 'Applicant' ? (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="flex items-center gap-2"
+                    onClick={handleLogout}
+                  >
+                    <LogOutIcon className="h-4 w-4" />
+                    <span>Logout</span>
+                  </Button>
+                ) : null}
               </motion.nav>
             </div>
           </div>
@@ -98,3 +112,4 @@ const NavItem = ({ icon, label, active = false }: NavItemProps) => {
 };
 
 export default Layout;
+
