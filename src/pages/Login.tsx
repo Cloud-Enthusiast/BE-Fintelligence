@@ -2,23 +2,24 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase'; // Import supabase client
-import { useToast } from '@/hooks/use-toast'; // Import useToast
+import { supabase } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react'; // Import Loader2
+import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react';
 import LoanOfficerRegister from '@/components/LoanOfficerRegister';
+import AdminRegister from '@/components/AdminRegister';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login, loginWithOTP } = useAuth();
-  const { toast } = useToast(); // Initialize toast
-  
+  const { toast } = useToast();
+
   const from = (location.state as any)?.from;
   
   const [username, setUsername] = useState('');
@@ -47,17 +48,15 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Request OTP from Supabase
       const { error } = await supabase.auth.signInWithOtp({
         email: otpUsername,
         options: {
-          // shouldCreateUser: false, // Optional: prevent creating new users via OTP
         }
       });
 
       if (error) throw error;
 
-      setOtpSent(true); // Move to OTP entry screen on success
+      setOtpSent(true);
       toast({
         title: "OTP Sent",
         description: "Check your email for the one-time password.",
@@ -70,7 +69,7 @@ const Login = () => {
         title: "Failed to Send OTP",
         description: error.message || "Could not send OTP. Please check the email and try again.",
       });
-      setOtpSent(false); // Stay on the email entry screen
+      setOtpSent(false);
     } finally {
       setIsLoading(false);
     }
@@ -209,7 +208,7 @@ const Login = () => {
                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isLoading ? "Verifying..." : "Verify & Sign In"}
                     </Button>
-                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => { setOtpSent(false); setOtp(''); /* Clear OTP on switch */ }}>
+                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => { setOtpSent(false); setOtp(''); }}>
                       Try Another Method
                     </Button>
                   </form>}
@@ -217,6 +216,13 @@ const Login = () => {
             </Tabs>
           </CardContent>
           <CardFooter className="flex flex-col">
+            {loginType === 'officer' && (
+              <div className="flex justify-center gap-4 mt-4">
+                <LoanOfficerRegister />
+                <span className="text-muted-foreground">|</span>
+                <AdminRegister />
+              </div>
+            )}
             <div className="text-sm text-muted-foreground text-center mt-2">
               {loginType === 'officer' ? <span>Demo credentials: username: admin, password: admin</span> : <span>Demo credentials: username: user, password: user</span>}
             </div>
