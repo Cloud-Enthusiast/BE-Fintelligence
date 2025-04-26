@@ -189,63 +189,119 @@ export const useEligibilityForm = (onComplete?: () => void) => {
   };
 
   const handleSaveToDatabase = async () => {
-    if (!result) return;
-    
+    if (!result || !user?.id) {
+      toast({
+        title: "Error",
+        description: "User not logged in or eligibility not calculated.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSavingToDatabase(true);
-    
+    let applicantIdForAssessment: string | null = null;
+
     try {
-      // Save the assessment data to Supabase
-      try {
-        const assessmentData = {
-          applicant_id: user?.id || null, // Link to the logged-in user if available
-          business_name: formData.businessName,
-          monthly_income: formData.monthlyIncome,
-          annual_revenue: formData.annualRevenue,
-          existing_loan_amount: formData.existingLoanAmount,
-          credit_score: formData.creditScore,
-          requested_loan_amount: formData.loanAmount,
-          requested_loan_term_months: formData.loanTerm,
-          business_type: formData.businessType,
-          eligibility_score: result.score,
-          is_eligible: result.eligible,
-          ineligibility_reason: result.reason || null,
-          assessment_status: 'completed' // Mark assessment as completed
-        };
+      // Step 1: Check if applicant exists in 'loan_applicants' table
+      const { data: existingApplicant, error: fetchError } = await supabase
+        .from('loan_applicants')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle(); // Use maybeSingle to handle 0 or 1 result
 
-        // Insert the data into the loan_eligibility_assessments table
-        const { error } = await supabase
-          .from('loan_eligibility_assessments')
-          .insert(assessmentData);
-
-        if (error) {
-          console.error("Supabase error saving assessment:", error);
-          throw error; // Re-throw the error to be caught by the outer catch block
-        }
-
-        toast({
-          title: "Assessment Saved",
-          description: "Your eligibility assessment has been saved.",
-        });
-
-        // Call onComplete if provided (e.g., to navigate)
-        if (onComplete) {
-          onComplete();
-        }
-      } catch (error) {
-        // Log the error and show a generic failure message
-        console.error("Error saving assessment:", error);
-        toast({
-          title: "Save Failed",
-          description: "There was a problem saving your assessment. Please try again.",
-          variant: "destructive",
-        });
+      if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 means no rows found, which is okay here
+        console.error("Error fetching applicant:", fetchError);
+        throw new Error("Failed to check for existing applicant.");
       }
-    } catch (error) {
-      // This catch block is now primarily for handling errors from the try block above
-      // or potential future logic outside the Supabase call.
-      // The specific Supabase error handling is inside the inner try/catch.
+
+      // Step 2: If applicant doesn't exist, create them
+      if (!existingApplicant) {
+        console.log(`Applicant with ID ${user.id} not found in loan_applicants. Creating...`);
+        // Extract first/last name if possible from formData.fullName
+        const nameParts = formData.fullName.split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        const { data: newApplicant, error: createError } = await supabase
+          .from('loan_applicants')
+          .insert({
+            id: user.id, // Use the auth user ID
+            first_name: firstName,
+            last_name: lastName,
+            email: formData.email || user.username, // Use form email or auth email
+            phone_number: formData.phone || null,
+            // Add other relevant fields from formData if needed and available in loan_applicants table
+          })
+          .select('id') // Select the ID to confirm creation
+          .single(); // Expect a single result after creation
+
+        if (createError) {
+          console.error("Error creating applicant:", createError);
+          throw new Error("Failed to create applicant record.");
+        }
+        
+        if (!newApplicant) {
+           throw new Error("Applicant record creation did not return expected data.");
+        }
+        
+        console.log(`Applicant created successfully with ID: ${newApplicant.id}`);
+        applicantIdForAssessment = newApplicant.id;
+      } else {
+        console.log(`Existing applicant found with ID: ${existingApplicant.id}`);
+        applicantIdForAssessment = existingApplicant.id;
+      }
+
+      // Ensure we have an applicant ID before proceeding
+      if (!applicantIdForAssessment) {
+        throw new Error("Could not determine applicant ID for assessment.");
+      }
+
+      // Step 3: Insert the assessment data into 'Loan_applicants' table
+      const assessmentData = {
+        applicant_id: applicantIdForAssessment, // Use the verified/created ID
+        business_name: formData.businessName,
+        monthly_income: formData.monthlyIncome,
+        annual_revenue: formData.annualRevenue,
+        existing_loan_amount: formData.existingLoanAmount,
+        credit_score: formData.creditScore,
+        requested_loan_amount: formData.loanAmount,
+        requested_loan_term_months: formData.loanTerm,
+        business_type: formData.businessType,
+        eligibility_score: result.score,
+        is_eligible: result.eligible,
+        ineligibility_reason: result.reason || null,
+        assessment_status: 'completed'
+      };
+
+      const { error: insertAssessmentError } = await supabase
+        .from('Loan_applicants') // Uppercase L
+        .insert(assessmentData);
+
+      if (insertAssessmentError) {
+        console.error("Supabase error saving assessment:", insertAssessmentError);
+        // Provide more specific feedback based on the error if possible
+        if (insertAssessmentError.code === '23503') { // Foreign key violation (shouldn't happen now but good to check)
+           throw new Error(`Foreign key violation: ${insertAssessmentError.details || insertAssessmentError.message}`);
+        }
+        throw new Error(`Failed to save assessment: ${insertAssessmentError.message}`);
+      }
+
+      toast({
+        title: "Assessment Saved",
+        description: "Your eligibility assessment has been saved.",
+      });
+
+      if (onComplete) {
+        onComplete();
+      }
+
+    } catch (error: any) {
       console.error("Error during save process:", error);
-      // Ensure isSavingToDatabase is reset even if outer logic fails
+      toast({
+        title: "Save Failed",
+        description: error.message || "There was a problem saving your assessment. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsSavingToDatabase(false);
     }
