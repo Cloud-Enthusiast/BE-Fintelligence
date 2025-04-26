@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react'; // Import Loader2
+import LoanOfficerRegister from '@/components/LoanOfficerRegister';
 
 const Login = () => {
   const navigate = useNavigate();
