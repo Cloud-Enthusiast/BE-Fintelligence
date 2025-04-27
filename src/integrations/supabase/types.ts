@@ -42,7 +42,7 @@ export type Database = {
         }
         Relationships: []
       }
-      loan_eligibility_assessments: {
+      Loan_applicants: {
         Row: {
           annual_revenue: number | null
           applicant_id: string | null
@@ -103,6 +103,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {
