@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react';
 import LoanOfficerRegister from '@/components/LoanOfficerRegister';
-import AdminRegister from '@/components/AdminRegister';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -219,8 +218,6 @@ const Login = () => {
             {loginType === 'officer' && (
               <div className="flex justify-center gap-4 mt-4">
                 <LoanOfficerRegister />
-                <span className="text-muted-foreground">|</span>
-                <AdminRegister />
               </div>
             )}
             <div className="text-sm text-muted-foreground text-center mt-2">
