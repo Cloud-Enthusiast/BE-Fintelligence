@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { BuildingIcon, UserIcon, MailIcon, BriefcaseIcon, KeyIcon, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { supabase } from '@/lib/supabase'; // Import Supabase client
 
 const LoanOfficerRegister = () => {
   const navigate = useNavigate();
@@ -32,23 +33,62 @@ const LoanOfficerRegister = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Basic Validation
+    if (formData.password !== formData.confirmPassword) {
+      return toast({
+        variant: "destructive",
+        title: "Passwords don't match",
+        description: "Please make sure both passwords are the same",
+      });
+    }
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.designation) {
+       return toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill out all required fields.",
+      });
+    }
+
     setIsLoading(true);
+    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
     try {
-      // This is just a mock submission since we're not touching the backend
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      // Call Supabase signUp
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: fullName,
+            designation: formData.designation,
+            // Assuming a database trigger or backend function sets the 'Loan Officer' role
+            // based on data provided during signup or the registration method used.
+          }
+        }
+      });
+
+      if (error) {
+        throw error; // Throw error to be caught below
+      }
+
+      // Handle successful signup (Supabase often requires email confirmation)
       toast({
         title: "Registration Submitted",
-        description: "Your registration request has been submitted for review.",
+        description: "Please check your email for a confirmation link to activate the account.",
       });
-      
+      // Navigate to login or a confirmation pending page
+      // Close the dialog after successful submission
+      // Note: Closing the dialog might require managing dialog state outside this component
+      // or using a callback prop. For simplicity, we'll just navigate for now.
       navigate('/login');
-    } catch (error) {
+
+    } catch (error: any) {
+      console.error("Loan Officer Registration error:", error);
       toast({
         variant: "destructive",
         title: "Registration Failed",
-        description: "An error occurred during registration.",
+        description: error.message || "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
