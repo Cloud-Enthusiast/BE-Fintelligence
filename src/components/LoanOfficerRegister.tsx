@@ -72,6 +72,26 @@ const LoanOfficerRegister = () => {
         throw error; // Throw error to be caught below
       }
 
+      // Insert profile data into Officer_profile table
+      const { error: profileError } = await supabase
+        .from('Officer_profile')
+        .insert([
+          { 
+            id: data.user.id, // Use the user ID from auth.signUp
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            designation: formData.designation,
+            email: formData.email,
+            role: 'Loan Officer' // Set the role
+          }
+        ]);
+
+      if (profileError) {
+        console.error("Error inserting officer profile:", profileError);
+        // Optionally handle this error - maybe delete the auth user if profile insertion fails?
+        // For now, we'll just log and proceed, but the profile won't be complete.
+      }
+
       // Handle successful signup (Supabase often requires email confirmation)
       toast({
         title: "Registration Submitted",

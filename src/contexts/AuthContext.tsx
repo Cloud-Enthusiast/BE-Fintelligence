@@ -50,28 +50,53 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         try {
-          // Fetch profile from user_profiles using the session user's ID
-          const { data, error } = await supabase
-            .from('user_profiles') // Correct table name
+          // Fetch profile based on login type
+          let profileData = null;
+          let profileError = null;
+
+          // Check if the authenticated user exists in Officer_profile
+          const { data: officerProfile, error: officerError } = await supabase
+            .from('Officer_profile')
             .select('*')
-            .eq('id', session.user.id) // Correct column name (matches auth.users.id)
+            .eq('id', session.user.id)
             .single();
 
-          if (error && error.code !== 'PGRST116') { // Ignore 'PGRST116' (No rows found) if profile doesn't exist yet
-             console.error('Error fetching user profile during session check:', error);
-             // Decide if you want to throw or handle gracefully
-             // throw error; 
+          if (officerError && officerError.code !== 'PGRST116') {
+            console.error('Error fetching officer profile during session check:', officerError);
+            // Decide if you want to throw or handle gracefully
           }
 
-          if (data) {
+          if (officerProfile) {
+            profileData = officerProfile;
+            // Assuming 'role' is stored in Officer_profile now
+          } else {
+             // If not in Officer_profile, check user_profiles (for applicants)
+             const { data: applicantProfile, error: applicantError } = await supabase
+               .from('user_profiles')
+               .select('*')
+               .eq('id', session.user.id)
+               .single();
+
+             if (applicantError && applicantError.code !== 'PGRST116') {
+                console.error('Error fetching applicant profile during session check:', applicantError);
+                // Decide if you want to throw or handle gracefully
+             }
+             if (applicantProfile) {
+                profileData = applicantProfile;
+             }
+          }
+
+
+          if (profileData) {
             const userData: User = {
               username: session.user.email || '',
-              role: data.role as UserRole,
-              name: data.full_name || '',
+              // Fetch role from the appropriate profile data
+              role: (profileData as any).role as UserRole, // Cast to any to access role property dynamically
+              name: (profileData as any).full_name || (profileData as any).first_name + ' ' + (profileData as any).last_name || '', // Adjust name fetching based on table
               avatar: '/avatar-placeholder.png',
-              id: data.id
+              id: profileData.id
             };
-            
+
             setUser(userData);
             setIsAuthenticated(true);
             localStorage.setItem('user', JSON.stringify(userData));
@@ -96,17 +121,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       if (data.user) {
-        // Fetch user profile from user_profiles table
-        const { data: profileData, error: profileError } = await supabase
-          .from('user_profiles') // Correct table name
-          .select('*')
-          .eq('id', data.user.id) // Correct column name (matches auth.users.id)
-          .single();
+        // Fetch user profile based on login type
+        let profileData = null;
+        let profileError = null;
+
+        if (loginType === 'officer') {
+          const { data: officerProfile, error: officerError } = await supabase
+            .from('Officer_profile')
+            .select('*')
+            .eq('id', data.user.id)
+            .single();
+          profileData = officerProfile;
+          profileError = officerError;
+        } else { // loginType === 'applicant'
+          const { data: applicantProfile, error: applicantError } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('id', data.user.id)
+            .single();
+          profileData = applicantProfile;
+          profileError = applicantError;
+        }
 
         // Handle profile not found error specifically
-        if (profileError && profileError.code !== 'PGRST116') { 
+        if (profileError && profileError.code !== 'PGRST116') {
           console.error('Error fetching user profile during login:', profileError);
-          throw new Error('Could not retrieve user profile after login.'); 
+          throw new Error('Could not retrieve user profile after login.');
         }
         // If profileData is null/undefined (PGRST116 or other issue), handle it
         if (!profileData) {
@@ -115,7 +155,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
 
         // Check if the fetched role matches the loginType selected in the UI
-        const fetchedRole = (profileData?.role || 'Applicant') as UserRole;
+        const fetchedRole = (profileData as any)?.role as UserRole; // Cast to any to access role property
         if ((loginType === 'officer' && fetchedRole !== 'Loan Officer') || (loginType === 'applicant' && fetchedRole !== 'Applicant')) {
            throw new Error(`Incorrect login type selected for this user role.`);
         }
@@ -123,7 +163,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userData: User = {
           username: data.user.email || '',
           role: fetchedRole,
-          name: profileData?.full_name || '',
+          name: (profileData as any)?.full_name || (profileData as any)?.first_name + ' ' + (profileData as any)?.last_name || '', // Adjust name fetching based on table
           avatar: '/avatar-placeholder.png', // Keep placeholder or fetch from profile if available
           id: profileData.id // Use the fetched profile ID
         };
@@ -147,7 +187,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         description: error.message || "Invalid email or password, or incorrect login type selected.",
       });
     }
-    
+
     return false;
   };
 
@@ -163,18 +203,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       if (data.user) {
-        // Fetch user profile from user_profiles table
-        const { data: profileData, error: profileError } = await supabase
-          .from('user_profiles')
+        // Fetch user profile based on which table contains the user's profile
+        let profileData = null;
+        let profileError = null;
+
+        // Check Officer_profile first
+        const { data: officerProfile, error: officerError } = await supabase
+          .from('Officer_profile')
           .select('*')
           .eq('id', data.user.id)
           .single();
 
-        // Handle profile not found error specifically
-        if (profileError && profileError.code !== 'PGRST116') {
-          console.error('Error fetching user profile after OTP login:', profileError);
-          throw new Error('Could not retrieve user profile after OTP login.');
+        if (officerError && officerError.code !== 'PGRST116') {
+           console.error('Error fetching officer profile after OTP login:', officerError);
+           // Decide how to handle this error
         }
+
+        if (officerProfile) {
+           profileData = officerProfile;
+        } else {
+           // If not in Officer_profile, check user_profiles
+           const { data: applicantProfile, error: applicantError } = await supabase
+             .from('user_profiles')
+             .select('*')
+             .eq('id', data.user.id)
+             .single();
+
+           if (applicantError && applicantError.code !== 'PGRST116') {
+              console.error('Error fetching applicant profile after OTP login:', applicantError);
+              // Decide how to handle this error
+           }
+           if (applicantProfile) {
+              profileData = applicantProfile;
+           }
+        }
+
+
+        // Handle profile not found error specifically
         if (!profileData) {
            console.error('User profile not found for id:', data.user.id);
            throw new Error('User profile not found.');
@@ -183,12 +248,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         // Note: OTP login doesn't typically involve selecting a role type in the UI,
         // so we don't need the role check here like in password login.
         // We just use the role fetched from the profile.
-        const fetchedRole = profileData.role as UserRole;
+        const fetchedRole = (profileData as any).role as UserRole; // Cast to any to access role property
 
         const userData: User = {
           username: data.user.email || '',
           role: fetchedRole,
-          name: profileData.full_name || '',
+          name: (profileData as any).full_name || (profileData as any).first_name + ' ' + (profileData as any).last_name || '', // Adjust name fetching based on table
           avatar: '/avatar-placeholder.png',
           id: profileData.id
         };
@@ -212,7 +277,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         description: error.message || "Invalid email or OTP.",
       });
     }
-    
+
     return false;
   };
 
@@ -221,10 +286,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('user');
-    
+
     // Also sign out from Supabase
     await supabase.auth.signOut();
-    
+
     toast({
       title: "Logged out",
       description: "You have been logged out successfully",
