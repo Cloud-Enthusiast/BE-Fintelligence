@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      loan_applicants: {
+      customer_information: {
         Row: {
           address: string | null
           created_at: string
@@ -99,7 +99,7 @@ export type Database = {
             foreignKeyName: "loan_eligibility_assessments_applicant_id_fkey"
             columns: ["applicant_id"]
             isOneToOne: false
-            referencedRelation: "loan_applicants"
+            referencedRelation: "customer_information"
             referencedColumns: ["id"]
           },
         ]

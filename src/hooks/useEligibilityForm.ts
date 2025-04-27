@@ -204,7 +204,7 @@ export const useEligibilityForm = (onComplete?: () => void) => {
     try {
       // Step 1: Check if applicant exists in 'loan_applicants' table
       const { data: existingApplicant, error: fetchError } = await supabase
-        .from('loan_applicants')
+        .from('customer_information')
         .select('id')
         .eq('id', user.id)
         .maybeSingle(); // Use maybeSingle to handle 0 or 1 result
@@ -216,14 +216,14 @@ export const useEligibilityForm = (onComplete?: () => void) => {
 
       // Step 2: If applicant doesn't exist, create them
       if (!existingApplicant) {
-        console.log(`Applicant with ID ${user.id} not found in loan_applicants. Creating...`);
+        console.log(`Applicant with ID ${user.id} not found in customer_information. Creating...`);
         // Extract first/last name if possible from formData.fullName
         const nameParts = formData.fullName.split(' ');
         const firstName = nameParts[0] || '';
         const lastName = nameParts.slice(1).join(' ') || '';
 
         const { data: newApplicant, error: createError } = await supabase
-          .from('loan_applicants')
+          .from('customer_information')
           .insert({
             id: user.id, // Use the auth user ID
             first_name: firstName,
