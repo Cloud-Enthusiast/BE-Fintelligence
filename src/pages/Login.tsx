@@ -9,10 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2, ArrowLeft } from 'lucide-react';
-import LoanOfficerRegister from '@/components/LoanOfficerRegister';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,6 +28,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [loginType, setLoginType] = useState<'officer' | 'applicant'>(defaultTab as 'officer' | 'applicant');
+  const [showOTPMethod, setShowOTPMethod] = useState(false);
   
   // Set the login type when the defaultTab changes
   useEffect(() => {
@@ -96,16 +95,36 @@ const Login = () => {
     }
   };
   
-  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-finance-50 via-finance-100 to-blue-100 p-4">
-      <motion.div initial={{
-      opacity: 0,
-      y: 10
-    }} animate={{
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.5,
+        ease: "easeOut" 
+      }
+    }
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
       opacity: 1,
-      y: 0
-    }} transition={{
-      duration: 0.5
-    }} className="w-full max-w-md">
+      transition: {
+        delay: 0.2,
+        duration: 0.4
+      }
+    }
+  };
+
+  return <div className="min-h-screen flex items-center justify-center bg-gradient-app p-4">
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={cardVariants}
+        className="w-full max-w-md"
+      >
         <div className="flex items-center mb-6">
           <Button
             variant="ghost"
@@ -124,13 +143,13 @@ const Login = () => {
               <BuildingIcon className="h-8 w-8 text-white" />
             </div>
           </div>
-          <h1 className="text-finance-900 text-2xl font-bold text-center">BE Fintelligence</h1>
+          <h1 className="text-finance-900 text-2xl font-bold text-center">BE Finance</h1>
           <p className="text-finance-600 text-lg">Your partner in funding dreams</p>
         </div>
 
-        <Card className="border-none shadow-xl bg-white/90 backdrop-blur-sm">
-          <CardHeader className="space-y-1 bg-gradient-to-r from-finance-50 to-blue-50 rounded-t-lg border-b border-finance-100">
-            <CardTitle className="text-2xl text-center text-finance-800">
+        <Card className="border-none shadow-xl bg-white/90 backdrop-blur-sm overflow-hidden card-shine">
+          <CardHeader className="space-y-1 bg-gradient-to-r from-finance-50 to-finance-100/70 rounded-t-lg border-b border-finance-100">
+            <CardTitle className="text-2xl text-center text-finance-900">
               {loginType === 'officer' ? 'Loan Officer Login' : 'Applicant Login'}
             </CardTitle>
             <CardDescription className="text-center text-finance-600">
@@ -138,13 +157,12 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
-            <Tabs defaultValue="password" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="password">Password</TabsTrigger>
-                <TabsTrigger value="otp">OTP</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="password">
+            <motion.div
+              variants={formVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {!showOTPMethod ? (
                 <form onSubmit={handlePasswordLogin}>
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -167,7 +185,7 @@ const Login = () => {
                       </div>
                     </div>
                   </div>
-                  <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading}>
+                  <Button className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white" type="submit" disabled={isLoading}>
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -184,56 +202,60 @@ const Login = () => {
                         </Button>
                       </p>
                     </div>}
+                    
+                  <div className="mt-4 text-center">
+                    <Button variant="link" className="text-sm text-finance-500 hover:text-finance-700" onClick={() => setShowOTPMethod(true)}>
+                      Login with One-Time Password
+                    </Button>
+                  </div>
                 </form>
-              </TabsContent>
-
-              <TabsContent value="otp">
-                {!otpSent ? <form onSubmit={handleSendOTP}>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="otpUsername">Email Address</Label>
-                        <div className="relative">
-                          <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
-                          <Input id="otpUsername" type="email" placeholder="your.email@example.com" value={otpUsername} onChange={e => setOtpUsername(e.target.value)} className="pl-10 border-finance-200 focus:border-finance-500" required />
-                        </div>
+              ) : !otpSent ? (
+                <form onSubmit={handleSendOTP}>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="otpUsername">Email Address</Label>
+                      <div className="relative">
+                        <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                        <Input id="otpUsername" type="email" placeholder="your.email@example.com" value={otpUsername} onChange={e => setOtpUsername(e.target.value)} className="pl-10 border-finance-200 focus:border-finance-500" required />
                       </div>
                     </div>
-                    <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading}>
-                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      {isLoading ? "Sending..." : "Send One-Time Password"}
-                    </Button>
-                  </form> : <form onSubmit={handleOTPLogin}>
-                    <div className="space-y-4">
-                      <div className="space-y-2 text-center">
-                        <Label htmlFor="otp">Enter One-Time Password</Label>
-                        <p className="text-sm text-finance-600 mb-4">
-                          We've sent a 6-digit code to your email
-                        </p>
-                        <div className="flex justify-center">
-                          <InputOTP maxLength={6} value={otp} onChange={setOtp} render={({
-                        slots
-                      }) => <InputOTPGroup>
-                                {slots.map((slot, index) => <InputOTPSlot key={index} {...slot} index={index} />)}
-                              </InputOTPGroup>} />
-                        </div>
+                  </div>
+                  <Button className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white" type="submit" disabled={isLoading}>
+                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isLoading ? "Sending..." : "Send One-Time Password"}
+                  </Button>
+                  <Button variant="ghost" type="button" className="w-full mt-2 text-finance-600 hover:bg-finance-50" onClick={() => setShowOTPMethod(false)}>
+                    Back to Password Login
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleOTPLogin}>
+                  <div className="space-y-4">
+                    <div className="space-y-2 text-center">
+                      <Label htmlFor="otp">Enter One-Time Password</Label>
+                      <p className="text-sm text-finance-600 mb-4">
+                        We've sent a 6-digit code to your email
+                      </p>
+                      <div className="flex justify-center">
+                        <InputOTP maxLength={6} value={otp} onChange={setOtp} render={({
+                      slots
+                    }) => <InputOTPGroup>
+                              {slots.map((slot, index) => <InputOTPSlot key={index} {...slot} index={index} />)}
+                            </InputOTPGroup>} />
                       </div>
                     </div>
-                    <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading || otp.length !== 6}>
-                       {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      {isLoading ? "Verifying..." : "Verify & Sign In"}
-                    </Button>
-                    <Button variant="ghost" type="button" className="w-full mt-2 text-finance-600 hover:bg-finance-50" onClick={() => { setOtpSent(false); setOtp(''); }}>
-                      Try Another Method
-                    </Button>
-                  </form>}
-              </TabsContent>
-            </Tabs>
+                  </div>
+                  <Button className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white" type="submit" disabled={isLoading || otp.length !== 6}>
+                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isLoading ? "Verifying..." : "Verify & Sign In"}
+                  </Button>
+                  <Button variant="ghost" type="button" className="w-full mt-2 text-finance-600 hover:bg-finance-50" onClick={() => { setOtpSent(false); setOtp(''); setShowOTPMethod(false); }}>
+                    Try Another Method
+                  </Button>
+                </form>
+              )}
+            </motion.div>
           </CardContent>
-          <CardFooter className="flex flex-col">
-            {loginType === 'officer' && (
-              <LoanOfficerRegister />
-            )}
-          </CardFooter>
         </Card>
       </motion.div>
     </div>;

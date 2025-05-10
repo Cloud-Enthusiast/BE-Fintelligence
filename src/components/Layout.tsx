@@ -1,3 +1,4 @@
+
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { ScaleIcon, LogOutIcon, BuildingIcon } from 'lucide-react';
@@ -21,13 +22,13 @@ const Layout = ({ children }: LayoutProps) => {
   const isLoanOfficer = user?.role === 'Loan Officer';
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
+    <div className="flex flex-col min-h-screen bg-gradient-app">
       <header className="sticky top-0 z-50">
-        <div className="glass-effect border-b border-gray-200/50 backdrop-blur-lg">
+        <div className="glass-effect border-b border-finance-200/50 backdrop-blur-lg">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <motion.div className="flex items-center gap-2" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                <div className="bg-finance-600 rounded-lg p-1.5">
+                <div className="bg-finance-500 rounded-lg p-1.5">
                   <BuildingIcon className="h-5 w-5 text-white" />
                 </div>
                 <span className="text-xl font-semibold text-finance-950">BE Finance</span>

@@ -64,17 +64,30 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				finance: {
-					50: '#f4f7fb',
-					100: '#e9eef6',
-					200: '#cedcea',
-					300: '#a3bcda',
-					400: '#7398c7',
-					500: '#4f79b3',
-					600: '#3c6096',
-					700: '#324d7a',
-					800: '#2b4066',
-					900: '#273756',
-					950: '#1a2338',
+					50: '#f0f7fe',
+					100: '#e0f2fe',
+					200: '#bae2fd',
+					300: '#7ccbfd',
+					400: '#36aff9',
+					500: '#0070F3', // Primary: Vibrant Blue
+					600: '#0263d1',
+					700: '#0351ab',
+					800: '#04438c',
+					900: '#093974',
+					950: '#061f43',
+				},
+				gold: {
+					50: '#fffbeb',
+					100: '#fff4c6',
+					200: '#fee989',
+					300: '#FFC658', // Secondary: Warm Gold
+					400: '#fdbc2a',
+					500: '#f79e09',
+					600: '#db7805',
+					700: '#b35309',
+					800: '#934011',
+					900: '#7a3612',
+					950: '#461a03',
 				}
 			},
 			borderRadius: {
@@ -110,6 +123,10 @@ export default {
 				'scale-in': {
 					'0%': { opacity: '0', transform: 'scale(0.97)' },
 					'100%': { opacity: '1', transform: 'scale(1)' }
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-500px 0' },
+					'100%': { backgroundPosition: '500px 0' }
 				}
 			},
 			animation: {
@@ -117,10 +134,14 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-up': 'fade-up 0.4s ease-out',
-				'scale-in': 'scale-in 0.3s ease-out'
+				'scale-in': 'scale-in 0.3s ease-out',
+				'shimmer': 'shimmer 2s infinite linear'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif']
+			},
+			backgroundImage: {
+				'gradient-app': 'linear-gradient(to bottom, #f8fafc, #e0f2fe)',
 			}
 		}
 	},
