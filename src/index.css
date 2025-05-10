@@ -64,7 +64,7 @@
   }
   
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-md border border-white/20;
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-md;
   }
   
   .page-transition-enter {
@@ -87,6 +87,24 @@
     @apply transition-all duration-200 ease-in-out;
   }
   
+  /* Custom animations */
+  .hover-scale {
+    @apply transition-transform duration-200;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+  
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
@@ -98,6 +116,6 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 hover:bg-gray-400 rounded-full transition-colors;
+    @apply bg-finance-300 hover:bg-finance-400 rounded-full transition-colors;
   }
 }

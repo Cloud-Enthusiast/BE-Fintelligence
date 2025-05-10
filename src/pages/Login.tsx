@@ -96,7 +96,7 @@ const Login = () => {
     }
   };
   
-  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-blue-50 p-4">
+  return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-finance-50 via-finance-100 to-blue-100 p-4">
       <motion.div initial={{
       opacity: 0,
       y: 10
@@ -110,7 +110,7 @@ const Login = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="mr-2"
+            className="mr-2 bg-white/50 backdrop-blur-sm hover:bg-white/70"
             onClick={() => navigate('/')}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -120,7 +120,7 @@ const Login = () => {
         
         <div className="text-center mb-8">
           <div className="flex justify-center mb-2">
-            <div className="bg-finance-600 rounded-lg p-2 shadow-lg">
+            <div className="bg-finance-500 rounded-lg p-2 shadow-lg">
               <BuildingIcon className="h-8 w-8 text-white" />
             </div>
           </div>
@@ -128,27 +128,16 @@ const Login = () => {
           <p className="text-finance-600 text-lg">Your partner in funding dreams</p>
         </div>
 
-        <Tabs defaultValue={loginType} value={loginType} onValueChange={(value) => setLoginType(value as 'officer' | 'applicant')} className="w-full mb-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="officer">
-              Loan Officer
-            </TabsTrigger>
-            <TabsTrigger value="applicant">
-              Loan Applicant
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-
-        <Card className="border-none shadow-lg">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">
-              {loginType === 'officer' ? 'Officer Login' : 'Applicant Login'}
+        <Card className="border-none shadow-xl bg-white/90 backdrop-blur-sm">
+          <CardHeader className="space-y-1 bg-gradient-to-r from-finance-50 to-blue-50 rounded-t-lg border-b border-finance-100">
+            <CardTitle className="text-2xl text-center text-finance-800">
+              {loginType === 'officer' ? 'Loan Officer Login' : 'Applicant Login'}
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription className="text-center text-finance-600">
               Enter your credentials to access your account
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <Tabs defaultValue="password" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8">
                 <TabsTrigger value="password">Password</TabsTrigger>
@@ -161,31 +150,36 @@ const Login = () => {
                     <div className="space-y-2">
                       <Label htmlFor="username">Username</Label>
                       <div className="relative">
-                        <UserIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                        <Input id="username" type="text" placeholder={loginType === 'officer' ? 'admin' : 'username'} value={username} onChange={e => setUsername(e.target.value)} className="pl-10" required />
+                        <UserIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                        <Input id="username" type="text" placeholder="Enter your username" value={username} onChange={e => setUsername(e.target.value)} className="pl-10 border-finance-200 focus:border-finance-500" required />
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <Label htmlFor="password">Password</Label>
-                        <a href="#" className="text-sm text-finance-600 hover:text-finance-800">
+                        <a href="#" className="text-sm text-finance-500 hover:text-finance-700 transition-colors">
                           Forgot password?
                         </a>
                       </div>
                       <div className="relative">
-                        <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                        <Input id="password" type="password" placeholder="••••••" value={password} onChange={e => setPassword(e.target.value)} className="pl-10" required />
+                        <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                        <Input id="password" type="password" placeholder="••••••" value={password} onChange={e => setPassword(e.target.value)} className="pl-10 border-finance-200 focus:border-finance-500" required />
                       </div>
                     </div>
                   </div>
-                  <Button className="w-full mt-6" type="submit" disabled={isLoading}>
-                    {isLoading ? "Signing In..." : "Sign In"}
+                  <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Signing In...
+                      </>
+                    ) : "Sign In"}
                   </Button>
                   
                   {loginType === 'applicant' && <div className="mt-4 text-center">
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-finance-600">
                         Don't have an account?{' '}
-                        <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/register')}>
+                        <Button variant="link" className="p-0 h-auto text-finance-500 hover:text-finance-700" onClick={() => navigate('/register')}>
                           Register
                         </Button>
                       </p>
@@ -197,14 +191,14 @@ const Login = () => {
                 {!otpSent ? <form onSubmit={handleSendOTP}>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="otpUsername">Username or Email</Label>
+                        <Label htmlFor="otpUsername">Email Address</Label>
                         <div className="relative">
-                          <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input id="otpUsername" type="text" placeholder={loginType === 'officer' ? 'admin' : 'username@example.com'} value={otpUsername} onChange={e => setOtpUsername(e.target.value)} className="pl-10" required />
+                          <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                          <Input id="otpUsername" type="email" placeholder="your.email@example.com" value={otpUsername} onChange={e => setOtpUsername(e.target.value)} className="pl-10 border-finance-200 focus:border-finance-500" required />
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full mt-6" type="submit" disabled={isLoading}>
+                    <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading}>
                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isLoading ? "Sending..." : "Send One-Time Password"}
                     </Button>
@@ -212,7 +206,7 @@ const Login = () => {
                     <div className="space-y-4">
                       <div className="space-y-2 text-center">
                         <Label htmlFor="otp">Enter One-Time Password</Label>
-                        <p className="text-sm text-muted-foreground mb-4">
+                        <p className="text-sm text-finance-600 mb-4">
                           We've sent a 6-digit code to your email
                         </p>
                         <div className="flex justify-center">
@@ -224,11 +218,11 @@ const Login = () => {
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full mt-6" type="submit" disabled={isLoading || otp.length !== 6}>
+                    <Button className="w-full mt-6 bg-finance-600 hover:bg-finance-700 text-white" type="submit" disabled={isLoading || otp.length !== 6}>
                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                       {isLoading ? "Verifying..." : "Verify & Sign In"}
                     </Button>
-                    <Button variant="ghost" type="button" className="w-full mt-2" onClick={() => { setOtpSent(false); setOtp(''); }}>
+                    <Button variant="ghost" type="button" className="w-full mt-2 text-finance-600 hover:bg-finance-50" onClick={() => { setOtpSent(false); setOtp(''); }}>
                       Try Another Method
                     </Button>
                   </form>}
@@ -239,9 +233,6 @@ const Login = () => {
             {loginType === 'officer' && (
               <LoanOfficerRegister />
             )}
-            <div className="text-sm text-muted-foreground text-center mt-2">
-              {loginType === 'officer' ? <span>Demo credentials: username: admin, password: admin</span> : <span>Demo credentials: username: user, password: user</span>}
-            </div>
           </CardFooter>
         </Card>
       </motion.div>
