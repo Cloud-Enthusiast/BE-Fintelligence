@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
@@ -10,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2 } from 'lucide-react';
+import { BuildingIcon, KeyIcon, MailIcon, UserIcon, Loader2, ArrowLeft } from 'lucide-react';
 import LoanOfficerRegister from '@/components/LoanOfficerRegister';
 
 const Login = () => {
@@ -20,6 +21,7 @@ const Login = () => {
   const { toast } = useToast();
 
   const from = (location.state as any)?.from;
+  const defaultTab = (location.state as any)?.defaultTab || 'officer';
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,8 +29,15 @@ const Login = () => {
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
-  const [loginType, setLoginType] = useState<'officer' | 'applicant'>('officer');
+  const [loginType, setLoginType] = useState<'officer' | 'applicant'>(defaultTab as 'officer' | 'applicant');
   
+  // Set the login type when the defaultTab changes
+  useEffect(() => {
+    if (defaultTab) {
+      setLoginType(defaultTab as 'officer' | 'applicant');
+    }
+  }, [defaultTab]);
+
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -97,6 +106,18 @@ const Login = () => {
     }} transition={{
       duration: 0.5
     }} className="w-full max-w-md">
+        <div className="flex items-center mb-6">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mr-2"
+            onClick={() => navigate('/')}
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        </div>
+        
         <div className="text-center mb-8">
           <div className="flex justify-center mb-2">
             <div className="bg-finance-600 rounded-lg p-2 shadow-lg">
@@ -107,12 +128,12 @@ const Login = () => {
           <p className="text-finance-600 text-lg">Your partner in funding dreams</p>
         </div>
 
-        <Tabs defaultValue="officer" className="w-full mb-6">
+        <Tabs defaultValue={loginType} value={loginType} onValueChange={(value) => setLoginType(value as 'officer' | 'applicant')} className="w-full mb-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="officer" onClick={() => setLoginType('officer')}>
+            <TabsTrigger value="officer">
               Loan Officer
             </TabsTrigger>
-            <TabsTrigger value="applicant" onClick={() => setLoginType('applicant')}>
+            <TabsTrigger value="applicant">
               Loan Applicant
             </TabsTrigger>
           </TabsList>
@@ -216,9 +237,7 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex flex-col">
             {loginType === 'officer' && (
-              <div className="flex justify-center gap-4 mt-4">
-                <LoanOfficerRegister />
-              </div>
+              <LoanOfficerRegister />
             )}
             <div className="text-sm text-muted-foreground text-center mt-2">
               {loginType === 'officer' ? <span>Demo credentials: username: admin, password: admin</span> : <span>Demo credentials: username: user, password: user</span>}

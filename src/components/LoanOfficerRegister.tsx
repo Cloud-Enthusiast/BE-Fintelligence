@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { BuildingIcon, UserIcon, MailIcon, BriefcaseIcon, KeyIcon, Loader2 } from 'lucide-react';
+import { UserIcon, MailIcon, BriefcaseIcon, KeyIcon, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from '@/lib/supabase'; // Import Supabase client
@@ -118,7 +118,7 @@ const LoanOfficerRegister = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="link" className="p-0 h-auto">
+        <Button variant="outline" className="w-full" size="lg">
           Register as Loan Officer
         </Button>
       </DialogTrigger>
