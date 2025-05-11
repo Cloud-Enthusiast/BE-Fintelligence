@@ -88,6 +88,19 @@ export default {
 					800: '#934011',
 					900: '#7a3612',
 					950: '#461a03',
+				},
+				purple: {
+					50: '#f6f2ff',
+					100: '#ede6ff',
+					200: '#daccff',
+					300: '#c4a8ff',
+					400: '#ab7cff',
+					500: '#9b87f5', // Primary: Rich Purple
+					600: '#7e69ab',
+					700: '#6a4695',
+					800: '#553878',
+					900: '#402b59',
+					950: '#2c1a45',
 				}
 			},
 			borderRadius: {
@@ -127,6 +140,21 @@ export default {
 				'shimmer': {
 					'0%': { backgroundPosition: '-500px 0' },
 					'100%': { backgroundPosition: '500px 0' }
+				},
+				'float': {
+					'0%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' },
+					'100%': { transform: 'translateY(0)' }
+				},
+				'pulse-gold': {
+					'0%': { boxShadow: '0 0 0 0 rgba(255, 198, 88, 0.4)' },
+					'70%': { boxShadow: '0 0 0 10px rgba(255, 198, 88, 0)' },
+					'100%': { boxShadow: '0 0 0 0 rgba(255, 198, 88, 0)' }
+				},
+				'pulse-purple': {
+					'0%': { boxShadow: '0 0 0 0 rgba(155, 135, 245, 0.4)' },
+					'70%': { boxShadow: '0 0 0 10px rgba(155, 135, 245, 0)' },
+					'100%': { boxShadow: '0 0 0 0 rgba(155, 135, 245, 0)' }
 				}
 			},
 			animation: {
@@ -135,13 +163,19 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'fade-up': 'fade-up 0.4s ease-out',
 				'scale-in': 'scale-in 0.3s ease-out',
-				'shimmer': 'shimmer 2s infinite linear'
+				'shimmer': 'shimmer 2s infinite linear',
+				'float': 'float 3s ease-in-out infinite',
+				'pulse-gold': 'pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'pulse-purple': 'pulse-purple 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif']
 			},
 			backgroundImage: {
-				'gradient-app': 'linear-gradient(to bottom, #f8fafc, #e0f2fe)',
+				'gradient-app': 'linear-gradient(to bottom, #f8f4ff, #f2ebff)',
+				'gradient-gold': 'linear-gradient(to right, #FFC658, #FFEDBD, #FFC658)',
+				'gradient-purple': 'linear-gradient(to right, #9b87f5, #c4a8ff, #9b87f5)',
+				'gradient-purple-gold': 'linear-gradient(to right, #9b87f5, #FFC658)'
 			}
 		}
 	},
