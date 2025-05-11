@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { BuildingIcon, UserIcon } from 'lucide-react';
+import LoanOfficerRegister from '@/components/LoanOfficerRegister';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -52,13 +53,16 @@ const Landing = () => {
                 </div>
                 <h2 className="text-2xl font-bold mb-2 text-finance-900">Loan Officer</h2>
                 <p className="text-gray-600 mb-6">Access the dashboard to review and manage loan applications</p>
-                <Button 
-                  className="w-full mt-auto bg-finance-500 hover:bg-finance-600 text-white" 
-                  size="lg"
-                  onClick={() => navigate('/login', { state: { defaultTab: 'officer' }})}
-                >
-                  Login as Loan Officer
-                </Button>
+                <div className="w-full mt-auto grid gap-4">
+                  <Button 
+                    className="w-full mt-auto bg-finance-500 hover:bg-finance-600 text-white" 
+                    size="lg"
+                    onClick={() => navigate('/login', { state: { defaultTab: 'officer' }})}
+                  >
+                    Login as Loan Officer
+                  </Button>
+                  <LoanOfficerRegister />
+                </div>
               </CardContent>
             </Card>
           </motion.div>

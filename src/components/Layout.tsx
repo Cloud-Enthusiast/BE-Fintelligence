@@ -55,7 +55,12 @@ const Layout = ({ children }: LayoutProps) => {
       </header>
 
       <main className="flex-grow container mx-auto px-4 py-8 relative">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="w-full">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.4 }} 
+          className="w-full"
+        >
           {children}
         </motion.div>
       </main>
