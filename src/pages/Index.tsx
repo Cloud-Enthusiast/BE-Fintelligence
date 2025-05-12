@@ -50,7 +50,7 @@ const Index = () => {
               scale: { duration: 8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
             }}
           >
-            <Hexagon className="h-20 w-20 text-gold-400/30" />
+            <Hexagon className="h-20 w-20 text-purple-400/30" />
           </motion.div>
           
           <motion.div 
@@ -66,7 +66,7 @@ const Index = () => {
               ease: "easeInOut" 
             }}
           >
-            <Star className="h-12 w-12 text-gold-300/40" />
+            <Star className="h-12 w-12 text-purple-300/40" />
           </motion.div>
           
           {/* Abstract line drawings */}
@@ -84,7 +84,7 @@ const Index = () => {
           <svg className="absolute right-40 top-60 h-64 w-64 -z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <motion.path 
               d="M10,30 Q50,10 50,50 Q50,90 90,70" 
-              stroke="rgba(255, 198, 88, 0.2)" 
+              stroke="rgba(155, 135, 245, 0.2)" 
               strokeWidth="1"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
@@ -98,12 +98,12 @@ const Index = () => {
           <div className="absolute h-[1px] w-60 bg-gradient-to-r from-purple-500/30 to-transparent transform rotate-45"></div>
         </div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40">
-          <div className="absolute h-[1px] w-60 bg-gradient-to-l from-gold-300/40 to-transparent transform rotate-45"></div>
+          <div className="absolute h-[1px] w-60 bg-gradient-to-l from-purple-500/40 to-transparent transform rotate-45"></div>
         </div>
         
         {/* Premium corner embellishments */}
         <div className="absolute -top-4 -left-4 w-28 h-28 border-l-2 border-t-2 border-purple-400/50 rounded-tl-xl"></div>
-        <div className="absolute -bottom-4 -right-4 w-28 h-28 border-r-2 border-b-2 border-gold-300/70 rounded-br-xl"></div>
+        <div className="absolute -bottom-4 -right-4 w-28 h-28 border-r-2 border-b-2 border-purple-300/70 rounded-br-xl"></div>
         
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -112,19 +112,19 @@ const Index = () => {
           className="text-center space-y-8"
         >
           <div className="inline-block mb-2 relative">
-            <Badge variant="secondary" className="px-6 py-1.5 text-base bg-gradient-to-r from-purple-500/90 to-purple-600 text-white border-2 border-gold-200/50 shadow-lg">
+            <Badge variant="secondary" className="px-6 py-1.5 text-base bg-gradient-to-r from-purple-500/90 to-purple-600 text-white">
               <span className="mr-2">✦</span> Premium Finance <span className="ml-2">✦</span>
             </Badge>
-            <div className="absolute -bottom-1 -left-1 -right-1 h-[3px] bg-gradient-to-r from-transparent via-gold-300 to-transparent"></div>
+            <div className="absolute -bottom-1 -left-1 -right-1 h-[3px] bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-purple-900 relative inline-block">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-purple-900 to-purple-800">
               Commercial Loan Eligibility
             </span>
-            <div className="absolute -bottom-3 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-gold-300 to-transparent"></div>
+            <div className="absolute -bottom-3 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
             <motion.span 
-              className="absolute -top-6 right-0 text-gold-400"
+              className="absolute -top-6 right-0 text-purple-400"
               animate={{ 
                 y: [0, -5, 0],
                 scale: [1, 1.2, 1],
@@ -141,7 +141,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-purple-700 max-w-3xl mx-auto leading-relaxed">
-            Welcome, <span className="font-semibold text-purple-900 border-b-2 border-gold-300/70">{user?.name || 'Valued Client'}</span>! 
+            Welcome, <span className="font-semibold text-purple-900 border-b-2 border-purple-300">{user?.name || 'Valued Client'}</span>! 
             Discover if your business qualifies for our exclusive commercial loan products.
           </p>
           
@@ -154,7 +154,7 @@ const Index = () => {
               <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
             <Button 
-              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-b-4 border-gold-300 px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
+              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-b-4 border-purple-800 px-8 py-6 text-lg shadow-xl hover:shadow-2xl transition-all"
             >
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -198,17 +198,17 @@ const Index = () => {
           <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-[200px] h-[1px] bg-gradient-to-r from-transparent via-purple-300 to-transparent"></div>
           
           {/* Eligibility form header */}
-          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-100 to-purple-50 px-8 py-3 rounded-full border-2 border-gold-300 shadow-lg z-10">
+          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-100 to-purple-50 px-8 py-3 rounded-full border-2 border-purple-200 shadow-lg z-10">
             <span className="text-purple-900 font-bold flex items-center text-lg">
-              <span className="w-2 h-2 bg-gold-300 rounded-full mr-3"></span>
+              <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
               Eligibility Check
-              <span className="w-2 h-2 bg-gold-300 rounded-full ml-3"></span>
+              <span className="w-2 h-2 bg-purple-400 rounded-full ml-3"></span>
             </span>
           </div>
           
           <Card className="overflow-hidden border-0 shadow-2xl">
-            {/* Gold accent top border */}
-            <div className="h-1.5 w-full bg-gradient-to-r from-gold-300 via-gold-400 to-gold-300"></div>
+            {/* Purple accent top border */}
+            <div className="h-1.5 w-full bg-gradient-to-r from-purple-400 via-purple-500 to-purple-400"></div>
             
             <CardContent className="p-0">
               <div className="bg-gradient-to-b from-purple-50 to-white p-10 rounded-b-xl">
@@ -217,8 +217,8 @@ const Index = () => {
             </CardContent>
           </Card>
           
-          {/* Gold corner accents */}
-          <div className="absolute -bottom-3 -right-3 w-16 h-16 border-r-4 border-b-4 border-gold-300/50 rounded-br-xl z-10"></div>
+          {/* Purple corner accents */}
+          <div className="absolute -bottom-3 -right-3 w-16 h-16 border-r-4 border-b-4 border-purple-300/50 rounded-br-xl z-10"></div>
           <div className="absolute -bottom-3 -left-3 w-16 h-16 border-l-4 border-b-4 border-purple-400/30 rounded-bl-xl z-10"></div>
         </motion.div>
       </div>
@@ -232,13 +232,13 @@ const PremiumFeatureCard = ({ icon, title, description, highlight = false }) => 
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
       className={`relative overflow-hidden rounded-xl ${
         highlight 
-          ? 'bg-gradient-to-br from-purple-50 to-white border border-gold-200' 
+          ? 'bg-gradient-to-br from-purple-50 to-white border border-purple-200' 
           : 'bg-white/90 backdrop-blur-sm border border-purple-100'
       } shadow-lg hover:shadow-xl transition-all duration-300 p-8 group`}
     >
-      {/* Gold corner accent */}
+      {/* Purple corner accent */}
       <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-10 h-10 bg-gold-300/60 rotate-45 transform origin-bottom-left"></div>
+        <div className="absolute top-0 right-0 w-10 h-10 bg-purple-300/60 rotate-45 transform origin-bottom-left"></div>
       </div>
       
       <div className={`rounded-full w-16 h-16 flex items-center justify-center mb-6 ${
@@ -253,7 +253,7 @@ const PremiumFeatureCard = ({ icon, title, description, highlight = false }) => 
         {title}
         {highlight && (
           <span className="ml-2">
-            <div className="w-2 h-2 rounded-full bg-gold-400 animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>
           </span>
         )}
       </h3>
@@ -262,9 +262,9 @@ const PremiumFeatureCard = ({ icon, title, description, highlight = false }) => 
         {description}
       </p>
       
-      {/* Gold accent line */}
+      {/* Purple accent line */}
       {highlight && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-300 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
       )}
     </motion.div>
   )
