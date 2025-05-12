@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
 import EligibilityForm from '@/components/EligibilityForm';
 import { useAuth } from '@/contexts/AuthContext';
-import { Sparkles, TrendingUp, ShieldCheck, ChevronRight, ArrowRight, Hexagon, Star, Spiral } from 'lucide-react';
+import { Sparkles, TrendingUp, ShieldCheck, ChevronRight, ArrowRight, Hexagon, Star, CircleDashed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -36,7 +36,7 @@ const Index = () => {
               y: { duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
             }}
           >
-            <Spiral className="h-16 w-16 text-purple-300/40" />
+            <CircleDashed className="h-16 w-16 text-purple-300/40" />
           </motion.div>
           
           <motion.div 
