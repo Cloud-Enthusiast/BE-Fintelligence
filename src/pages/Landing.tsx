@@ -105,8 +105,8 @@ const Landing = () => {
             onMouseEnter={() => setHoveredOption('officer')}
             onMouseLeave={() => setHoveredOption(null)}
           >
-            <Card className={`h-full border-2 transition-colors hover-lift card-shine ${
-              hoveredOption === 'officer' ? 'border-purple-400 shadow-lg' : 'border-transparent'
+            <Card className={`h-full transition-colors hover-lift card-shine ${
+              hoveredOption === 'officer' ? 'border-2 border-gold-400 shadow-lg' : 'border-2 border-transparent'
             } bg-white/90 backdrop-blur-sm relative overflow-hidden`}>              
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="bg-finance-100 p-4 rounded-full mb-6 border-2 border-finance-200 relative">
@@ -134,8 +134,8 @@ const Landing = () => {
             onMouseEnter={() => setHoveredOption('applicant')}
             onMouseLeave={() => setHoveredOption(null)}
           >
-            <Card className={`h-full border-2 transition-colors hover-lift card-shine ${
-              hoveredOption === 'applicant' ? 'border-purple-400 shadow-lg' : 'border-transparent'
+            <Card className={`h-full transition-colors hover-lift card-shine ${
+              hoveredOption === 'applicant' ? 'border-2 border-gold-400 shadow-lg' : 'border-2 border-transparent'
             } bg-white/90 backdrop-blur-sm relative overflow-hidden`}>              
               <CardContent className="p-6 flex flex-col items-center text-center h-full">
                 <div className="bg-finance-100 p-4 rounded-full mb-6 border-2 border-finance-200 relative">
