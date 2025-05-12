@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
 import EligibilityForm from '@/components/EligibilityForm';
 import { useAuth } from '@/contexts/AuthContext';
-import { Sparkles, TrendingUp, ShieldCheck, ChevronRight, ArrowRight } from 'lucide-react';
+import { Sparkles, TrendingUp, ShieldCheck, ChevronRight, ArrowRight, Hexagon, Star, Spiral } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,10 +14,84 @@ const Index = () => {
   return (
     <Layout>
       <div className="relative max-w-5xl mx-auto py-12 px-4 space-y-16">
-        {/* Premium decorative elements */}
+        {/* Background decorative elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-purple-300/10 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute bottom-20 left-10 w-80 h-80 bg-gold-300/10 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute top-40 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold-300/30 to-transparent -z-10"></div>
+        <div className="absolute bottom-20 left-10 w-80 h-80 bg-purple-300/10 rounded-full blur-3xl -z-10"></div>
+        
+        {/* Decorative Shapes on right hand side */}
+        <motion.div 
+          className="absolute right-0 top-40 -z-10 h-full pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <motion.div 
+            className="absolute right-10 top-0"
+            animate={{ 
+              rotate: 360,
+              y: [0, 10, 0]
+            }} 
+            transition={{ 
+              rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+              y: { duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+            }}
+          >
+            <Spiral className="h-16 w-16 text-purple-300/40" />
+          </motion.div>
+          
+          <motion.div 
+            className="absolute right-40 top-40"
+            animate={{ 
+              rotate: -360,
+              scale: [0.9, 1.1, 0.9]
+            }} 
+            transition={{ 
+              rotate: { duration: 25, repeat: Infinity, ease: "linear" },
+              scale: { duration: 8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+            }}
+          >
+            <Hexagon className="h-20 w-20 text-gold-400/30" />
+          </motion.div>
+          
+          <motion.div 
+            className="absolute right-20 top-80"
+            animate={{ 
+              rotate: [0, 10, 0, -10, 0],
+              scale: [1, 1.2, 1]
+            }} 
+            transition={{ 
+              duration: 10, 
+              repeat: Infinity, 
+              repeatType: "reverse", 
+              ease: "easeInOut" 
+            }}
+          >
+            <Star className="h-12 w-12 text-gold-300/40" />
+          </motion.div>
+          
+          {/* Abstract line drawings */}
+          <svg className="absolute right-0 top-20 h-64 w-64 -z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <motion.path 
+              d="M10,50 Q30,20 50,50 T90,50" 
+              stroke="rgba(155, 135, 245, 0.2)" 
+              strokeWidth="1"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 3, repeat: Infinity, repeatType: "loop", repeatDelay: 2 }}
+            />
+          </svg>
+          
+          <svg className="absolute right-40 top-60 h-64 w-64 -z-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <motion.path 
+              d="M10,30 Q50,10 50,50 Q50,90 90,70" 
+              stroke="rgba(255, 198, 88, 0.2)" 
+              strokeWidth="1"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 4, repeat: Infinity, repeatType: "loop", repeatDelay: 1 }}
+            />
+          </svg>
+        </motion.div>
         
         {/* Diagonal accent lines */}
         <div className="absolute -top-10 -left-10 w-40 h-40">
