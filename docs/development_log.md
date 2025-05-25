@@ -36,3 +36,11 @@ This document summarizes the development work and fixes implemented during a rec
 - Renamed the local Git branch from `main` to `master` using `git branch -m main master`.
 - Pushed the new `master` branch to the remote repository and set it as upstream using `git push origin -u master`.
 - Deleted the old remote `main` branch using `git push origin --delete main`.
+
+## Implemented Loan Officer Registration and Login
+
+- Added `first_name`, `last_name`, `designation`, `email`, and `role` columns to the `Officer_profile` table in Supabase.
+- Modified the `LoanOfficerRegister.tsx` component to insert loan officer profile data into the `Officer_profile` table after successful registration.
+- Updated `src/types/supabase.ts` with the latest database types, including the `Officer_profile` table and its new columns.
+- Modified the `AuthContext.tsx` to fetch user profiles and roles from either the `Officer_profile` or `user_profiles` table based on the login type.
+- Provided SQL commands to enable Row Level Security (RLS) for the `Officer_profile` table and create an insert policy allowing authenticated users to insert their own profiles.
