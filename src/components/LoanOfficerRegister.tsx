@@ -51,19 +51,18 @@ const LoanOfficerRegister = () => {
     }
 
     setIsLoading(true);
-    const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-
     try {
       // Call Supabase signUp
-      const { data, error } = await supabase.auth.signUp({
+      // The database trigger 'on_auth_user_created_for_loan_officer' will handle Officer_profile insertion.
+      const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
-            full_name: fullName,
-            designation: formData.designation,
-            // Assuming a database trigger or backend function sets the 'Loan Officer' role
-            // based on data provided during signup or the registration method used.
+            firstName: formData.firstName, // Pass firstName for the trigger
+            lastName: formData.lastName,   // Pass lastName for the trigger
+            designation: formData.designation, // Pass designation for the trigger
+            // The role 'Loan Officer' will be set by the trigger.
           }
         }
       });
@@ -72,27 +71,8 @@ const LoanOfficerRegister = () => {
         throw error; // Throw error to be caught below
       }
 
-      // Insert profile data into Officer_profile table
-      const { error: profileError } = await supabase
-        .from('Officer_profile')
-        .insert([
-          { 
-            id: data.user.id, // Use the user ID from auth.signUp
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            designation: formData.designation,
-            email: formData.email,
-            role: 'Loan Officer' // Set the role
-          }
-        ]);
-
-      if (profileError) {
-        console.error("Error inserting officer profile:", profileError);
-        // Optionally handle this error - maybe delete the auth user if profile insertion fails?
-        // For now, we'll just log and proceed, but the profile won't be complete.
-      }
-
       // Handle successful signup (Supabase often requires email confirmation)
+      // The Officer_profile record is now created by the database trigger.
       toast({
         title: "Registration Submitted",
         description: "Please check your email for a confirmation link to activate the account.",
