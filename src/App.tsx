@@ -101,6 +101,30 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/risk-management"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <RiskManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/help-support"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <HelpSupport />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* Applicant-only routes */}
                 <Route

@@ -114,7 +114,7 @@ const RiskManagement = () => {
                     <AlertTriangleIcon className="h-5 w-5 text-red-600" />
                   </div>
                   <div className="text-2xl font-bold text-red-600">{highRiskApps.length}</div>
-                  <p className="text-sm text-gray-600">Score < 60</p>
+                  <p className="text-sm text-gray-600">{'Score < 60'}</p>
                 </CardContent>
               </Card>
 
@@ -278,7 +278,7 @@ const RiskManagement = () => {
                       <div className="space-y-4">
                         <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                           <span className="text-sm font-medium">High Risk Threshold</span>
-                          <span className="text-sm text-red-600">Score < 60</span>
+                          <span className="text-sm text-red-600">{'Score < 60'}</span>
                         </div>
                         <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
                           <span className="text-sm font-medium">Medium Risk Threshold</span>

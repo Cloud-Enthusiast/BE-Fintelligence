@@ -65,9 +65,9 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
             <SidebarItem 
               icon={<AlertTriangleIcon />} 
               title="Risk Management" 
-              path="/risk" 
+              path="/risk-management" 
               isOpen={isOpen} 
-              active={location.pathname === '/risk'}
+              active={location.pathname === '/risk-management'}
             />
             
             <li className="pt-4 mt-4 border-t border-gray-200">
@@ -86,9 +86,9 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
             <SidebarItem 
               icon={<HelpCircleIcon />} 
               title="Help & Support" 
-              path="/help" 
+              path="/help-support" 
               isOpen={isOpen}
-              active={location.pathname === '/help'}
+              active={location.pathname === '/help-support'}
             />
           </ul>
         </div>
