@@ -20,7 +20,7 @@ export const useFetchAssessments = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('Loan_applicants')
-        .select('*, user_profiles(first_name, last_name)')
+        .select('*, customer_information(first_name, last_name)')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -31,8 +31,8 @@ export const useFetchAssessments = () => {
       const mappedData: MappedAssessment[] = data.map(item => ({
         id: item.id,
         businessName: item.business_name || 'N/A',
-        fullName: item.user_profiles ? 
-          `${item.user_profiles.first_name || ''} ${item.user_profiles.last_name || ''}`.trim() : 
+        fullName: item.customer_information ? 
+          `${item.customer_information.first_name || ''} ${item.customer_information.last_name || ''}`.trim() : 
           'Unknown User',
         loanAmount: item.requested_loan_amount || 0,
         loanTerm: item.requested_loan_term_months,
