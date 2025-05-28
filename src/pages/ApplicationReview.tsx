@@ -4,11 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import LoanApplicationReview from '@/components/LoanApplicationReview';
 import { toast } from '@/hooks/use-toast';
+import { useUpdateAssessmentStatus } from '@/hooks/useUpdateAssessmentStatus'; // Import the hook
 
 const ApplicationReview = () => {
-  const { id } = useParams();
+  const { id: applicationId } = useParams<{ id: string }>(); // Ensure id is treated as string | undefined
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { mutate: updateStatusMutation, isPending: isUpdatingStatus } = useUpdateAssessmentStatus(); // Get mutate function, use isPending
   
   // Check if user is a loan officer
   useEffect(() => {
@@ -23,26 +25,60 @@ const ApplicationReview = () => {
   }, [user, navigate]);
   
   const handleApprove = () => {
-    toast({
-      title: "Application Approved",
-      description: "The loan application has been approved.",
-    });
-    navigate('/dashboard');
+    if (!applicationId) return;
+    updateStatusMutation(
+      { id: applicationId, status: 'approved' },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Application Approved",
+            description: "The loan application has been approved.",
+          });
+          navigate('/applications'); // Navigate back to the list
+        },
+        onError: (error) => {
+          toast({
+            variant: "destructive",
+            title: "Approval Failed",
+            description: error.message || "Could not approve the application.",
+          });
+        }
+      }
+    );
   };
   
   const handleReject = () => {
-    toast({
-      variant: "destructive",
-      title: "Application Rejected",
-      description: "The loan application has been rejected.",
-    });
-    navigate('/dashboard');
+    if (!applicationId) return;
+    updateStatusMutation(
+      { id: applicationId, status: 'rejected' },
+      {
+        onSuccess: () => {
+          toast({
+            variant: "default", // Or keep destructive if preferred for rejection confirmation
+            title: "Application Rejected",
+            description: "The loan application has been rejected.",
+          });
+          navigate('/applications'); // Navigate back to the list
+        },
+        onError: (error) => {
+          toast({
+            variant: "destructive",
+            title: "Rejection Failed",
+            description: error.message || "Could not reject the application.",
+          });
+        }
+      }
+    );
   };
   
   const handleRequestInfo = () => {
+    // TODO: Implement actual logic for requesting more information
+    // This might involve setting a different status, e.g., 'pending_information'
+    // or triggering a notification/modal.
+    if (!applicationId) return;
     toast({
       title: "Information Requested",
-      description: "Additional information has been requested from the applicant.",
+      description: `Additional information has been requested for application ${applicationId}.`,
     });
   };
   
@@ -51,21 +87,22 @@ const ApplicationReview = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <button 
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/applications')} // Navigate back to the list
             className="text-finance-600 hover:text-finance-800 font-medium flex items-center gap-1"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Back to Dashboard
+            Back to Applications
           </button>
         </div>
         
         <LoanApplicationReview
-          applicationId={id}
+          applicationId={applicationId}
           onApprove={handleApprove}
           onReject={handleReject}
           onRequestInfo={handleRequestInfo}
+          // Consider passing isUpdatingStatus to disable buttons during mutation
         />
       </div>
     </div>
