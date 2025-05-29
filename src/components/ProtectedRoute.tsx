@@ -10,8 +10,13 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children, allowedRoles, redirectPath }: ProtectedRouteProps) => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth(); // Add isLoading
   const location = useLocation();
+
+  // If still loading the auth state, render nothing or a loader
+  if (isLoading) {
+    return null; // Or your preferred loading component e.g. <LoadingSpinner />
+  }
 
   if (!isAuthenticated) {
     // Save the attempted location for redirect after login

@@ -2,7 +2,12 @@
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/types/supabase';
 
-const SUPABASE_URL = "https://dtfiwlxygrgsedujclqp.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR0Zml3bHh5Z3Jnc2VkdWpjbHFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MjY4MzgsImV4cCI6MjA1ODIwMjgzOH0.iotPC_OB2a6yk6tjQsJC-_Ckq6zKWIygCt9rSZBPwOY";
+// Ensure these environment variables are set in your Netlify build environment
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Supabase URL or Anon Key is missing. Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your environment.");
+}
+
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
