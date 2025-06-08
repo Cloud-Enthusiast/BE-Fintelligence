@@ -16,6 +16,7 @@ type User = {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean; // Add isLoading state
   login: (username: string, password: string, loginType?: 'officer' | 'applicant') => Promise<boolean>;
   loginWithOTP: (username: string, otp: string) => Promise<boolean>;
   logout: () => void;
@@ -34,25 +35,27 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize isLoading to true
 
   // Check for existing user session in localStorage and Supabase on mount
   useEffect(() => {
     const checkSession = async () => {
-      // First check localStorage
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-        setIsAuthenticated(true);
-        return;
-      }
+      setIsLoading(true); // Set loading true at the start
+      try {
+        // First check localStorage
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+          setIsAuthenticated(true);
+          return; // Exit early if found in localStorage
+        }
 
-      // Then check Supabase session
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        try {
+        // Then check Supabase session
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
           // Fetch profile based on login type
           let profileData = null;
-          let profileError = null;
+          // Removed profileError as it's not used before reassignment
 
           // Check if the authenticated user exists in Officer_profile
           const { data: officerProfile, error: officerError } = await supabase
@@ -63,12 +66,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
           if (officerError && officerError.code !== 'PGRST116') {
             console.error('Error fetching officer profile during session check:', officerError);
-            // Decide if you want to throw or handle gracefully
           }
 
           if (officerProfile) {
             profileData = officerProfile;
-            // Assuming 'role' is stored in Officer_profile now
           } else {
              // If not in Officer_profile, check user_profiles (for applicants)
              const { data: applicantProfile, error: applicantError } = await supabase
@@ -79,31 +80,43 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
              if (applicantError && applicantError.code !== 'PGRST116') {
                 console.error('Error fetching applicant profile during session check:', applicantError);
-                // Decide if you want to throw or handle gracefully
              }
              if (applicantProfile) {
                 profileData = applicantProfile;
              }
           }
 
-
           if (profileData) {
             const userData: User = {
               username: session.user.email || '',
-              // Fetch role from the appropriate profile data
-              role: (profileData as any).role as UserRole, // Cast to any to access role property dynamically
-              name: (profileData as any).full_name || (profileData as any).first_name + ' ' + (profileData as any).last_name || '', // Adjust name fetching based on table
+              role: (profileData as any).role as UserRole,
+              name: (profileData as any).full_name || `${(profileData as any).first_name || ''} ${(profileData as any).last_name || ''}`.trim() || '',
               avatar: '/avatar-placeholder.png',
-              id: profileData.id
+              id: (profileData as any).id
             };
 
             setUser(userData);
             setIsAuthenticated(true);
             localStorage.setItem('user', JSON.stringify(userData));
+          } else {
+            // No profile data found, ensure user is logged out state
+            setUser(null);
+            setIsAuthenticated(false);
+            localStorage.removeItem('user');
           }
-        } catch (error) {
-          console.error('Error fetching user profile:', error);
+        } else {
+          // No Supabase session, ensure user is logged out state
+          setUser(null);
+          setIsAuthenticated(false);
+          localStorage.removeItem('user');
         }
+      } catch (error) {
+        console.error('Error in checkSession:', error);
+        setUser(null);
+        setIsAuthenticated(false);
+        localStorage.removeItem('user');
+      } finally {
+        setIsLoading(false); // Set loading false at the end
       }
     };
 
@@ -286,6 +299,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('user');
+    setIsLoading(false); // Ensure loading is false on logout
 
     // Also sign out from Supabase
     await supabase.auth.signOut();
@@ -297,7 +311,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, loginWithOTP, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, loginWithOTP, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -13,6 +13,9 @@ import Application from "./pages/Application";
 import Applications from "./pages/Applications";
 import Analytics from "./pages/Analytics";
 import Customers from "./pages/Customers";
+import RiskManagement from "./pages/RiskManagement";
+import Settings from "./pages/Settings";
+import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
 import Register from "./pages/Register";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -95,6 +98,30 @@ const App = () => {
                   element={
                     <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
                       <ApplicationReview />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/risk-management"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <RiskManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/help-support"
+                  element={
+                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                      <HelpSupport />
                     </ProtectedRoute>
                   }
                 />

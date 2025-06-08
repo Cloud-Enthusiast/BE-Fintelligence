@@ -1,7 +1,8 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // Keep useState for mock data parts
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle, AlertTriangle, Info } from 'lucide-react';
+import { AlertCircle, CheckCircle, AlertTriangle, Info, Loader2 } from 'lucide-react'; // Added Loader2
+import { useFetchSingleBasicAssessment } from '@/hooks/useFetchSingleBasicAssessment'; // Import the new hook
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,19 +18,27 @@ interface LoanApplicationReviewProps {
   onRequestInfo: () => void;
 }
 
-// Mock data for UI demonstration (would be fetched from backend)
+// Mock data for UI demonstration (for fields not yet fetched from backend)
 const mockApplicationData = {
-  id: 'APP-2023-005',
-  applicantName: 'John Smith',
-  panId: 'ABCTY1234Z',
-  email: 'john.smith@example.com',
-  annualIncome: 750000,
-  monthlyIncome: 62500,
-  creditScore: 720,
-  loanAmount: 2500000,
-  loanTenure: 60, // months
-  loanPurpose: 'Business Expansion',
-  submittedAt: '2023-06-10T10:30:00Z',
+  // id: 'APP-2023-005', // Will come from fetched data
+  // applicantName: 'John Smith', // Will come from fetched data
+  panId: 'ABCTY1234Z', // Stays mock
+  email: 'john.smith@example.com', // Stays mock for now, or could be added to basic fetch
+  annualIncome: 750000, // Stays mock
+  monthlyIncome: 62500, // Stays mock
+  creditScore: 720, // Stays mock
+  // loanAmount: 2500000, // Will come from fetched data
+  loanTenure: 60, // months // Will come from fetched data, but mock provides fallback
+  loanPurpose: 'Business Expansion', // Stays mock
+  // submittedAt: '2023-06-10T10:30:00Z', // Will come from fetched data
+  // email: 'john.smith@example.com', // This was duplicated
+  // annualIncome: 750000, // This was duplicated
+  // monthlyIncome: 62500, // This was duplicated
+  // creditScore: 720, // This was duplicated
+  // loanAmount: 2500000, // This was duplicated (and is overridden by displayData anyway)
+  // loanTenure: 60, // months // This was duplicated (and is overridden by displayData anyway)
+  // loanPurpose: 'Business Expansion', // This was duplicated
+  // submittedAt: '2023-06-10T10:30:00Z', // This was duplicated (and is overridden by displayData anyway)
   
   // Risk assessment
   financialRiskScore: 78,
@@ -51,39 +60,61 @@ const LoanApplicationReview = ({
   onReject, 
   onRequestInfo 
 }: LoanApplicationReviewProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [application, setApplication] = useState<typeof mockApplicationData | null>(null);
+  const { data: currentApplication, isLoading, error } = useFetchSingleBasicAssessment(applicationId);
   
-  // Simulating data fetching
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setApplication(mockApplicationData);
-      setIsLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, [applicationId]);
-  
+  // We still need mockApplicationData for fields not covered by currentApplication yet
+  // and to ensure the component structure doesn't break before full data integration.
+  // The `application` variable will be a merge or primarily use currentApplication where available.
+
   if (isLoading) {
     return (
       <div className="w-full h-96 flex items-center justify-center">
-        <div className="animate-pulse">Loading application data...</div>
+        <Loader2 className="h-8 w-8 animate-spin text-finance-600" />
+        <span className="ml-3 text-gray-600">Loading application data...</span>
       </div>
     );
   }
   
-  if (!application) {
+  if (error) {
     return (
       <div className="w-full p-8 text-center">
         <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold">Application Not Found</h3>
-        <p className="text-gray-500">The requested application could not be found.</p>
+        <h3 className="text-lg font-semibold text-red-700">Error Loading Application</h3>
+        <p className="text-gray-600">{error.message}</p>
       </div>
     );
   }
+
+  if (!currentApplication) {
+    // This case might be hit if !isLoading and !error but currentApplication is still null/undefined
+    // (e.g. if enabled:false in useQuery and no initialData, though our hook enables it)
+    // Or if the fetch completed but returned no data and didn't throw an error handled above.
+    return (
+      <div className="w-full p-8 text-center">
+        <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold">Application Data Unavailable</h3>
+        <p className="text-gray-500">The requested application data could not be loaded.</p>
+      </div>
+    );
+  }
+
+  // Combine real basic data with mock data for other fields
+  const displayData = {
+    ...mockApplicationData, // Start with mock as a base for un-fetched fields
+    id: currentApplication.id,
+    applicantName: currentApplication.fullName, // Mapped from customer_information
+    loanAmount: currentApplication.loanAmount,
+    loanTenure: currentApplication.loanTerm !== null ? currentApplication.loanTerm : mockApplicationData.loanTenure, // Handle null loanTerm
+    submittedAt: currentApplication.createdAt,
+    // Fields from mockApplicationData that are not in MappedAssessment will persist here:
+    // panId, email, annualIncome, monthlyIncome, creditScore, loanPurpose,
+    // financialRiskScore, behavioralCreditScore, fraudAlerts,
+    // incomeShockResilience, interestRateSensitivity, emergencyFundBuffer, debtServiceRatio
+  };
   
   // Helper to format currency
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount: number | null | undefined) => {
+    if (amount === null || amount === undefined) return 'N/A';
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
       currency: 'INR',
@@ -115,10 +146,10 @@ const LoanApplicationReview = ({
           <h2 className="text-2xl font-bold text-gray-900">
             Loan Application Review
           </h2>
-          <p className="text-gray-500">Application ID: {application.id}</p>
+          <p className="text-gray-500">Application ID: {displayData.id}</p>
         </div>
         <Badge variant="outline" className="px-3 py-1 text-sm">
-          Submitted on {new Date(application.submittedAt).toLocaleDateString()}
+          Submitted on {new Date(displayData.submittedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
         </Badge>
       </div>
       
@@ -132,15 +163,15 @@ const LoanApplicationReview = ({
           <CardContent className="space-y-6">
             <div className="flex items-center space-x-4 pb-4 border-b">
               <Avatar className="h-16 w-16 border">
-                <AvatarImage src="/avatar-placeholder.png" alt={application.applicantName} />
-                <AvatarFallback>{application.applicantName.charAt(0)}</AvatarFallback>
+                <AvatarImage src="/avatar-placeholder.png" alt={displayData.applicantName} />
+                <AvatarFallback>{displayData.applicantName ? displayData.applicantName.charAt(0) : 'U'}</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-lg font-semibold">{application.applicantName}</h3>
-                <p className="text-sm text-gray-500">{application.email}</p>
+                <h3 className="text-lg font-semibold">{displayData.applicantName}</h3>
+                <p className="text-sm text-gray-500">{displayData.email}</p>
                 <div className="flex items-center mt-1 text-sm">
                   <span className="font-medium">PAN/ID:</span>
-                  <span className="ml-2">{application.panId}</span>
+                  <span className="ml-2">{displayData.panId}</span>
                 </div>
               </div>
             </div>
@@ -148,43 +179,43 @@ const LoanApplicationReview = ({
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Annual Income</span>
-                <span className="font-medium">{formatCurrency(application.annualIncome)}</span>
+                <span className="font-medium">{formatCurrency(displayData.annualIncome)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Monthly Income</span>
-                <span className="font-medium">{formatCurrency(application.monthlyIncome)}</span>
+                <span className="font-medium">{formatCurrency(displayData.monthlyIncome)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Credit Score</span>
                 <span className={cn(
                   "font-medium",
-                  application.creditScore >= 700 ? "text-green-600" : 
-                  application.creditScore >= 600 ? "text-yellow-600" : "text-red-600"
+                  displayData.creditScore >= 700 ? "text-green-600" : 
+                  displayData.creditScore >= 600 ? "text-yellow-600" : "text-red-600"
                 )}>
-                  {application.creditScore}
+                  {displayData.creditScore}
                 </span>
               </div>
               <Separator />
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Loan Amount</span>
-                <span className="font-medium">{formatCurrency(application.loanAmount)}</span>
+                <span className="font-medium">{formatCurrency(displayData.loanAmount)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Loan Tenure</span>
-                <span className="font-medium">{application.loanTenure} months</span>
+                <span className="font-medium">{displayData.loanTenure} months</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Purpose</span>
-                <span className="font-medium">{application.loanPurpose}</span>
+                <span className="font-medium">{displayData.loanPurpose}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Debt Service Ratio</span>
                 <span className={cn(
                   "font-medium",
-                  application.debtServiceRatio <= 30 ? "text-green-600" : 
-                  application.debtServiceRatio <= 45 ? "text-yellow-600" : "text-red-600"
+                  displayData.debtServiceRatio <= 30 ? "text-green-600" : 
+                  displayData.debtServiceRatio <= 45 ? "text-yellow-600" : "text-red-600"
                 )}>
-                  {application.debtServiceRatio}%
+                  {displayData.debtServiceRatio}%
                 </span>
               </div>
             </div>
@@ -202,22 +233,22 @@ const LoanApplicationReview = ({
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium">Financial Risk Score</span>
-                  <span className="text-sm font-medium">{application.financialRiskScore}/100</span>
+                  <span className="text-sm font-medium">{displayData.financialRiskScore}/100</span>
                 </div>
                 <div className="relative">
-                  <Progress value={application.financialRiskScore} className="h-2" />
+                  <Progress value={displayData.financialRiskScore} className="h-2" />
                   <span className={cn(
                     "absolute px-2 py-0.5 text-xs font-medium text-white rounded-md -top-1 transform -translate-y-full",
-                    getRiskColor(application.financialRiskScore)
+                    getRiskColor(displayData.financialRiskScore)
                   )}
-                  style={{ left: `${Math.min(Math.max(application.financialRiskScore - 10, 0), 90)}%` }}>
-                    {getScoreLabel(application.financialRiskScore)}
+                  style={{ left: `${Math.min(Math.max(displayData.financialRiskScore - 10, 0), 90)}%` }}>
+                    {getScoreLabel(displayData.financialRiskScore)}
                   </span>
                 </div>
                 <p className="mt-3 text-sm text-gray-600">
                   The applicant's financial risk score indicates 
-                  {application.financialRiskScore >= 80 ? " strong financial stability." : 
-                   application.financialRiskScore >= 60 ? " moderate financial stability." : 
+                  {displayData.financialRiskScore >= 80 ? " strong financial stability." : 
+                   displayData.financialRiskScore >= 60 ? " moderate financial stability." : 
                    " potential financial vulnerability."}
                 </p>
               </div>
@@ -225,16 +256,16 @@ const LoanApplicationReview = ({
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium">Behavioral Credit Score</span>
-                  <span className="text-sm font-medium">{application.behavioralCreditScore}/100</span>
+                  <span className="text-sm font-medium">{displayData.behavioralCreditScore}/100</span>
                 </div>
                 <div className="relative">
-                  <Progress value={application.behavioralCreditScore} className="h-2" />
+                  <Progress value={displayData.behavioralCreditScore} className="h-2" />
                   <span className={cn(
                     "absolute px-2 py-0.5 text-xs font-medium text-white rounded-md -top-1 transform -translate-y-full",
-                    getRiskColor(application.behavioralCreditScore)
+                    getRiskColor(displayData.behavioralCreditScore)
                   )}
-                  style={{ left: `${Math.min(Math.max(application.behavioralCreditScore - 10, 0), 90)}%` }}>
-                    {getScoreLabel(application.behavioralCreditScore)}
+                  style={{ left: `${Math.min(Math.max(displayData.behavioralCreditScore - 10, 0), 90)}%` }}>
+                    {getScoreLabel(displayData.behavioralCreditScore)}
                   </span>
                 </div>
                 <p className="mt-3 text-sm text-gray-600">
@@ -249,9 +280,9 @@ const LoanApplicationReview = ({
                 Fraud Detection Alerts
               </h4>
               
-              {application.fraudAlerts.length > 0 ? (
+              {displayData.fraudAlerts.length > 0 ? (
                 <ul className="space-y-2">
-                  {application.fraudAlerts.map((alert, index) => (
+                  {displayData.fraudAlerts.map((alert, index) => (
                     <li key={index} className="flex items-start">
                       <div className={cn(
                         "h-5 w-5 rounded-full flex items-center justify-center flex-shrink-0 mr-2",
@@ -293,9 +324,9 @@ const LoanApplicationReview = ({
               <p className="text-sm text-gray-600">
                 Based on comprehensive analysis, this application presents a 
                 {
-                  (application.financialRiskScore + application.behavioralCreditScore) / 2 >= 75 ? 
+                  (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 75 ? 
                   " low overall risk profile. Approval recommended." : 
-                  (application.financialRiskScore + application.behavioralCreditScore) / 2 >= 60 ? 
+                  (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 60 ? 
                   " moderate risk profile. Further review suggested." :
                   " high risk profile. Rejection or significant risk mitigation recommended."
                 }
@@ -314,14 +345,14 @@ const LoanApplicationReview = ({
             <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Income Shock Resilience</span>
-                <span className="text-sm font-medium">{application.incomeShockResilience}%</span>
+                <span className="text-sm font-medium">{displayData.incomeShockResilience}%</span>
               </div>
               <Progress 
-                value={application.incomeShockResilience} 
+                value={displayData.incomeShockResilience} 
                 className={cn(
                   "h-2",
-                  application.incomeShockResilience >= 70 ? "bg-green-500" : 
-                  application.incomeShockResilience >= 40 ? "bg-yellow-500" : "bg-red-500"
+                  displayData.incomeShockResilience >= 70 ? "bg-green-500" : 
+                  displayData.incomeShockResilience >= 40 ? "bg-yellow-500" : "bg-red-500"
                 )} 
               />
               <p className="mt-2 text-xs text-gray-500">
@@ -332,14 +363,14 @@ const LoanApplicationReview = ({
             <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Interest Rate Sensitivity</span>
-                <span className="text-sm font-medium">{application.interestRateSensitivity}%</span>
+                <span className="text-sm font-medium">{displayData.interestRateSensitivity}%</span>
               </div>
               <Progress 
-                value={application.interestRateSensitivity} 
+                value={displayData.interestRateSensitivity} 
                 className={cn(
                   "h-2",
-                  application.interestRateSensitivity >= 70 ? "bg-green-500" : 
-                  application.interestRateSensitivity >= 40 ? "bg-yellow-500" : "bg-red-500"
+                  displayData.interestRateSensitivity >= 70 ? "bg-green-500" : 
+                  displayData.interestRateSensitivity >= 40 ? "bg-yellow-500" : "bg-red-500"
                 )} 
               />
               <p className="mt-2 text-xs text-gray-500">
@@ -350,14 +381,14 @@ const LoanApplicationReview = ({
             <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Emergency Fund Buffer</span>
-                <span className="text-sm font-medium">{application.emergencyFundBuffer}%</span>
+                <span className="text-sm font-medium">{displayData.emergencyFundBuffer}%</span>
               </div>
               <Progress 
-                value={application.emergencyFundBuffer} 
+                value={displayData.emergencyFundBuffer} 
                 className={cn(
                   "h-2",
-                  application.emergencyFundBuffer >= 70 ? "bg-green-500" : 
-                  application.emergencyFundBuffer >= 40 ? "bg-yellow-500" : "bg-red-500"
+                  displayData.emergencyFundBuffer >= 70 ? "bg-green-500" : 
+                  displayData.emergencyFundBuffer >= 40 ? "bg-yellow-500" : "bg-red-500"
                 )} 
               />
               <p className="mt-2 text-xs text-gray-500">
@@ -369,36 +400,36 @@ const LoanApplicationReview = ({
               <h4 className="text-base font-medium mb-3">Stress Test Findings</h4>
               <ul className="space-y-2">
                 <li className="flex items-start">
-                  <div className={application.incomeShockResilience >= 60 ? "text-green-500" : "text-red-500"}>
-                    {application.incomeShockResilience >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
+                  <div className={displayData.incomeShockResilience >= 60 ? "text-green-500" : "text-red-500"}>
+                    {displayData.incomeShockResilience >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Income Stability: </span>
-                    {application.incomeShockResilience >= 60 
+                    {displayData.incomeShockResilience >= 60 
                       ? "The applicant can maintain payments even with temporary income reduction."
                       : "The applicant may struggle with payments if income decreases temporarily."}
                   </div>
                 </li>
                 
                 <li className="flex items-start">
-                  <div className={application.interestRateSensitivity >= 60 ? "text-green-500" : "text-red-500"}>
-                    {application.interestRateSensitivity >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
+                  <div className={displayData.interestRateSensitivity >= 60 ? "text-green-500" : "text-red-500"}>
+                    {displayData.interestRateSensitivity >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Rate Sensitivity: </span>
-                    {application.interestRateSensitivity >= 60 
+                    {displayData.interestRateSensitivity >= 60 
                       ? "The loan remains affordable even if interest rates increase."
                       : "Rising interest rates could significantly impact affordability."}
                   </div>
                 </li>
                 
                 <li className="flex items-start">
-                  <div className={application.emergencyFundBuffer >= 60 ? "text-green-500" : "text-red-500"}>
-                    {application.emergencyFundBuffer >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
+                  <div className={displayData.emergencyFundBuffer >= 60 ? "text-green-500" : "text-red-500"}>
+                    {displayData.emergencyFundBuffer >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Emergency Preparedness: </span>
-                    {application.emergencyFundBuffer >= 60 
+                    {displayData.emergencyFundBuffer >= 60 
                       ? "Sufficient emergency funds available to cover unexpected expenses."
                       : "Limited emergency funds could lead to payment difficulties."}
                   </div>

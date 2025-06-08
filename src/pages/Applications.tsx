@@ -1,5 +1,6 @@
 
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import { useAuth } from '@/contexts/AuthContext';
@@ -263,6 +264,8 @@ const ApplicationTable = ({
   getStatusBadge,
   updateStatus // This now expects the mutation function
 }: ApplicationTableProps) => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   return (
     <Card>
       <CardContent className="p-0">
@@ -320,7 +323,7 @@ const ApplicationTable = ({
                           variant="outline"
                           size="sm"
                           className="h-8 w-8 p-0"
-                          // TODO: Add navigation to a detail view
+                          onClick={() => navigate(`/application-review/${app.id}`)}
                         >
                           <EyeIcon className="h-4 w-4" />
                           <span className="sr-only">View Details</span>
