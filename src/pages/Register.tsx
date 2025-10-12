@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BuildingIcon, UserIcon, MailIcon, PhoneIcon, KeyIcon, Loader2, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
+import { mockAuth } from '@/lib/mockAuth';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -53,25 +53,22 @@ const Register = () => {
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
     try {
-      // Call Supabase signUp
-      const { data, error } = await supabase.auth.signUp({
+      // Call mock auth signUp
+      const { user, error } = await mockAuth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            full_name: fullName,
-          }
-        }
+        name: fullName,
+        role: 'Applicant' // Default role for regular registration
       });
 
       if (error) {
-        throw error;
+        throw new Error(error);
       }
 
       // Handle successful signup
       toast({
-        title: "Registration Submitted",
-        description: "Please check your email for a confirmation link to activate your account.",
+        title: "Registration Successful",
+        description: "Your account has been created successfully. You can now log in.",
       });
       navigate('/login'); 
 

@@ -18,27 +18,16 @@ import Settings from "./pages/Settings";
 import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
 import Register from "./pages/Register";
+import DocumentProcessor from "./pages/DocumentProcessor";
+import DocumentUploadDemo from "./components/DocumentUploadDemo";
+import PdfDemo from "./pages/PdfDemo";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useEffect } from "react";
-import { supabase } from "./lib/supabase";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
-    // Log current session on app start
-    const checkSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Error getting session:", error);
-      }
-      console.log("Current session:", data);
-    };
-    
-    checkSession();
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -122,6 +111,36 @@ const App = () => {
                   element={
                     <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
                       <HelpSupport />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Document processor - available to all authenticated users */}
+                <Route
+                  path="/document-processor"
+                  element={
+                    <ProtectedRoute>
+                      <DocumentProcessor />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Demo page for file upload integration */}
+                <Route
+                  path="/upload-demo"
+                  element={
+                    <ProtectedRoute>
+                      <DocumentUploadDemo />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* PDF extraction demo */}
+                <Route
+                  path="/pdf-demo"
+                  element={
+                    <ProtectedRoute>
+                      <PdfDemo />
                     </ProtectedRoute>
                   }
                 />

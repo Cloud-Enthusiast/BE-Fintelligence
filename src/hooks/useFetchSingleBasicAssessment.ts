@@ -1,64 +1,45 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import type { MappedAssessment } from './useFetchAssessments'; // Re-use the type
+import { useApplications } from '@/contexts/ApplicationContext';
+import type { MappedAssessment } from './useFetchAssessments';
 
-// Define a slightly adjusted type if needed, or ensure MappedAssessment is suitable
-// For now, MappedAssessment seems fine as it contains the core fields.
+export const useFetchSingleBasicAssessment = (id: string) => {
+  const { applications } = useApplications();
 
-export const useFetchSingleBasicAssessment = (applicationId: string | undefined) => {
-  return useQuery<MappedAssessment, Error>({
-    queryKey: ['assessment', applicationId],
-    queryFn: async () => {
-      if (!applicationId) {
-        throw new Error('Application ID is required to fetch assessment details.');
+  return useQuery({
+    queryKey: ['assessment', id],
+    queryFn: async (): Promise<MappedAssessment | null> => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const app = applications.find(application => application.id === id);
+      
+      if (!app) {
+        return null;
       }
 
-      const { data, error } = await supabase
-        .from('Loan_applicants')
-        .select(`
-          id,
-          business_name,
-          created_at,
-          requested_loan_amount,
-          requested_loan_term_months,
-          assessment_status,
-          eligibility_score,
-          customer_information (
-            first_name,
-            last_name
-          )
-        `)
-        .eq('id', applicationId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching single assessment:', error);
-        throw error;
-      }
-
-      if (!data) {
-        throw new Error('Assessment not found.');
-      }
-
-      // Map the database fields to the MappedAssessment format
-      // Ensure property names match MappedAssessment interface
-      const customerInfo = Array.isArray(data.customer_information) 
-        ? data.customer_information[0] 
-        : data.customer_information;
-
+      // Map application to assessment format
       return {
-        id: data.id,
-        businessName: data.business_name || 'N/A',
-        fullName: customerInfo ? 
-          `${customerInfo.first_name || ''} ${customerInfo.last_name || ''}`.trim() : 
-          'Unknown User',
-        loanAmount: data.requested_loan_amount || 0,
-        loanTerm: data.requested_loan_term_months,
-        createdAt: data.created_at,
-        status: data.assessment_status,
-        eligibilityScore: data.eligibility_score,
+        id: app.id,
+        business_name: app.businessName,
+        full_name: app.fullName,
+        email: app.email,
+        phone: app.phone,
+        business_type: app.businessType,
+        annual_revenue: app.annualRevenue,
+        monthly_income: app.monthlyIncome,
+        existing_loan_amount: app.existingLoanAmount,
+        loan_amount: app.loanAmount,
+        loan_term: app.loanTerm,
+        credit_score: app.creditScore,
+        eligibility_score: app.eligibilityScore,
+        is_eligible: app.isEligible,
+        rejection_reason: app.rejectionReason,
+        created_at: app.createdAt,
+        status: app.status,
       };
     },
-    enabled: !!applicationId, // Only run the query if applicationId is available
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 };

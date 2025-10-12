@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { UserIcon, MailIcon, BriefcaseIcon, KeyIcon, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { supabase } from '@/lib/supabase'; // Import Supabase client
+import { mockAuth } from '@/lib/mockAuth';
 
 const LoanOfficerRegister = () => {
   const navigate = useNavigate();
@@ -52,35 +52,26 @@ const LoanOfficerRegister = () => {
 
     setIsLoading(true);
     try {
-      // Call Supabase signUp
-      // The database trigger 'on_auth_user_created_for_loan_officer' will handle Officer_profile insertion.
-      const { error } = await supabase.auth.signUp({
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      
+      // Call mock auth signUp
+      const { user, error } = await mockAuth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            firstName: formData.firstName, // Pass firstName for the trigger
-            lastName: formData.lastName,   // Pass lastName for the trigger
-            designation: formData.designation, // Pass designation for the trigger
-            // The role 'Loan Officer' will be set by the trigger.
-          }
-        }
+        name: fullName,
+        role: 'Loan Officer'
       });
 
       if (error) {
-        throw error; // Throw error to be caught below
+        throw new Error(error);
       }
 
-      // Handle successful signup (Supabase often requires email confirmation)
-      // The Officer_profile record is now created by the database trigger.
+      // Handle successful signup
       toast({
-        title: "Registration Submitted",
-        description: "Please check your email for a confirmation link to activate the account.",
+        title: "Registration Successful",
+        description: "Loan Officer account has been created successfully. You can now log in.",
       });
-      // Navigate to login or a confirmation pending page
-      // Close the dialog after successful submission
-      // Note: Closing the dialog might require managing dialog state outside this component
-      // or using a callback prop. For simplicity, we'll just navigate for now.
+      
       navigate('/login');
 
     } catch (error: any) {

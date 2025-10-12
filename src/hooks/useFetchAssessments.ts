@@ -1,47 +1,58 @@
-
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { useApplications } from '@/contexts/ApplicationContext';
 
-// Define the assessment type based on the database structure
+// Define the assessment type based on the application structure
 export interface MappedAssessment {
   id: string;
-  businessName: string;
-  fullName: string;
-  loanAmount: number;
-  loanTerm: number | null;
-  createdAt: string;
-  status: string;
-  eligibilityScore: number | null;
+  business_name: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  business_type: string;
+  annual_revenue: number;
+  monthly_income: number;
+  existing_loan_amount: number;
+  loan_amount: number;
+  loan_term: number;
+  credit_score: number;
+  eligibility_score: number;
+  is_eligible: boolean;
+  rejection_reason?: string;
+  created_at: string;
+  status: 'pending' | 'approved' | 'rejected';
 }
 
 export const useFetchAssessments = () => {
+  const { applications } = useApplications();
+
   return useQuery({
     queryKey: ['assessments'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('Loan_applicants')
-        .select('*, customer_information(first_name, last_name)')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      // Map the database fields to the component-friendly format
-      const mappedData: MappedAssessment[] = data.map(item => ({
-        id: item.id,
-        businessName: item.business_name || 'N/A',
-        fullName: item.customer_information ? 
-          `${item.customer_information.first_name || ''} ${item.customer_information.last_name || ''}`.trim() : 
-          'Unknown User',
-        loanAmount: item.requested_loan_amount || 0,
-        loanTerm: item.requested_loan_term_months,
-        createdAt: item.created_at,
-        status: item.assessment_status, // Map assessment_status to status
-        eligibilityScore: item.eligibility_score
+    queryFn: async (): Promise<MappedAssessment[]> => {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Map applications to assessment format
+      return applications.map(app => ({
+        id: app.id,
+        business_name: app.businessName,
+        full_name: app.fullName,
+        email: app.email,
+        phone: app.phone,
+        business_type: app.businessType,
+        annual_revenue: app.annualRevenue,
+        monthly_income: app.monthlyIncome,
+        existing_loan_amount: app.existingLoanAmount,
+        loan_amount: app.loanAmount,
+        loan_term: app.loanTerm,
+        credit_score: app.creditScore,
+        eligibility_score: app.eligibilityScore,
+        is_eligible: app.isEligible,
+        rejection_reason: app.rejectionReason,
+        created_at: app.createdAt,
+        status: app.status,
       }));
-
-      return mappedData;
-    }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
   });
 };

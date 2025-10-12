@@ -12,14 +12,23 @@ BE Finance is a commercial loan application platform that provides loan eligibil
 - **Tailwind CSS**: Utility-first CSS framework
 - **Framer Motion**: Animation library
 - **Shadcn UI**: Component library for beautiful UI elements
-- **Supabase**: Backend-as-a-Service for authentication and data storage
+- **Mock Authentication**: Simplified authentication system for demonstration
+- **File Processing**: Document upload and text extraction capabilities
 
 ## Key Features
 
-- **Secure Authentication**: Role-based login system for loan officers and applicants
+- **Role-based Authentication**: Login system for loan officers and applicants
 - **Loan Eligibility Assessment**: Interactive form to check commercial loan eligibility
-- **Dashboard**: Comprehensive view for loan officers
+- **Dashboard**: Comprehensive view for loan officers with analytics
 - **Application Management**: View and manage loan applications
+- **Document Processing**: Upload and extract text from PDF, Excel, Word, and CSV files
+- **File Upload Integration**: Seamlessly integrate document upload into forms
+
+## Demo Credentials
+
+- **Loan Officer**: john@example.com / password
+- **Applicant**: jane@example.com / password
+- **OTP Demo**: Use '123456' for OTP login testing
 
 ## Getting Started
 

@@ -17,7 +17,8 @@ import {
   XCircleIcon,
   ClockIcon,
   FileTextIcon,
-  UsersIcon
+  UsersIcon,
+  ScanTextIcon
 } from 'lucide-react';
 import { ChartContainer } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -127,7 +128,7 @@ const Dashboard = () => {
             
             {/* Quick Access Cards */}
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Access</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               <QuickAccessCard 
                 title="Manage Applications" 
                 description="Review and process loan applications"
@@ -145,6 +146,29 @@ const Dashboard = () => {
                 description="Manage customer profiles and history"
                 icon={<UsersIcon className="h-8 w-8 text-green-600" />}
                 linkTo="/customers"
+              />
+              <QuickAccessCard 
+                title="Document Processor" 
+                description="Extract text and data from documents"
+                icon={<ScanTextIcon className="h-8 w-8 text-orange-600" />}
+                linkTo="/document-processor"
+              />
+            </div>
+            
+            {/* Demo & Tools */}
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Demo & Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <QuickAccessCard 
+                title="PDF Extraction Demo" 
+                description="Advanced PDF text extraction and analysis"
+                icon={<FileTextIcon className="h-8 w-8 text-red-600" />}
+                linkTo="/pdf-demo"
+              />
+              <QuickAccessCard 
+                title="Upload Integration" 
+                description="See how file upload integrates with forms"
+                icon={<FileTextIcon className="h-8 w-8 text-indigo-600" />}
+                linkTo="/upload-demo"
               />
             </div>
             

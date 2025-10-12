@@ -8,7 +8,8 @@ import {
   AlertTriangleIcon, 
   SettingsIcon, 
   HelpCircleIcon,
-  BuildingIcon
+  BuildingIcon,
+  ScanTextIcon
 } from 'lucide-react';
 
 interface DashboardSidebarProps {
@@ -68,6 +69,13 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
               path="/risk-management" 
               isOpen={isOpen} 
               active={location.pathname === '/risk-management'}
+            />
+            <SidebarItem 
+              icon={<ScanTextIcon />} 
+              title="Document Processor" 
+              path="/document-processor" 
+              isOpen={isOpen} 
+              active={location.pathname === '/document-processor'}
             />
             
             <li className="pt-4 mt-4 border-t border-gray-200">
