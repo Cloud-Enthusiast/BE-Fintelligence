@@ -6,6 +6,7 @@ import json
 import re
 from datetime import datetime
 from pypdf import PdfReader
+from cibil_pdf_processor import CibilPdfProcessor, process_cibil_pdf_file
 
 app = FastAPI(title="PDF Extraction Service", version="1.0.0")
 
@@ -166,9 +167,25 @@ def calculate_text_stats(text):
         'reading_time_minutes': len(words) / 200  # Average reading speed
     }
 
+def detect_cibil_report(text: str) -> bool:
+    """Detect if the PDF is a CIBIL report"""
+    cibil_indicators = [
+        r'cibil\s*(?:trans\s*union)?',
+        r'credit\s*information\s*bureau',
+        r'consumer\s*credit\s*report',
+        r'credit\s*score',
+        r'enquiry\s*summary'
+    ]
+    
+    text_lower = text.lower()
+    indicator_count = sum(1 for pattern in cibil_indicators if re.search(pattern, text_lower))
+    
+    # Consider it a CIBIL report if at least 2 indicators are found
+    return indicator_count >= 2
+
 @app.post("/extract-pdf")
 async def extract_pdf(file: UploadFile = File(...)):
-    """Extract text and information from PDF using PyPDF"""
+    """Extract text and information from PDF using PyPDF with CIBIL detection"""
     
     # Validate file
     if not file.filename.lower().endswith('.pdf'):
@@ -184,20 +201,77 @@ async def extract_pdf(file: UploadFile = File(...)):
         tmp_path = tmp_file.name
     
     try:
-        # Process with PyPDF (your original logic enhanced)
-        result = extract_comprehensive_data(tmp_path)
+        # First, do a quick text extraction to detect report type
+        reader = PdfReader(tmp_path)
+        sample_text = ""
+        for i, page in enumerate(reader.pages[:3]):  # Check first 3 pages
+            sample_text += page.extract_text() + "\n"
+        
+        # Check if it's a CIBIL report
+        is_cibil_report = detect_cibil_report(sample_text)
+        
+        if is_cibil_report:
+            # Use enhanced CIBIL processor
+            result = process_cibil_pdf_file(tmp_path)
+            result['detection_method'] = 'Auto-detected as CIBIL report'
+        else:
+            # Use standard processing
+            result = extract_comprehensive_data(tmp_path)
+            result['detection_method'] = 'Standard PDF processing'
         
         # Add file information
         result['file_info'] = {
             'filename': file.filename,
             'size': file.size,
-            'content_type': file.content_type
+            'content_type': file.content_type,
+            'is_cibil_report': is_cibil_report
         }
         
         return result
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF processing failed: {str(e)}")
+    
+    finally:
+        # Clean up temporary file
+        try:
+            os.unlink(tmp_path)
+        except:
+            pass
+
+@app.post("/extract-cibil-pdf")
+async def extract_cibil_pdf(file: UploadFile = File(...)):
+    """Extract text and information from CIBIL PDF using enhanced processing"""
+    
+    # Validate file
+    if not file.filename.lower().endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Only PDF files are allowed")
+    
+    if file.size > 50 * 1024 * 1024:  # 50MB limit
+        raise HTTPException(status_code=400, detail="File too large (max 50MB)")
+    
+    # Save uploaded file temporarily
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+        content = await file.read()
+        tmp_file.write(content)
+        tmp_path = tmp_file.name
+    
+    try:
+        # Process with enhanced CIBIL processor
+        result = process_cibil_pdf_file(tmp_path)
+        
+        # Add file information
+        result['file_info'] = {
+            'filename': file.filename,
+            'size': file.size,
+            'content_type': file.content_type,
+            'processing_method': 'Enhanced CIBIL Processor'
+        }
+        
+        return result
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"CIBIL PDF processing failed: {str(e)}")
     
     finally:
         # Clean up temporary file
@@ -216,11 +290,18 @@ async def root():
     """Root endpoint with service information"""
     return {
         "service": "PDF Extraction Service",
-        "version": "1.0.0",
-        "description": "High-accuracy PDF text extraction using PyPDF",
+        "version": "2.0.0",
+        "description": "High-accuracy PDF text extraction with enhanced CIBIL report processing",
         "endpoints": {
-            "extract": "/extract-pdf (POST)",
+            "extract": "/extract-pdf (POST) - Auto-detects CIBIL reports",
+            "extract_cibil": "/extract-cibil-pdf (POST) - Enhanced CIBIL processing",
             "health": "/health (GET)"
+        },
+        "features": {
+            "auto_cibil_detection": True,
+            "multi_page_aggregation": True,
+            "ocr_enhancement": True,
+            "confidence_scoring": True
         }
     }
 

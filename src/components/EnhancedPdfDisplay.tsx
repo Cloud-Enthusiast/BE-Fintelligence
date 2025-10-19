@@ -20,7 +20,7 @@ import { ExtractedData } from '@/hooks/useFileExtraction';
 
 interface EnhancedPdfDisplayProps {
   extractedData: ExtractedData;
-  progress?: { current: number; total: number; stage: string };
+  progress?: { current: number; total: number; stage: string } | { stage: string; percentage: number };
 }
 
 const EnhancedPdfDisplay: React.FC<EnhancedPdfDisplayProps> = ({ extractedData, progress }) => {
@@ -57,9 +57,15 @@ const EnhancedPdfDisplay: React.FC<EnhancedPdfDisplayProps> = ({ extractedData, 
               <Clock className="h-5 w-5 text-blue-600 animate-spin" />
               <div className="flex-1">
                 <p className="text-sm font-medium">{progress.stage}</p>
-                {progress.total > 0 && (
+                {'total' in progress && progress.total > 0 && (
                   <Progress 
                     value={(progress.current / progress.total) * 100} 
+                    className="mt-2"
+                  />
+                )}
+                {'percentage' in progress && (
+                  <Progress 
+                    value={progress.percentage} 
                     className="mt-2"
                   />
                 )}

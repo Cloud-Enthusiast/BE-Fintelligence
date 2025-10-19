@@ -23,6 +23,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useFileExtraction, ExtractedData } from '@/hooks/useFileExtraction';
 import PdfViewer from './PdfViewer';
 import EnhancedPdfDisplay from './EnhancedPdfDisplay';
+import EnhancedCibilTable from './EnhancedCibilTable';
 
 interface FileUploadExtractorProps {
   onExtractedData?: (data: ExtractedData) => void;
@@ -201,6 +202,11 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
                       <CardTitle className="text-lg">{extractedData.fileName}</CardTitle>
                       <CardDescription>
                         {formatFileSize(extractedData.fileSize)} • {extractedData.fileType}
+                        {extractedData.isCibilReport && (
+                          <span className="ml-2">
+                            • <span className="text-blue-600 font-medium">CIBIL Report</span>
+                          </span>
+                        )}
                       </CardDescription>
                     </div>
                   </div>
@@ -209,6 +215,11 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
                       <Badge variant="destructive" className="flex items-center space-x-1">
                         <AlertCircle className="h-3 w-3" />
                         <span>Error</span>
+                      </Badge>
+                    ) : extractedData.isCibilReport ? (
+                      <Badge variant="default" className="flex items-center space-x-1 bg-blue-100 text-blue-800">
+                        <CheckCircle className="h-3 w-3" />
+                        <span>CIBIL Extracted</span>
                       </Badge>
                     ) : (
                       <Badge variant="default" className="flex items-center space-x-1 bg-green-100 text-green-800">
@@ -236,6 +247,35 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
                   <div className="space-y-4">
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-2">
+                      {/* CIBIL-specific actions */}
+                      {extractedData.isCibilReport && extractedData.enhancedCibilData && (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const cibilData = extractedData.enhancedCibilData!;
+                              const formattedData = [
+                                `CIBIL Score: ${cibilData.cibilScore || 'Not found'}`,
+                                `Number of loans: ${cibilData.numberOfLoans || 'Not found'}`,
+                                `Total Amount of Loan: ${cibilData.totalLoanAmount || 'Not found'}`,
+                                `Amount overdue: ${cibilData.amountOverdue || 'Not found'}`,
+                                `Suit filed and Default: ${cibilData.suitFiledAndDefault || 'Not found'}`,
+                                `Settled and Written off amount: ${cibilData.settledAndWrittenOff || 'Not found'}`
+                              ].join('\n');
+                              copyToClipboard(formattedData);
+                            }}
+                          >
+                            <Copy className="h-4 w-4 mr-2" />
+                            Copy CIBIL Data
+                          </Button>
+                          <Badge variant="secondary" className="text-xs">
+                            Quality: {extractedData.enhancedCibilData.extractionQuality.qualityLevel}
+                          </Badge>
+                        </>
+                      )}
+                      
+                      {/* Standard actions */}
                       <Button
                         variant="outline"
                         size="sm"
@@ -276,12 +316,45 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
 
                     <Separator />
 
-                    {/* Enhanced PDF Display for PDFs */}
-                    {(extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && (
+                    {/* Enhanced CIBIL Display for CIBIL Reports */}
+                    {extractedData.isCibilReport && extractedData.enhancedCibilData && (
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-2 mb-4">
+                          <Badge variant="default" className="bg-blue-100 text-blue-800">
+                            <FileText className="h-3 w-3 mr-1" />
+                            CIBIL Report Detected
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            Confidence: {Math.round(extractedData.cibilDetectionResult?.confidence || 0)}%
+                          </Badge>
+                        </div>
+                        <EnhancedCibilTable 
+                          data={extractedData.enhancedCibilData}
+                          fileName={extractedData.fileName}
+                          showConfidenceScores={true}
+                          showValidationFlags={true}
+                        />
+                      </div>
+                    )}
+
+                    {/* Enhanced PDF Display for PDFs (non-CIBIL or fallback) */}
+                    {(extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && 
+                     !extractedData.isCibilReport && (
                       <EnhancedPdfDisplay 
                         extractedData={extractedData} 
                         progress={progress}
                       />
+                    )}
+
+                    {/* Standard PDF Display for CIBIL reports (as additional info) */}
+                    {extractedData.isCibilReport && (
+                      <div className="mt-6">
+                        <h4 className="font-medium mb-2 text-sm text-gray-600">Document Processing Details:</h4>
+                        <EnhancedPdfDisplay 
+                          extractedData={extractedData} 
+                          progress={progress}
+                        />
+                      </div>
                     )}
 
                     {/* Standard Inline Text Display for non-PDFs */}

@@ -3,6 +3,10 @@ import mammoth from 'mammoth';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
 import { usePdfExtraction } from './usePdfExtraction';
+import { CibilReportDetector } from '@/utils/cibilReportDetector';
+import { EnhancedCibilExtractor } from '@/utils/enhancedCibilExtractor';
+import { SimpleCibilExtractor } from '@/utils/simpleCibilExtractor';
+import { EnhancedCibilData } from '@/types/enhanced-cibil';
 
 export interface ExtractedData {
     fileName: string;
@@ -12,6 +16,10 @@ export interface ExtractedData {
     metadata?: Record<string, any>;
     structuredData?: any[];
     error?: string;
+    // Enhanced CIBIL data when detected
+    enhancedCibilData?: EnhancedCibilData;
+    isCibilReport?: boolean;
+    cibilDetectionResult?: any;
 }
 
 export const useFileExtraction = () => {
@@ -129,6 +137,128 @@ export const useFileExtraction = () => {
                     // Add structured data from extracted info
                     if (pdfResult.extracted_info) {
                         result.structuredData = [pdfResult.extracted_info];
+                    }
+
+                    // CIBIL Report Detection and Enhanced Processing
+                    if (result.extractedText && result.extractedText.trim().length > 0) {
+                        const cibilDetection = CibilReportDetector.detectCibilReport(result.extractedText);
+                        result.cibilDetectionResult = cibilDetection;
+                        result.isCibilReport = cibilDetection.isCibilReport;
+
+                        // If CIBIL report detected, use simple extraction approach
+                        if (cibilDetection.isCibilReport && cibilDetection.confidence >= 40) {
+                            try {
+                                // Use simple, direct extraction approach
+                                const simpleExtractor = new SimpleCibilExtractor(result.extractedText);
+                                const simpleData = simpleExtractor.extractAll();
+                                
+                                // Convert to EnhancedCibilData format with all fields
+                                result.enhancedCibilData = {
+                                    // Base fields from FinancialData
+                                    cibilScore: simpleData.cibilScore,
+                                    numberOfLoans: simpleData.loansPerBank || '0',
+                                    totalLoanAmount: simpleData.totalAmountOfLoan,
+                                    amountOverdue: '₹0.00', // Not in new structure, set default
+                                    suitFiledAndDefault: simpleData.suitFiledWilfulDefault,
+                                    settledAndWrittenOff: simpleData.settlementAmount,
+                                    reportDate: '',
+                                    applicantName: simpleData.nameOfCustomer,
+                                    panNumber: '',
+                                    accountNumbers: [],
+                                    
+                                    // Extended fields for complete table
+                                    nameOfCustomer: simpleData.nameOfCustomer,
+                                    bankName: simpleData.bankName,
+                                    accountType: simpleData.accountType,
+                                    loansPerBank: simpleData.loansPerBank,
+                                    totalAmountOfLoan: simpleData.totalAmountOfLoan,
+                                    bouncedDetails: simpleData.bouncedDetails,
+                                    typeOfCollateral: simpleData.typeOfCollateral,
+                                    emiAmount: simpleData.emiAmount,
+                                    writtenOffAmountTotal: simpleData.writtenOffAmountTotal,
+                                    writtenOffAmountPrincipal: simpleData.writtenOffAmountPrincipal,
+                                    suitFiledWilfulDefault: simpleData.suitFiledWilfulDefault,
+                                    settlementAmount: simpleData.settlementAmount,
+                                    
+                                    // Enhanced fields
+                                    reportType: 'CIBIL' as const,
+                                    processingMethod: ['SIMPLE_EXTRACTION'] as any,
+                                    extractionQuality: {
+                                        overallScore: Math.round(Object.values(simpleData.confidence).reduce((a, b) => a + b, 0) / 6),
+                                        fieldsExtracted: Object.values(simpleData).filter(v => v && v !== '').length - 1, // -1 for confidence object
+                                        totalFields: 6,
+                                        qualityLevel: 'HIGH' as const,
+                                        validationFlags: []
+                                    },
+                                    fieldConfidence: {
+                                        cibilScore: simpleData.confidence.cibilScore / 100,
+                                        numberOfLoans: simpleData.confidence.loansPerBank / 100,
+                                        totalLoanAmount: simpleData.confidence.totalAmountOfLoan / 100,
+                                        amountOverdue: 0.8, // Default confidence for calculated field
+                                        suitFiledAndDefault: simpleData.confidence.suitFiledWilfulDefault / 100,
+                                        settledAndWrittenOff: simpleData.confidence.settlementAmount / 100,
+                                        reportDate: 0,
+                                        applicantName: simpleData.confidence.nameOfCustomer / 100,
+                                        panNumber: 0,
+                                        accountNumbers: 0,
+                                        
+                                        // Extended field confidences
+                                        nameOfCustomer: simpleData.confidence.nameOfCustomer / 100,
+                                        bankName: simpleData.confidence.bankName / 100,
+                                        accountType: simpleData.confidence.accountType / 100,
+                                        loansPerBank: simpleData.confidence.loansPerBank / 100,
+                                        totalAmountOfLoan: simpleData.confidence.totalAmountOfLoan / 100,
+                                        bouncedDetails: simpleData.confidence.bouncedDetails / 100,
+                                        typeOfCollateral: simpleData.confidence.typeOfCollateral / 100,
+                                        emiAmount: simpleData.confidence.emiAmount / 100,
+                                        writtenOffAmountTotal: simpleData.confidence.writtenOffAmountTotal / 100,
+                                        writtenOffAmountPrincipal: simpleData.confidence.writtenOffAmountPrincipal / 100,
+                                        suitFiledWilfulDefault: simpleData.confidence.suitFiledWilfulDefault / 100,
+                                        settlementAmount: simpleData.confidence.settlementAmount / 100
+                                    },
+                                    extractionTimestamp: new Date().toISOString(),
+                                    documentPages: result.metadata?.totalPages || 1,
+                                    ocrConfidence: result.metadata?.confidence || 0.95
+                                } as EnhancedCibilData;
+                                
+                                // Update metadata with CIBIL-specific information
+                                result.metadata = {
+                                    ...result.metadata,
+                                    reportType: 'CIBIL',
+                                    cibilDetection: cibilDetection,
+                                    enhancedExtraction: true,
+                                    extractionQuality: result.enhancedCibilData.extractionQuality,
+                                    processingMethods: result.enhancedCibilData.processingMethod,
+                                    extractionAnalytics: {
+                                        methodsUsed: result.enhancedCibilData.processingMethod,
+                                        primaryMethod: result.enhancedCibilData.processingMethod[0],
+                                        fallbackUsed: result.enhancedCibilData.processingMethod.length > 1,
+                                        ocrConfidence: result.enhancedCibilData.ocrConfidence,
+                                        textLayerAvailable: result.metadata.pagesWithText > 0,
+                                        ocrPagesProcessed: result.metadata.ocrPagesProcessed || 0,
+                                        hybridProcessing: result.enhancedCibilData.processingMethod.includes('HYBRID')
+                                    }
+                                };
+                            } catch (enhancedError) {
+                                console.warn('Enhanced CIBIL extraction failed, falling back to standard extraction:', enhancedError);
+                                // Fallback to standard extraction - data is already extracted above
+                                result.metadata = {
+                                    ...result.metadata,
+                                    reportType: 'STANDARD',
+                                    cibilDetection: cibilDetection,
+                                    enhancedExtraction: false,
+                                    enhancedExtractionError: enhancedError instanceof Error ? enhancedError.message : 'Unknown error'
+                                };
+                            }
+                        } else {
+                            // Standard extraction for non-CIBIL reports
+                            result.metadata = {
+                                ...result.metadata,
+                                reportType: 'STANDARD',
+                                cibilDetection: cibilDetection,
+                                enhancedExtraction: false
+                            };
+                        }
                     }
                 } else {
                     result.error = pdfResult.error || 'PDF extraction failed';
