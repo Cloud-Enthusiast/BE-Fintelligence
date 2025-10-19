@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  pdf-service:
+    build: ./backend
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONPATH=/app
+    command: uvicorn pdf_service:app --host 0.0.0.0 --port 8001 --reload
+
+  frontend:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - pdf-service
+    command: npm run dev:frontend

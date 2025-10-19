@@ -2,20 +2,17 @@
 
 ## Quick Start
 
-### 1. Start the PDF Service
+### 1. Start Everything (One Command)
 ```bash
-# Windows
-start-pdf-service.bat
-
-# Or manually
-cd backend
-pip install -r requirements.txt
-python -m uvicorn pdf_service:app --host 0.0.0.0 --port 8001 --reload
-```
-
-### 2. Start the React App
-```bash
+npm install
 npm run dev
+```
+This starts both the Python PDF service and React app automatically!
+
+### 2. Alternative: Individual Services
+```bash
+npm run dev:frontend    # Just React app
+npm run dev:backend     # Just Python service
 ```
 
 ### 3. Upload PDFs

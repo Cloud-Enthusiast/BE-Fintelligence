@@ -378,13 +378,15 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
 
       {/* PDF Viewer Dialog */}
       <Dialog open={showPdfViewer} onOpenChange={setShowPdfViewer}>
-        <DialogContent className="max-w-7xl max-h-[90vh] p-0">
-          {extractedData && (
-            <PdfViewer 
-              extractedData={extractedData} 
-              onClose={() => setShowPdfViewer(false)}
-            />
-          )}
+        <DialogContent className="max-w-7xl w-[95vw] max-h-[90vh] overflow-hidden flex flex-col p-0">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden">
+            {extractedData && (
+              <PdfViewer 
+                extractedData={extractedData} 
+                onClose={() => setShowPdfViewer(false)}
+              />
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

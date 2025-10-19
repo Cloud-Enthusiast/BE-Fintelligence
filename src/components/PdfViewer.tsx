@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { 
   FileText, 
@@ -10,7 +10,8 @@ import {
   BookOpen,
   Info,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  BarChart3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,6 +22,8 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
 import { ExtractedData } from '@/hooks/useFileExtraction';
+import { FinancialDataExtractor } from '@/utils/financialDataExtractor';
+import FinancialDataTable from '@/components/FinancialDataTable';
 
 interface PdfViewerProps {
   extractedData: ExtractedData;
@@ -31,6 +34,14 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ extractedData, onClose }) => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [showMetadata, setShowMetadata] = useState(false);
+  const [viewMode, setViewMode] = useState<'analysis' | 'raw'>('analysis');
+
+  // Extract financial data using the intelligent extractor
+  const financialData = useMemo(() => {
+    if (!extractedData.extractedText) return null;
+    const extractor = new FinancialDataExtractor(extractedData.extractedText);
+    return extractor.extractAll();
+  }, [extractedData.extractedText]);
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -118,11 +129,12 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ extractedData, onClose }) => {
   const keyInfo = extractKeyInformation();
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="w-full p-6 space-y-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="space-y-6"
       >
         {/* Header */}
         <Card>
@@ -206,6 +218,28 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ extractedData, onClose }) => {
                     />
                   </div>
                   <div className="flex items-center space-x-2">
+                    {/* View Toggle */}
+                    <div className="flex items-center space-x-1 border rounded-lg p-1">
+                      <Button
+                        variant={viewMode === 'analysis' ? 'default' : 'ghost'}
+                        size="sm"
+                        onClick={() => setViewMode('analysis')}
+                        className="h-8"
+                      >
+                        <BarChart3 className="h-4 w-4 mr-1" />
+                        Analysis
+                      </Button>
+                      <Button
+                        variant={viewMode === 'raw' ? 'default' : 'ghost'}
+                        size="sm"
+                        onClick={() => setViewMode('raw')}
+                        className="h-8"
+                      >
+                        <BookOpen className="h-4 w-4 mr-1" />
+                        Raw Text
+                      </Button>
+                    </div>
+                    
                     <Button
                       variant="outline"
                       size="sm"
@@ -236,28 +270,34 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ extractedData, onClose }) => {
             </Card>
 
             {/* Main Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Text Content */}
-              <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <BookOpen className="h-5 w-5 mr-2" />
-                      Extracted Text
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ScrollArea className="h-96 w-full border rounded-lg p-4">
-                      <div 
-                        className="text-sm whitespace-pre-wrap font-mono leading-relaxed"
-                        dangerouslySetInnerHTML={{
-                          __html: highlightSearchTerm(extractedData.extractedText, searchTerm)
-                        }}
-                      />
-                    </ScrollArea>
-                  </CardContent>
-                </Card>
-              </div>
+            {viewMode === 'analysis' && financialData ? (
+              <FinancialDataTable 
+                data={financialData} 
+                fileName={extractedData.fileName}
+              />
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Text Content */}
+                <div className="lg:col-span-2">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <BookOpen className="h-5 w-5 mr-2" />
+                        Extracted Text
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ScrollArea className="h-96 w-full border rounded-lg p-4">
+                        <div 
+                          className="text-sm whitespace-pre-wrap font-mono leading-relaxed"
+                          dangerouslySetInnerHTML={{
+                            __html: highlightSearchTerm(extractedData.extractedText, searchTerm)
+                          }}
+                        />
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
+                </div>
 
               {/* Sidebar */}
               <div className="space-y-6">
@@ -372,6 +412,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ extractedData, onClose }) => {
                 )}
               </div>
             </div>
+            )}
           </>
         )}
       </motion.div>

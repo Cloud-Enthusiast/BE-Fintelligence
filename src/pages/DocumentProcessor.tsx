@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Upload, Zap, Shield, Clock } from 'lucide-react';
+import { FileText, Upload, Zap, Shield, Clock, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import FileUploadExtractor from '@/components/FileUploadExtractor';
 import { ExtractedData } from '@/hooks/useFileExtraction';
 import Layout from '@/components/Layout';
 
 const DocumentProcessor = () => {
+  const navigate = useNavigate();
   const [processedFiles, setProcessedFiles] = useState<ExtractedData[]>([]);
 
   const handleExtractedData = (data: ExtractedData) => {
     setProcessedFiles(prev => [data, ...prev.slice(0, 4)]); // Keep last 5 files
+  };
+
+  const handleBackToDashboard = () => {
+    navigate('/dashboard');
   };
 
   const features = [
@@ -46,17 +53,32 @@ const DocumentProcessor = () => {
           transition={{ duration: 0.5 }}
         >
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <div className="rounded-full bg-blue-100 p-3 mr-3">
-                <FileText className="h-8 w-8 text-blue-600" />
-              </div>
-              <h1 className="text-3xl font-bold text-gray-900">Document Processor</h1>
+          <div className="mb-8">
+            {/* Back Button */}
+            <div className="mb-6">
+              <Button
+                variant="outline"
+                onClick={handleBackToDashboard}
+                className="flex items-center space-x-2 hover:bg-gray-50"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Back to Dashboard</span>
+              </Button>
             </div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Extract text and structured data from your documents instantly. Upload CSV, Excel, Word, PDF, 
-              and text files to get organized data, metadata, and searchable content.
-            </p>
+
+            {/* Title Section */}
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-4">
+                <div className="rounded-full bg-blue-100 p-3 mr-3">
+                  <FileText className="h-8 w-8 text-blue-600" />
+                </div>
+                <h1 className="text-3xl font-bold text-gray-900">Document Processor</h1>
+              </div>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Extract text and structured data from your documents instantly. Upload CSV, Excel, Word, PDF, 
+                and text files to get organized data, metadata, and searchable content.
+              </p>
+            </div>
           </div>
 
           {/* Features Grid */}
