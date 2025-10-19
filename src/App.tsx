@@ -21,6 +21,8 @@ import Register from "./pages/Register";
 import DocumentProcessor from "./pages/DocumentProcessor";
 import DocumentUploadDemo from "./components/DocumentUploadDemo";
 import PdfDemo from "./pages/PdfDemo";
+import PdfTestComponent from "./components/PdfTestComponent";
+import EnhancedPdfDemo from "./pages/EnhancedPdfDemo";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -141,6 +143,26 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <PdfDemo />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* PDF test component */}
+                <Route
+                  path="/pdf-test"
+                  element={
+                    <ProtectedRoute>
+                      <PdfTestComponent />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Enhanced PDF demo with OCR */}
+                <Route
+                  path="/enhanced-pdf-demo"
+                  element={
+                    <ProtectedRoute>
+                      <EnhancedPdfDemo />
                     </ProtectedRoute>
                   }
                 />

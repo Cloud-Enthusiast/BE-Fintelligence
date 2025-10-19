@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useToast } from '@/components/ui/use-toast';
 import { useFileExtraction, ExtractedData } from '@/hooks/useFileExtraction';
 import PdfViewer from './PdfViewer';
+import EnhancedPdfDisplay from './EnhancedPdfDisplay';
 
 interface FileUploadExtractorProps {
   onExtractedData?: (data: ExtractedData) => void;
@@ -47,7 +48,7 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
   className = ''
 }) => {
   const { toast } = useToast();
-  const { isProcessing, extractedData, processFile, clearData } = useFileExtraction();
+  const { isProcessing, extractedData, processFile, clearData, progress } = useFileExtraction();
   const [showModal, setShowModal] = useState(false);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
 
@@ -275,13 +276,33 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
 
                     <Separator />
 
-                    {/* Inline Text Display */}
-                    {showInline && (
+                    {/* Enhanced PDF Display for PDFs */}
+                    {(extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && (
+                      <EnhancedPdfDisplay 
+                        extractedData={extractedData} 
+                        progress={progress}
+                      />
+                    )}
+
+                    {/* Standard Inline Text Display for non-PDFs */}
+                    {showInline && !(extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && (
                       <div>
                         <h4 className="font-medium mb-2">Extracted Text:</h4>
                         <ScrollArea className="h-64 w-full border rounded-lg p-3">
                           <pre className="text-sm whitespace-pre-wrap font-mono">
                             {extractedData.extractedText || 'No text extracted'}
+                          </pre>
+                        </ScrollArea>
+                      </div>
+                    )}
+
+                    {/* PDF Text Display (when inline is enabled) */}
+                    {showInline && (extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && extractedData.extractedText && (
+                      <div>
+                        <h4 className="font-medium mb-2">Extracted Text:</h4>
+                        <ScrollArea className="h-64 w-full border rounded-lg p-3">
+                          <pre className="text-sm whitespace-pre-wrap font-mono">
+                            {extractedData.extractedText}
                           </pre>
                         </ScrollArea>
                       </div>
@@ -300,8 +321,8 @@ const FileUploadExtractor: React.FC<FileUploadExtractorProps> = ({
                       </div>
                     )}
 
-                    {/* Metadata */}
-                    {extractedData.metadata && (
+                    {/* Metadata for non-PDFs (PDFs have enhanced display) */}
+                    {extractedData.metadata && !(extractedData.fileType === 'application/pdf' || extractedData.fileName.toLowerCase().endsWith('.pdf')) && (
                       <div>
                         <h4 className="font-medium mb-2">File Information:</h4>
                         <div className="grid grid-cols-2 gap-2 text-sm">

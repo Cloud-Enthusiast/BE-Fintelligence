@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import mammoth from 'mammoth';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import * as pdfjsLib from 'pdfjs-dist';
+import { usePdfExtraction } from './usePdfExtraction';
 
 export interface ExtractedData {
     fileName: string;
@@ -17,51 +17,14 @@ export interface ExtractedData {
 export const useFileExtraction = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [extractedData, setExtractedData] = useState<ExtractedData | null>(null);
+    const [progress, setProgress] = useState({ current: 0, total: 0, stage: '' });
+    const { extractPdf, checkServerHealth, isProcessing: isPdfProcessing, progress: pdfProgress } = usePdfExtraction();
 
-    // Configure PDF.js worker
-    const initializePdfJs = useCallback(() => {
-        if (typeof window !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-        }
-    }, []);
 
-    const extractTextFromPdf = useCallback(async (file: File): Promise<{ text: string; metadata: any }> => {
-        initializePdfJs();
-        
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        
-        let fullText = '';
-        const pages: string[] = [];
-        
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const textContent = await page.getTextContent();
-            
-            const pageText = textContent.items
-                .map((item: any) => item.str)
-                .join(' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-            
-            if (pageText) {
-                pages.push(pageText);
-                fullText += pageText + '\n\n';
-            }
-        }
-        
-        const metadata = {
-            totalPages: pdf.numPages,
-            pagesWithText: pages.length,
-            pdfInfo: await pdf.getMetadata().catch(() => null),
-            extractionMethod: 'PDF.js'
-        };
-        
-        return { text: fullText.trim(), metadata };
-    }, [initializePdfJs]);
 
     const extractTextFromFile = useCallback(async (file: File): Promise<ExtractedData> => {
         setIsProcessing(true);
+        setProgress({ current: 0, total: 1, stage: 'Starting extraction...' });
 
         try {
             const result: ExtractedData = {
@@ -147,22 +110,29 @@ export const useFileExtraction = () => {
                 };
             }
             else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-                // PDF text extraction using PDF.js
-                try {
-                    const { text, metadata: pdfMetadata } = await extractTextFromPdf(file);
-                    result.extractedText = text;
+                // Use Python PyPDF service for all PDF processing
+                const pdfResult = await extractPdf(file);
+                
+                if (pdfResult.success) {
+                    result.extractedText = pdfResult.extracted_text;
                     result.metadata = {
                         ...result.metadata,
-                        ...pdfMetadata
+                        ...pdfResult.metadata,
+                        totalPages: pdfResult.page_count,
+                        pagesWithText: pdfResult.pages_with_text,
+                        extractedInfo: pdfResult.extracted_info,
+                        statistics: pdfResult.statistics,
+                        pageBreakdown: pdfResult.pages,
+                        confidence: pdfResult.confidence
                     };
                     
-                    if (!text || text.trim().length === 0) {
-                        result.error = 'No text found in PDF. The PDF might contain only images or be password protected.';
+                    // Add structured data from extracted info
+                    if (pdfResult.extracted_info) {
+                        result.structuredData = [pdfResult.extracted_info];
                     }
-                } catch (pdfError) {
-                    console.error('PDF extraction error:', pdfError);
-                    result.error = `PDF extraction failed: ${pdfError instanceof Error ? pdfError.message : 'Unknown error'}`;
-                    result.extractedText = 'Failed to extract text from PDF';
+                } else {
+                    result.error = pdfResult.error || 'PDF extraction failed';
+                    result.extractedText = '';
                 }
             }
             else {
@@ -181,6 +151,7 @@ export const useFileExtraction = () => {
             };
         } finally {
             setIsProcessing(false);
+            setProgress({ current: 0, total: 0, stage: '' });
         }
     }, []);
 
@@ -195,9 +166,10 @@ export const useFileExtraction = () => {
     }, []);
 
     return {
-        isProcessing,
+        isProcessing: isProcessing || isPdfProcessing,
         extractedData,
         processFile,
-        clearData
+        clearData,
+        progress: isPdfProcessing ? pdfProgress : progress
     };
 };

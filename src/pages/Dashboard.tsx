@@ -159,6 +159,12 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Demo & Tools</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <QuickAccessCard 
+                title="Enhanced PDF + OCR" 
+                description="Industry-grade PDF extraction with OCR technology"
+                icon={<ScanTextIcon className="h-8 w-8 text-purple-600" />}
+                linkTo="/enhanced-pdf-demo"
+              />
+              <QuickAccessCard 
                 title="PDF Extraction Demo" 
                 description="Advanced PDF text extraction and analysis"
                 icon={<FileTextIcon className="h-8 w-8 text-red-600" />}
