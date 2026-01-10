@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   BellIcon, 
@@ -16,15 +15,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { UserProfile } from '@/contexts/AuthContext';
 
 interface DashboardHeaderProps {
   onSidebarToggle: () => void;
-  user: { name: string; role: string; avatar?: string } | null;
+  profile: UserProfile | null;
   onLogout: () => void;
 }
 
-const DashboardHeader = ({ onSidebarToggle, user, onLogout }: DashboardHeaderProps) => {
+const DashboardHeader = ({ onSidebarToggle, profile, onLogout }: DashboardHeaderProps) => {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+
+  const displayName = profile?.full_name || profile?.email || 'User';
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
@@ -106,16 +108,8 @@ const DashboardHeader = ({ onSidebarToggle, user, onLogout }: DashboardHeaderPro
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative flex items-center gap-2 pl-2 pr-4">
-                {user?.avatar ? (
-                  <img 
-                    src={user.avatar} 
-                    alt={user.name}
-                    className="h-8 w-8 rounded-full"
-                  />
-                ) : (
-                  <UserCircleIcon className="h-8 w-8" />
-                )}
-                <span className="hidden md:inline font-medium">{user?.name}</span>
+                <UserCircleIcon className="h-8 w-8" />
+                <span className="hidden md:inline font-medium">{displayName}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

@@ -1,16 +1,27 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from '@/hooks/use-toast';
-import { mockAuth, User } from '@/lib/mockAuth';
+import { supabase } from '@/integrations/supabase/client';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
-type UserRole = 'Loan Officer' | 'Applicant';
+export interface UserProfile {
+  id: string;
+  user_id: string;
+  full_name: string | null;
+  email: string | null;
+  phone: string | null;
+  role: 'loan_officer' | 'admin';
+}
 
 interface AuthContextType {
-  user: User | null;
+  user: SupabaseUser | null;
+  profile: UserProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (username: string, password: string, loginType?: 'officer' | 'applicant') => Promise<boolean>;
-  loginWithOTP: (username: string, otp: string) => Promise<boolean>;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<boolean>;
+  loginWithOTP: (email: string, otp: string) => Promise<boolean>;
+  sendOTP: (email: string) => Promise<boolean>;
+  signup: (email: string, password: string, fullName: string) => Promise<boolean>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,42 +35,79 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Check for existing user session on mount
+  // Fetch user profile and role
+  const fetchUserProfile = async (userId: string): Promise<UserProfile | null> => {
+    try {
+      // Fetch profile
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (profileError) {
+        console.error('Error fetching profile:', profileError);
+        return null;
+      }
+
+      // Fetch role
+      const { data: roleData, error: roleError } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId)
+        .single();
+
+      if (roleError) {
+        console.error('Error fetching role:', roleError);
+        return null;
+      }
+
+      return {
+        ...profileData,
+        role: roleData.role as 'loan_officer' | 'admin'
+      };
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      return null;
+    }
+  };
+
+  // Initialize auth state
   useEffect(() => {
-    const checkSession = () => {
-      setIsLoading(true);
-      try {
-        const session = mockAuth.getSession();
-        if (session.data.session?.user) {
-          setUser(session.data.session.user);
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          setUser(session.user);
           setIsAuthenticated(true);
+          
+          // Fetch profile with setTimeout to avoid deadlock
+          setTimeout(async () => {
+            const userProfile = await fetchUserProfile(session.user.id);
+            setProfile(userProfile);
+            setIsLoading(false);
+          }, 0);
         } else {
           setUser(null);
+          setProfile(null);
           setIsAuthenticated(false);
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error('Error checking session:', error);
-        setUser(null);
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
       }
-    };
+    );
 
-    checkSession();
-
-    // Listen for auth state changes
-    const { data: { subscription } } = mockAuth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
+    // THEN check for existing session
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
         setUser(session.user);
         setIsAuthenticated(true);
-      } else if (event === 'SIGNED_OUT') {
-        setUser(null);
-        setIsAuthenticated(false);
+        const userProfile = await fetchUserProfile(session.user.id);
+        setProfile(userProfile);
       }
       setIsLoading(false);
     });
@@ -69,34 +117,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const login = async (username: string, password: string, loginType: 'officer' | 'applicant' = 'officer'): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const { user: authUser, error } = await mockAuth.signInWithPassword({
-        email: username,
-        password: password,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
       if (error) {
-        throw new Error(error);
+        throw error;
       }
 
-      if (authUser) {
-        // Check if the user role matches the selected login type
-        if (
-          (loginType === 'officer' && authUser.role !== 'Loan Officer') ||
-          (loginType === 'applicant' && authUser.role !== 'Applicant')
-        ) {
-          throw new Error('Incorrect login type selected for this user role.');
-        }
-
-        setUser(authUser);
-        setIsAuthenticated(true);
-
+      if (data.user) {
         toast({
           title: "Login successful",
-          description: `Welcome back, ${authUser.name}`,
+          description: "Welcome back!",
         });
-
         return true;
       }
     } catch (error: any) {
@@ -104,34 +140,112 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       toast({
         variant: "destructive",
         title: "Login failed",
-        description: error.message || "Invalid credentials or incorrect login type selected.",
+        description: error.message || "Invalid credentials.",
       });
     }
-
     return false;
   };
 
-  const loginWithOTP = async (username: string, otp: string): Promise<boolean> => {
-    // For demo purposes, accept any OTP that's "123456"
-    if (otp === '123456') {
-      return login(username, 'password'); // Use regular login with default password
+  const sendOTP = async (email: string): Promise<boolean> => {
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: window.location.origin,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "OTP Sent",
+        description: "Check your email for the one-time password.",
+      });
+      return true;
+    } catch (error: any) {
+      console.error('Send OTP error:', error);
+      toast({
+        variant: "destructive",
+        title: "Failed to Send OTP",
+        description: error.message || "Could not send OTP. Please try again.",
+      });
+      return false;
     }
+  };
 
-    toast({
-      variant: "destructive",
-      title: "OTP Login failed",
-      description: "Invalid OTP. Use '123456' for demo.",
-    });
+  const loginWithOTP = async (email: string, otp: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: otp,
+        type: 'email',
+      });
 
+      if (error) {
+        throw error;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Login successful",
+          description: "Welcome!",
+        });
+        return true;
+      }
+    } catch (error: any) {
+      console.error('OTP verification error:', error);
+      toast({
+        variant: "destructive",
+        title: "OTP verification failed",
+        description: error.message || "Invalid OTP.",
+      });
+    }
+    return false;
+  };
+
+  const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: {
+            full_name: fullName,
+          },
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Registration successful",
+          description: "Welcome to BE Finance!",
+        });
+        return true;
+      }
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      toast({
+        variant: "destructive",
+        title: "Registration failed",
+        description: error.message || "Could not create account.",
+      });
+    }
     return false;
   };
 
   const logout = async () => {
     try {
-      await mockAuth.signOut();
+      await supabase.auth.signOut();
       setUser(null);
+      setProfile(null);
       setIsAuthenticated(false);
-      setIsLoading(false);
 
       toast({
         title: "Logged out",
@@ -143,7 +257,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, loginWithOTP, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      profile, 
+      isAuthenticated, 
+      isLoading, 
+      login, 
+      loginWithOTP, 
+      sendOTP,
+      signup,
+      logout 
+    }}>
       {children}
     </AuthContext.Provider>
   );

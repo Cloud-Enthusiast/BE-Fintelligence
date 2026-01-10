@@ -1,15 +1,11 @@
-
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { BuildingIcon, UserIcon, BookUser, FileText } from 'lucide-react';
-import LoanOfficerRegister from '@/components/LoanOfficerRegister';
+import { BuildingIcon, BookUser } from 'lucide-react';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const [hoveredOption, setHoveredOption] = useState<'officer' | 'applicant' | null>(null);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-app">
@@ -87,10 +83,10 @@ const Landing = () => {
             Welcome to BE Finance
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
           </h1>
-          <p className="text-xl text-finance-600">Your trusted partner in business funding solutions</p>
+          <p className="text-xl text-finance-600">MSME Loan Qualification Platform for Loan Officers</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full relative">
+        <div className="max-w-md w-full relative">
           {/* Clean accent decorations */}
           <div className="absolute -top-10 -left-10 w-20 h-20">
             <div className="w-full h-full border-t-2 border-l-2 border-purple-400 rounded-tl-xl opacity-60"></div>
@@ -99,64 +95,32 @@ const Landing = () => {
             <div className="w-full h-full border-b-2 border-r-2 border-purple-400 rounded-br-xl opacity-60"></div>
           </div>
 
-          {/* Loan Officer Option */}
+          {/* Loan Officer Portal */}
           <motion.div
-            whileHover={{ scale: 1.03 }}
-            onMouseEnter={() => setHoveredOption('officer')}
-            onMouseLeave={() => setHoveredOption(null)}
+            whileHover={{ scale: 1.02 }}
           >
-            <Card className={`h-full transition-colors hover-lift card-shine ${
-              hoveredOption === 'officer' ? 'border-2 border-gold-400 shadow-lg' : 'border-2 border-transparent'
-            } bg-white/90 backdrop-blur-sm relative overflow-hidden`}>              
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
+            <Card className="h-full transition-colors hover-lift card-shine border-2 border-transparent hover:border-gold-400 hover:shadow-lg bg-white/90 backdrop-blur-sm relative overflow-hidden">              
+              <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <div className="bg-finance-100 p-4 rounded-full mb-6 border-2 border-finance-200 relative">
                   <BookUser className="h-12 w-12 text-finance-500" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2 text-finance-900">Loan Officer</h2>
-                <p className="text-gray-600 mb-6">Access the dashboard to review and manage loan applications</p>
-                <div className="w-full mt-auto grid gap-4">
-                  <Button 
-                    className="w-full mt-auto bg-finance-500 hover:bg-finance-600 text-white border-b-4 border-purple-700" 
-                    size="lg"
-                    onClick={() => navigate('/login', { state: { defaultTab: 'officer' }})}
-                  >
-                    Login as Loan Officer
-                  </Button>
-                  <LoanOfficerRegister />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Loan Applicant Option */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            onMouseEnter={() => setHoveredOption('applicant')}
-            onMouseLeave={() => setHoveredOption(null)}
-          >
-            <Card className={`h-full transition-colors hover-lift card-shine ${
-              hoveredOption === 'applicant' ? 'border-2 border-gold-400 shadow-lg' : 'border-2 border-transparent'
-            } bg-white/90 backdrop-blur-sm relative overflow-hidden`}>              
-              <CardContent className="p-6 flex flex-col items-center text-center h-full">
-                <div className="bg-finance-100 p-4 rounded-full mb-6 border-2 border-finance-200 relative">
-                  <FileText className="h-12 w-12 text-finance-500" />
-                </div>
-                <h2 className="text-2xl font-bold mb-2 text-finance-900">Loan Applicant</h2>
-                <p className="text-gray-600 mb-6">Apply for business funding or check your application status</p>
+                <h2 className="text-2xl font-bold mb-2 text-finance-900">Loan Officer Portal</h2>
+                <p className="text-gray-600 mb-6">Access the dashboard to assess MSME loan eligibility and manage applications</p>
                 <div className="w-full mt-auto grid gap-4">
                   <Button 
                     className="w-full bg-finance-500 hover:bg-finance-600 text-white border-b-4 border-purple-700" 
                     size="lg"
-                    onClick={() => navigate('/login', { state: { defaultTab: 'applicant' }})}
+                    onClick={() => navigate('/login')}
                   >
-                    Login as Applicant
+                    Sign In
                   </Button>
                   <Button 
                     variant="outline" 
                     className="w-full border-finance-300 hover:bg-purple-50 text-finance-600 hover:border-purple-400" 
+                    size="lg"
                     onClick={() => navigate('/register')}
                   >
-                    Register New Account
+                    Create Account
                   </Button>
                 </div>
               </CardContent>

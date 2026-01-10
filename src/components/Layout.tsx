@@ -1,7 +1,6 @@
-
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { Building, LogOut, ShieldCheck, TrendingUp, Sparkles, ChevronDown } from 'lucide-react';
+import { Building, LogOut, ShieldCheck, TrendingUp, Sparkles, ChevronDown, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -14,15 +13,16 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { user, logout } = useAuth();
+  const { profile, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/login');
   };
 
-  const isLoanOfficer = user?.role === 'Loan Officer';
+  const displayName = profile?.full_name || profile?.email || 'User';
+  const initials = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-hidden">
@@ -73,53 +73,52 @@ const Layout = ({ children }: LayoutProps) => {
                 </span>
               </motion.div>
               
-              {isLoanOfficer ? (
-                <motion.nav 
-                  className="hidden md:flex space-x-2" 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  transition={{ duration: 0.3, delay: 0.1 }}
+              <motion.nav 
+                className="hidden md:flex space-x-2" 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <NavItem icon={<ShieldCheck className="h-4 w-4" />} label="Eligibility" active />
+                <NavItem icon={<TrendingUp className="h-4 w-4" />} label="Reporting" />
+                
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="text-purple-600 hover:text-purple-900">
+                      More <ChevronDown className="h-4 w-4 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 border-purple-100 bg-white/95 backdrop-blur-sm">
+                    <DropdownMenuItem className="hover:bg-purple-50">Customer Management</DropdownMenuItem>
+                    <DropdownMenuItem className="hover:bg-purple-50">Loan Products</DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-purple-100" />
+                    <DropdownMenuItem className="hover:bg-purple-50">Settings</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </motion.nav>
+
+              <div className="flex items-center gap-4">
+                <Badge variant="outline" className="bg-purple-50 border-purple-200 text-purple-700 flex gap-1.5 items-center py-1.5">
+                  <span className="h-2 w-2 rounded-full bg-gold-300"></span>
+                  Loan Officer
+                </Badge>
+                
+                <Avatar className="h-8 w-8 border-2 border-gold-200">
+                  <AvatarFallback className="bg-purple-100 text-purple-800">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-purple-600 hover:text-purple-900 hover:border-gold-300 border border-transparent transition-colors"
                 >
-                  <NavItem icon={<ShieldCheck className="h-4 w-4" />} label="Eligibility" active />
-                  <NavItem icon={<TrendingUp className="h-4 w-4" />} label="Reporting" />
-                  
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="text-purple-600 hover:text-purple-900">
-                        More <ChevronDown className="h-4 w-4 ml-1" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48 border-purple-100 bg-white/95 backdrop-blur-sm">
-                      <DropdownMenuItem className="hover:bg-purple-50">Customer Management</DropdownMenuItem>
-                      <DropdownMenuItem className="hover:bg-purple-50">Loan Products</DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-purple-100" />
-                      <DropdownMenuItem className="hover:bg-purple-50">Settings</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </motion.nav>
-              ) : (
-                <div className="flex items-center gap-4">
-                  <Badge variant="outline" className="bg-purple-50 border-purple-200 text-purple-700 flex gap-1.5 items-center py-1.5">
-                    <span className="h-2 w-2 rounded-full bg-gold-300"></span>
-                    Premium Client
-                  </Badge>
-                  
-                  <Avatar className="h-8 w-8 border-2 border-gold-200">
-                    <AvatarImage src={user?.avatar} />
-                    <AvatarFallback className="bg-purple-100 text-purple-800">{user?.name?.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleLogout}
-                    className="flex items-center gap-2 text-purple-600 hover:text-purple-900 hover:border-gold-300 border border-transparent transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </Button>
-                </div>
-              )}
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

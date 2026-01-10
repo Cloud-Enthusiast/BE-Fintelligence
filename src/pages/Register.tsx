@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -8,11 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { BuildingIcon, UserIcon, MailIcon, PhoneIcon, KeyIcon, Loader2, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { mockAuth } from '@/lib/mockAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { signup } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -42,10 +42,17 @@ const Register = () => {
       });
     }
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-       return toast({
+      return toast({
         variant: "destructive",
         title: "Missing Information",
         description: "Please fill out all required fields.",
+      });
+    }
+    if (formData.password.length < 6) {
+      return toast({
+        variant: "destructive",
+        title: "Password too short",
+        description: "Password must be at least 6 characters.",
       });
     }
 
@@ -53,32 +60,10 @@ const Register = () => {
     const fullName = `${formData.firstName} ${formData.lastName}`.trim();
 
     try {
-      // Call mock auth signUp
-      const { user, error } = await mockAuth.signUp({
-        email: formData.email,
-        password: formData.password,
-        name: fullName,
-        role: 'Applicant' // Default role for regular registration
-      });
-
-      if (error) {
-        throw new Error(error);
+      const success = await signup(formData.email, formData.password, fullName);
+      if (success) {
+        navigate('/dashboard');
       }
-
-      // Handle successful signup
-      toast({
-        title: "Registration Successful",
-        description: "Your account has been created successfully. You can now log in.",
-      });
-      navigate('/login'); 
-
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      toast({
-        variant: "destructive",
-        title: "Registration Failed",
-        description: error.message || "An unexpected error occurred. Please try again.",
-      });
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +113,7 @@ const Register = () => {
             </div>
           </div>
           <h1 className="text-finance-900 text-2xl font-bold">BE Finance</h1>
-          <p className="text-finance-600 text-lg">Create your account</p>
+          <p className="text-finance-600 text-lg">Create your Loan Officer account</p>
         </motion.div>
 
         <motion.div variants={itemVariants}>
@@ -192,7 +177,7 @@ const Register = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone">Phone Number (Optional)</Label>
                   <div className="relative">
                     <PhoneIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
                     <Input
@@ -203,7 +188,6 @@ const Register = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       className="pl-10 border-finance-200 focus:border-finance-500"
-                      required
                     />
                   </div>
                 </div>
@@ -242,7 +226,11 @@ const Register = () => {
                   </div>
                 </div>
 
-                <Button className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white" type="submit" disabled={isLoading}>
+                <Button 
+                  className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white" 
+                  type="submit" 
+                  disabled={isLoading}
+                >
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {isLoading ? "Creating Account..." : "Create Account"}
                 </Button>
@@ -251,7 +239,11 @@ const Register = () => {
             <CardFooter className="flex justify-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{' '}
-                <Button variant="link" className="p-0 h-auto text-finance-500 hover:text-finance-700" onClick={() => navigate('/login')}>
+                <Button 
+                  variant="link" 
+                  className="p-0 h-auto text-finance-500 hover:text-finance-700" 
+                  onClick={() => navigate('/login')}
+                >
                   Sign in
                 </Button>
               </p>

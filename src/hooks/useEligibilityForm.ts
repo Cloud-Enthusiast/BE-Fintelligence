@@ -24,7 +24,7 @@ export interface EligibilityFormData {
 
 export const useEligibilityForm = () => {
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { profile } = useAuth();
   const { addApplication } = useApplications();
   
   const [formData, setFormData] = useState<EligibilityFormData>({
@@ -47,14 +47,14 @@ export const useEligibilityForm = () => {
 
   // Pre-fill user data if available
   useEffect(() => {
-    if (user) {
+    if (profile) {
       setFormData(prev => ({
         ...prev,
-        fullName: user.name || '',
-        email: user.username || '',
+        fullName: profile.full_name || '',
+        email: profile.email || '',
       }));
     }
-  }, [user]);
+  }, [profile]);
 
   const updateFormData = (field: keyof EligibilityFormData, value: any) => {
     setFormData(prev => ({
@@ -186,8 +186,8 @@ export const useEligibilityForm = () => {
 
   const resetForm = () => {
     setFormData({
-      fullName: user?.name || '',
-      email: user?.username || '',
+      fullName: profile?.full_name || '',
+      email: profile?.email || '',
       phone: '',
       businessName: '',
       businessType: '',
