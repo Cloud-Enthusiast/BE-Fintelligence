@@ -34,7 +34,7 @@ const loanPerformanceData = [
 ];
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { profile, logout } = useAuth();
   const { applications } = useApplications();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -80,7 +80,7 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col">
         <DashboardHeader 
           onSidebarToggle={handleSidebarToggle} 
-          user={user} 
+          profile={profile} 
           onLogout={logout}
         />
         
@@ -92,7 +92,7 @@ const Dashboard = () => {
           >
             <div className="mb-6">
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600">Welcome back, {user?.name}</p>
+              <p className="text-gray-600">Welcome back, {profile?.full_name || 'User'}</p>
             </div>
             
             {/* Stats Row */}

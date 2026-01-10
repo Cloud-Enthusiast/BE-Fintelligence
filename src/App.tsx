@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,7 +8,6 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Application from "./pages/Application";
 import Applications from "./pages/Applications";
 import Analytics from "./pages/Analytics";
 import Customers from "./pages/Customers";
@@ -30,7 +28,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 const queryClient = new QueryClient();
 
 const App = () => {
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -51,11 +48,11 @@ const App = () => {
                   element={<Navigate to="/" replace />} 
                 />
 
-                {/* Officer-only routes */}
+                {/* Protected Loan Officer routes */}
                 <Route
                   path="/dashboard"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
                   }
@@ -63,7 +60,7 @@ const App = () => {
                 <Route
                   path="/applications"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <Applications />
                     </ProtectedRoute>
                   }
@@ -71,7 +68,7 @@ const App = () => {
                 <Route
                   path="/analytics"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <Analytics />
                     </ProtectedRoute>
                   }
@@ -79,7 +76,7 @@ const App = () => {
                 <Route
                   path="/customers"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <Customers />
                     </ProtectedRoute>
                   }
@@ -87,7 +84,7 @@ const App = () => {
                 <Route
                   path="/application-review/:id"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <ApplicationReview />
                     </ProtectedRoute>
                   }
@@ -95,7 +92,7 @@ const App = () => {
                 <Route
                   path="/risk-management"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <RiskManagement />
                     </ProtectedRoute>
                   }
@@ -103,7 +100,7 @@ const App = () => {
                 <Route
                   path="/settings"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <Settings />
                     </ProtectedRoute>
                   }
@@ -111,13 +108,13 @@ const App = () => {
                 <Route
                   path="/help-support"
                   element={
-                    <ProtectedRoute allowedRoles={['Loan Officer']} redirectPath="/application">
+                    <ProtectedRoute>
                       <HelpSupport />
                     </ProtectedRoute>
                   }
                 />
 
-                {/* Document processor - available to all authenticated users */}
+                {/* Document processor */}
                 <Route
                   path="/document-processor"
                   element={
@@ -127,7 +124,7 @@ const App = () => {
                   }
                 />
 
-                {/* Demo page for file upload integration */}
+                {/* Demo pages */}
                 <Route
                   path="/upload-demo"
                   element={
@@ -136,8 +133,6 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-
-                {/* PDF extraction demo */}
                 <Route
                   path="/pdf-demo"
                   element={
@@ -146,8 +141,6 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-
-                {/* PDF test component */}
                 <Route
                   path="/pdf-test"
                   element={
@@ -156,23 +149,11 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-
-                {/* Enhanced PDF demo with OCR */}
                 <Route
                   path="/enhanced-pdf-demo"
                   element={
                     <ProtectedRoute>
                       <EnhancedPdfDemo />
-                    </ProtectedRoute>
-                  }
-                />
-
-                {/* Applicant-only routes */}
-                <Route
-                  path="/application"
-                  element={
-                    <ProtectedRoute allowedRoles={['Applicant']} redirectPath="/dashboard">
-                      <Application />
                     </ProtectedRoute>
                   }
                 />
