@@ -83,9 +83,7 @@ const Customers = () => {
       
       <div className="flex-1 flex flex-col">
         <DashboardHeader 
-          onSidebarToggle={handleSidebarToggle} 
-          user={user} 
-          onLogout={logout}
+          onSidebarToggle={handleSidebarToggle}
         />
         
         <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>

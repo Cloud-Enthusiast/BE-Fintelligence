@@ -20,7 +20,7 @@ import { ExtractedData } from '@/hooks/useFileExtraction';
 
 interface EnhancedPdfDisplayProps {
   extractedData: ExtractedData;
-  progress?: { current: number; total: number; stage: string };
+  progress?: { current?: number; total?: number; stage: string; percentage?: number };
 }
 
 const EnhancedPdfDisplay: React.FC<EnhancedPdfDisplayProps> = ({ extractedData, progress }) => {

@@ -1,6 +1,6 @@
-
+import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useEligibilityForm } from '@/hooks/useEligibilityForm';
+import { useEligibilityForm, EligibilityFormData } from '@/hooks/useEligibilityForm';
 import FormStepIndicator from './FormStepIndicator';
 import FormStep1 from './FormStep1';
 import FormStep2 from './FormStep2';
@@ -17,22 +17,85 @@ const EligibilityFormWrapper = ({
 }: EligibilityFormProps) => {
   const {
     formData,
-    tempInputValues,
     currentStep,
     isSubmitting,
-    isSavingToDatabase,
-    result,
-    handleChange,
-    handleNumericInputChange,
-    handleInputBlur,
-    handleSliderChange,
-    handleSelectChange,
+    eligibilityResult,
+    updateFormData,
     nextStep,
     prevStep,
     handleSubmit,
-    handleGoBack,
-    handleSaveToDatabase
-  } = useEligibilityForm(onComplete);
+    resetForm,
+  } = useEligibilityForm();
+
+  // Temp input values for text inputs (strings for display)
+  const [tempInputValues, setTempInputValues] = React.useState({
+    annualRevenue: String(formData.annualRevenue),
+    monthlyIncome: String(formData.monthlyIncome),
+    existingLoanAmount: String(formData.existingLoanAmount),
+    creditScore: String(formData.creditScore),
+    loanAmount: String(formData.loanAmount),
+    loanTerm: String(formData.loanTerm),
+  });
+
+  // Sync temp values when formData changes
+  React.useEffect(() => {
+    setTempInputValues({
+      annualRevenue: String(formData.annualRevenue),
+      monthlyIncome: String(formData.monthlyIncome),
+      existingLoanAmount: String(formData.existingLoanAmount),
+      creditScore: String(formData.creditScore),
+      loanAmount: String(formData.loanAmount),
+      loanTerm: String(formData.loanTerm),
+    });
+  }, [formData]);
+
+  // Handler for FormStep1 (text inputs with ChangeEvent)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    updateFormData(name as keyof EligibilityFormData, value);
+  };
+
+  // Handler for slider changes
+  const handleSliderChange = (name: string, values: number[]) => {
+    updateFormData(name as keyof EligibilityFormData, values[0]);
+  };
+
+  // Handler for numeric input changes (string value)
+  const handleNumericInputChange = (name: string, value: string, min: number, max: number) => {
+    setTempInputValues(prev => ({ ...prev, [name]: value }));
+    const numValue = Number(value);
+    if (!isNaN(numValue) && numValue >= min && numValue <= max) {
+      updateFormData(name as keyof EligibilityFormData, numValue);
+    }
+  };
+
+  // Handler for input blur (commit value)
+  const handleInputBlur = (name: string, min: number, max: number) => {
+    const value = tempInputValues[name as keyof typeof tempInputValues];
+    const numValue = Number(value);
+    if (isNaN(numValue) || numValue < min) {
+      updateFormData(name as keyof EligibilityFormData, min);
+    } else if (numValue > max) {
+      updateFormData(name as keyof EligibilityFormData, max);
+    }
+  };
+
+  // Handler for select changes
+  const handleSelectChange = (name: string, value: string) => {
+    updateFormData(name as keyof EligibilityFormData, value);
+  };
+
+  const handleGoBack = () => {
+    resetForm();
+  };
+
+  const handleFormSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const result = await handleSubmit();
+    if (result && onComplete) {
+      onComplete();
+    }
+  };
 
   return (
     <Card className="w-full max-w-4xl mx-auto shadow-lg rounded-xl overflow-hidden border border-gray-200 bg-white">
@@ -46,7 +109,7 @@ const EligibilityFormWrapper = ({
       <CardContent className="p-6">
         {currentStep < 4 && <FormStepIndicator currentStep={currentStep} />}
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleFormSubmit}>
           {currentStep === 1 && (
             <FormStep1 
               formData={formData}
@@ -75,12 +138,12 @@ const EligibilityFormWrapper = ({
             />
           )}
           
-          {currentStep === 4 && result && (
+          {currentStep === 4 && eligibilityResult && (
             <EligibilityResult 
-              result={result} 
+              result={eligibilityResult} 
               onComplete={onComplete}
               onGoBack={handleGoBack}
-              onSubmit={handleSaveToDatabase}
+              onSubmit={handleFormSubmit}
             />
           )}
         </form>
@@ -90,10 +153,10 @@ const EligibilityFormWrapper = ({
         <FormFooter 
           currentStep={currentStep} 
           isSubmitting={isSubmitting}
-          isSavingToDatabase={isSavingToDatabase}
+          isSavingToDatabase={false}
           onPrevious={prevStep}
           onNext={nextStep}
-          onSubmit={handleSubmit}
+          onSubmit={handleFormSubmit}
         />
       </CardFooter>
     </Card>

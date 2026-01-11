@@ -15,15 +15,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { UserProfile } from '@/contexts/AuthContext';
+import { useAuth, UserProfile } from '@/contexts/AuthContext';
 
 interface DashboardHeaderProps {
   onSidebarToggle: () => void;
-  profile: UserProfile | null;
-  onLogout: () => void;
 }
 
-const DashboardHeader = ({ onSidebarToggle, profile, onLogout }: DashboardHeaderProps) => {
+const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
+  const { profile, logout } = useAuth();
   const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const displayName = profile?.full_name || profile?.email || 'User';
@@ -122,7 +121,7 @@ const DashboardHeader = ({ onSidebarToggle, profile, onLogout }: DashboardHeader
                 Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onLogout}>
+              <DropdownMenuItem onClick={logout}>
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>

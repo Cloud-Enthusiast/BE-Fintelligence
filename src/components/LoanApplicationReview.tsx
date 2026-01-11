@@ -102,10 +102,10 @@ const LoanApplicationReview = ({
   const displayData = {
     ...mockApplicationData, // Start with mock as a base for un-fetched fields
     id: currentApplication.id,
-    applicantName: currentApplication.fullName, // Mapped from customer_information
-    loanAmount: currentApplication.loanAmount,
-    loanTenure: currentApplication.loanTerm !== null ? currentApplication.loanTerm : mockApplicationData.loanTenure, // Handle null loanTerm
-    submittedAt: currentApplication.createdAt,
+    applicantName: currentApplication.full_name, // Mapped from customer_information
+    loanAmount: currentApplication.loan_amount,
+    loanTenure: currentApplication.loan_term !== null ? currentApplication.loan_term : mockApplicationData.loanTenure, // Handle null loanTerm
+    submittedAt: currentApplication.created_at,
     // Fields from mockApplicationData that are not in MappedAssessment will persist here:
     // panId, email, annualIncome, monthlyIncome, creditScore, loanPurpose,
     // financialRiskScore, behavioralCreditScore, fraudAlerts,
