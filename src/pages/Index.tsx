@@ -9,7 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 const Index = () => {
-  const { user } = useAuth();
+  const { profile } = useAuth();
 
   return (
     <Layout>
@@ -141,7 +141,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-purple-700 max-w-3xl mx-auto leading-relaxed">
-            Welcome, <span className="font-semibold text-purple-900 border-b-2 border-purple-300">{user?.name || 'Valued Client'}</span>! 
+            Welcome, <span className="font-semibold text-purple-900 border-b-2 border-purple-300">{profile?.full_name || 'Valued Client'}</span>! 
             Discover if your business qualifies for our exclusive commercial loan products.
           </p>
           

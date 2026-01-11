@@ -95,7 +95,7 @@ const Applications = () => {
   const filteredApplications = useMemo(() => {
     const all = assessments || [];
     // Treat 'completed' assessments as 'pending' for review purposes in this dashboard
-    const pending = all.filter(app => app.status === 'pending' || app.status === 'completed');
+    const pending = all.filter(app => app.status === 'pending');
     const approved = all.filter(app => app.status === 'approved');
     const rejected = all.filter(app => app.status === 'rejected');
     return { all, pending, approved, rejected };
@@ -133,8 +133,6 @@ const Applications = () => {
       <div className="flex-1 flex flex-col">
         <DashboardHeader
           onSidebarToggle={handleSidebarToggle}
-          user={user}
-          onLogout={logout}
         />
 
         <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
@@ -294,23 +292,23 @@ const ApplicationTable = ({
               ) : (
                 applications.map((app) => (
                   <TableRow key={app.id}>
-                    <TableCell className="font-medium">{app.businessName || 'N/A'}</TableCell>
-                    <TableCell>{app.fullName}</TableCell>
-                    <TableCell>{formatCurrency(app.loanAmount)}</TableCell>
-                    <TableCell>{app.loanTerm ? `${app.loanTerm} months` : 'N/A'}</TableCell>
-                    <TableCell>{formatDate(app.createdAt)}</TableCell>
+                    <TableCell className="font-medium">{app.business_name || 'N/A'}</TableCell>
+                    <TableCell>{app.full_name}</TableCell>
+                    <TableCell>{formatCurrency(app.loan_amount)}</TableCell>
+                    <TableCell>{app.loan_term ? `${app.loan_term} months` : 'N/A'}</TableCell>
+                    <TableCell>{formatDate(app.created_at)}</TableCell>
                     <TableCell>{getStatusBadge(app.status)}</TableCell>
                     <TableCell>
                       <div className="flex items-center">
-                        {app.eligibilityScore !== null && app.eligibilityScore !== undefined ? (
+                        {app.eligibility_score !== null && app.eligibility_score !== undefined ? (
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
-                              app.eligibilityScore >= 80 ? 'bg-green-100 text-green-800' :
-                              app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                              app.eligibility_score >= 80 ? 'bg-green-100 text-green-800' :
+                              app.eligibility_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
                               'bg-red-100 text-red-800'
                             }`}
                           >
-                            {app.eligibilityScore}
+                            {app.eligibility_score}
                           </div>
                         ) : (
                           <span className="text-gray-400">N/A</span>
@@ -329,7 +327,7 @@ const ApplicationTable = ({
                           <span className="sr-only">View Details</span>
                         </Button>
                         {/* Show Approve/Reject only if status is pending or completed */}
-                        {(app.status === 'pending' || app.status === 'completed') && (
+                        {app.status === 'pending' && (
                           <>
                             <Button
                               variant="outline"

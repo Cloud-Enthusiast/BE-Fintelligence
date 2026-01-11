@@ -24,7 +24,7 @@ import {
 import { toast } from '@/hooks/use-toast';
 
 const Settings = () => {
-  const { user, logout } = useAuth();
+  const { profile, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   // Settings state
@@ -64,9 +64,7 @@ const Settings = () => {
       
       <div className="flex-1 flex flex-col">
         <DashboardHeader 
-          onSidebarToggle={handleSidebarToggle} 
-          user={user} 
-          onLogout={logout}
+          onSidebarToggle={handleSidebarToggle}
         />
         
         <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
@@ -101,15 +99,15 @@ const Settings = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" defaultValue={user?.name || ''} />
+                        <Input id="name" defaultValue={profile?.full_name || ''} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address</Label>
-                        <Input id="email" type="email" defaultValue={user?.email || ''} />
+                        <Input id="email" type="email" defaultValue={profile?.email || ''} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" />
+                        <Input id="phone" type="tel" defaultValue={profile?.phone || ''} placeholder="+1 (555) 123-4567" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="department">Department</Label>
@@ -117,7 +115,7 @@ const Settings = () => {
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="position">Position</Label>
-                        <Input id="position" defaultValue={user?.role || ''} />
+                        <Input id="position" defaultValue="Loan Officer" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="employee-id">Employee ID</Label>
