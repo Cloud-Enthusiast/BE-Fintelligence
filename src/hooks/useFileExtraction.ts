@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import mammoth from 'mammoth';
 import Papa from 'papaparse';
 import * as XLSX from 'xlsx';
-import { usePdfExtraction } from './usePdfExtraction';
 
 export interface ExtractedData {
     fileName: string;
@@ -17,14 +16,11 @@ export interface ExtractedData {
 export const useFileExtraction = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [extractedData, setExtractedData] = useState<ExtractedData | null>(null);
-    const [progress, setProgress] = useState({ current: 0, total: 0, stage: '' });
-    const { extractPdf, checkServerHealth, isProcessing: isPdfProcessing, progress: pdfProgress } = usePdfExtraction();
-
-
+    const [progress, setProgress] = useState({ current: 0, total: 0, stage: '', percentage: 0 });
 
     const extractTextFromFile = useCallback(async (file: File): Promise<ExtractedData> => {
         setIsProcessing(true);
-        setProgress({ current: 0, total: 1, stage: 'Starting extraction...' });
+        setProgress({ current: 0, total: 1, stage: 'Starting extraction...', percentage: 10 });
 
         try {
             const result: ExtractedData = {
@@ -38,6 +34,8 @@ export const useFileExtraction = () => {
                     type: file.type
                 }
             };
+
+            setProgress({ current: 0, total: 1, stage: 'Processing file...', percentage: 30 });
 
             // Handle different file types
             if (file.type === 'text/plain') {
@@ -110,36 +108,21 @@ export const useFileExtraction = () => {
                 };
             }
             else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-                // Use Python PyPDF service for all PDF processing
-                const pdfResult = await extractPdf(file);
-                
-                if (pdfResult.success) {
-                    result.extractedText = pdfResult.extracted_text;
-                    result.metadata = {
-                        ...result.metadata,
-                        ...pdfResult.metadata,
-                        totalPages: pdfResult.page_count,
-                        pagesWithText: pdfResult.pages_with_text,
-                        extractedInfo: pdfResult.extracted_info,
-                        statistics: pdfResult.statistics,
-                        pageBreakdown: pdfResult.pages,
-                        confidence: pdfResult.confidence
-                    };
-                    
-                    // Add structured data from extracted info
-                    if (pdfResult.extracted_info) {
-                        result.structuredData = [pdfResult.extracted_info];
-                    }
-                } else {
-                    result.error = pdfResult.error || 'PDF extraction failed';
-                    result.extractedText = '';
-                }
+                // PDF processing - currently not supported without backend service
+                // Future: Could integrate a client-side PDF library like pdf.js
+                result.error = 'PDF extraction requires backend service. Please upload Word, Excel, CSV, or text files.';
+                result.extractedText = '';
+                result.metadata = {
+                    ...result.metadata,
+                    note: 'PDF processing will be available in a future update'
+                };
             }
             else {
                 result.error = `Unsupported file type: ${file.type}`;
                 result.extractedText = 'File type not supported for text extraction';
             }
 
+            setProgress({ current: 1, total: 1, stage: 'Complete', percentage: 100 });
             return result;
         } catch (error) {
             return {
@@ -151,7 +134,7 @@ export const useFileExtraction = () => {
             };
         } finally {
             setIsProcessing(false);
-            setProgress({ current: 0, total: 0, stage: '' });
+            setProgress({ current: 0, total: 0, stage: '', percentage: 0 });
         }
     }, []);
 
@@ -166,10 +149,10 @@ export const useFileExtraction = () => {
     }, []);
 
     return {
-        isProcessing: isProcessing || isPdfProcessing,
+        isProcessing,
         extractedData,
         processFile,
         clearData,
-        progress: isPdfProcessing ? pdfProgress : progress
+        progress
     };
 };

@@ -57,9 +57,9 @@ const EnhancedPdfDisplay: React.FC<EnhancedPdfDisplayProps> = ({ extractedData, 
               <Clock className="h-5 w-5 text-blue-600 animate-spin" />
               <div className="flex-1">
                 <p className="text-sm font-medium">{progress.stage}</p>
-                {progress.total > 0 && (
+                {(progress.total ?? 0) > 0 && (progress.current ?? 0) > 0 && (
                   <Progress 
-                    value={(progress.current / progress.total) * 100} 
+                    value={((progress.current ?? 0) / (progress.total ?? 1)) * 100} 
                     className="mt-2"
                   />
                 )}
