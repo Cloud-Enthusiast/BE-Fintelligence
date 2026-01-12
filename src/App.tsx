@@ -17,10 +17,6 @@ import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
 import Register from "./pages/Register";
 import DocumentProcessor from "./pages/DocumentProcessor";
-import DocumentUploadDemo from "./components/DocumentUploadDemo";
-import PdfDemo from "./pages/PdfDemo";
-import PdfTestComponent from "./components/PdfTestComponent";
-import EnhancedPdfDemo from "./pages/EnhancedPdfDemo";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -120,40 +116,6 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <DocumentProcessor />
-                    </ProtectedRoute>
-                  }
-                />
-
-                {/* Demo pages */}
-                <Route
-                  path="/upload-demo"
-                  element={
-                    <ProtectedRoute>
-                      <DocumentUploadDemo />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/pdf-demo"
-                  element={
-                    <ProtectedRoute>
-                      <PdfDemo />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/pdf-test"
-                  element={
-                    <ProtectedRoute>
-                      <PdfTestComponent />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/enhanced-pdf-demo"
-                  element={
-                    <ProtectedRoute>
-                      <EnhancedPdfDemo />
                     </ProtectedRoute>
                   }
                 />

@@ -1,7 +1,6 @@
-
 import { motion } from 'framer-motion';
 import Layout from '@/components/Layout';
-import EligibilityForm from '@/components/EligibilityForm';
+import EligibilityFormWrapper from '@/components/eligibility/EligibilityFormWrapper';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sparkles, TrendingUp, ShieldCheck, ChevronRight, ArrowRight, Hexagon, Star, CircleDashed } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -212,7 +211,7 @@ const Index = () => {
             
             <CardContent className="p-0">
               <div className="bg-gradient-to-b from-purple-50 to-white p-10 rounded-b-xl">
-                <EligibilityForm />
+                <EligibilityFormWrapper />
               </div>
             </CardContent>
           </Card>
