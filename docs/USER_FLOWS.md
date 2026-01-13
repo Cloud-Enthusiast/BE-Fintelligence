@@ -1,33 +1,35 @@
 
 # BE Finance User Flows
 
-This document outlines the main user flows in the BE Finance application, explaining the step-by-step processes users follow to accomplish key tasks.
+This document outlines the main user flows in the BE Finance application.
 
 ## Authentication Flow
 
-![Authentication Flow](https://via.placeholder.com/800x400?text=Authentication+Flow+Diagram)
-
 ### Login Process
 
-1. User navigates to `/login` (or is redirected there when attempting to access a protected route)
-2. User selects login type (Officer or Applicant)
-3. User enters credentials:
-   - Username/password login
-   - OTP-based login (alternative)
-4. After successful authentication:
+1. User navigates to `/login` (or is redirected when attempting to access a protected route)
+2. User enters email and password
+3. Supabase Auth validates credentials
+4. Upon successful authentication:
+   - User profile and role are fetched
    - Loan Officers are directed to `/dashboard`
-   - Applicants are directed to `/application`
-   - If the user was redirected from another page, they're returned to that page
+   - Other users see the eligibility form
+
+### Registration Process
+
+1. User navigates to `/register`
+2. User enters full name, email, and password
+3. Account is created via Supabase Auth
+4. Profile is created in the `profiles` table
+5. User is redirected to login
 
 ## Loan Eligibility Assessment Flow
-
-![Eligibility Flow](https://via.placeholder.com/800x400?text=Eligibility+Assessment+Flow+Diagram)
 
 ### Multi-Step Assessment Process
 
 1. **Step 1: Business Information**
    - User enters business name, personal details, and contact information
-   - Navigation: User clicks "Next" to proceed to step 2
+   - Navigation: User clicks "Next" to proceed
 
 2. **Step 2: Financial Details**
    - User enters financial information:
@@ -57,20 +59,26 @@ This document outlines the main user flows in the BE Finance application, explai
 
 ## Officer Dashboard Flow
 
-![Dashboard Flow](https://via.placeholder.com/800x400?text=Officer+Dashboard+Flow+Diagram)
-
 1. Officer logs in and navigates to dashboard
-2. Dashboard displays overview of applications
+2. Dashboard displays:
+   - Application statistics (pending, approved, rejected)
+   - Quick access cards to key features
+   - Pending applications table
+   - Risk alerts for rejected applications
+   - Loan performance chart
 3. Officer can:
    - Review pending applications
    - Access analytics
    - Manage customer data
+   - Process documents
 
 ## Application Review Flow
 
-![Review Flow](https://via.placeholder.com/800x400?text=Application+Review+Flow+Diagram)
-
-1. Officer selects an application from the list
+1. Officer selects an application from the dashboard or applications list
 2. System displays detailed application information
-3. Officer reviews applicant information, financials, and eligibility score
-4. Officer makes decision (approve/reject/request more information)
+3. Officer reviews:
+   - Applicant information
+   - Financial details
+   - Eligibility score and risk assessment
+4. Officer makes decision (approve/reject)
+5. Application status is updated
