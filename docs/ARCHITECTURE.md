@@ -1,11 +1,11 @@
 
 # BE Finance Architecture
 
-This document provides an overview of the BE Finance application architecture, explaining how different parts of the application connect and interact with each other.
+This document provides an overview of the BE Finance application architecture.
 
 ## Application Structure
 
-The BE Finance application follows a modern React application structure with these key elements:
+The BE Finance application follows a modern React application structure:
 
 1. **Component-Based Architecture**: The UI is built using reusable components
 2. **Context-based State Management**: Global state is managed through React contexts
@@ -39,28 +39,29 @@ The application routes are defined in `App.tsx`, with protected routes ensuring 
 
 ### 2. Authentication System
 
-Authentication is managed through the `AuthContext` which provides:
+Authentication is managed through Supabase Auth via `AuthContext`:
 
-- User authentication state
+- User authentication state with Supabase
 - Login/logout functionality
-- User role management
+- Role-based access (loan_officer, admin)
+- Profile management via `profiles` table
 
-The `ProtectedRoute` component ensures that only authenticated users can access certain routes, redirecting unauthenticated users to the login page.
+The `ProtectedRoute` component ensures that only authenticated users can access certain routes.
 
 ### 3. Forms and Data Collection
 
 The eligibility assessment is implemented as a multi-step form using:
 
-- Form state management via custom hooks
-- Step-by-step user interface
-- Validation and calculation
+- Form state management via custom hooks (`useEligibilityForm`)
+- Step-by-step user interface with progress indicators
+- Validation and eligibility calculation
 
 ### 4. Layout System
 
 The application uses consistent layouts across pages:
 
-- `Layout` component for main pages
-- Header and footer components
+- `Layout` component for public pages
+- Dashboard layout with sidebar for authenticated pages
 - Responsive design patterns
 
 ## State Management
@@ -70,62 +71,41 @@ State is managed at different levels:
 1. **Component State**: Local state using `useState` for component-specific data
 2. **Form State**: Custom hooks like `useEligibilityForm` to manage form data
 3. **Global State**: React contexts for application-wide state:
-   - `AuthContext`: Authentication and user information
+   - `AuthContext`: Authentication and user information (via Supabase)
    - `ApplicationContext`: Loan application data
 
 ## Data Flow
 
-1. **User Authentication**: Data flows from login forms to `AuthContext`
-2. **Eligibility Assessment**: Form data flows through the multi-step form components and is processed via the eligibility calculator
-3. **Application Submission**: Assessment results are saved to the database through the Supabase client
+1. **User Authentication**: Supabase Auth handles login/registration
+2. **Eligibility Assessment**: Form data flows through multi-step components and is processed via the eligibility calculator
+3. **Application Submission**: Assessment results are saved to the database
 
-## File Upload and Information Extraction
+## File Upload and Document Processing
 
-The application includes a comprehensive file upload and information extraction system:
+The application includes document processing capabilities:
 
 ### Components
-- **FileUploadExtractor**: Full-featured component with inline text display and modal popup
-- **FileUploadWidget**: Compact widget for embedding in forms
+- **FileUploadExtractor**: Full-featured component with text display
 - **DocumentProcessor**: Dedicated page for document processing
 
 ### Supported File Types
 - **Text Files**: TXT, JSON
-- **Spreadsheets**: CSV, Excel (XLSX/XLS) 
-- **Documents**: Word (DOCX), PDF
-- **Structured Data**: Automatic parsing of CSV and Excel data
+- **Spreadsheets**: CSV, Excel (XLSX/XLS)
+- **Documents**: Word (DOCX)
 
 ### Features
-- **Client-side Processing**: All extraction happens in the browser for privacy
-- **Auto-population**: Extracted data can automatically populate form fields
+- **Client-side Processing**: All extraction happens in the browser
 - **Structured Data**: CSV and Excel files are parsed into structured JSON
-- **Metadata Extraction**: File information and processing details
-- **Error Handling**: Graceful handling of unsupported files and processing errors
+- **Error Handling**: Graceful handling of unsupported files
 
-### Integration Points
-- Dashboard quick access card
-- Sidebar navigation
-- Embeddable in existing forms
-- Standalone document processor page
+## Database Schema
 
-## Data Storage and Authentication
+The application uses Supabase with the following tables:
 
-The application uses a simplified approach for demonstration purposes:
-
-### Authentication System
-- **Mock Authentication**: Client-side authentication system for demo purposes
-- **Local Storage**: User sessions and application data stored locally
-- **Role-based Access**: Support for Loan Officer and Applicant roles
-
-### Data Management
-- **Local Storage**: All application data persisted in browser localStorage
-- **Context-based State**: React contexts manage global application state
-- **Mock Data**: Pre-populated sample applications for demonstration
-
-### Demo Credentials
-- **Loan Officer**: john@example.com / password
-- **Applicant**: jane@example.com / password
-- **OTP Demo**: Use '123456' for OTP login testing
+- **profiles**: User profile information linked to auth.users
+- **user_roles**: Role assignments (loan_officer, admin)
 
 ## External Integrations
 
+- **Supabase**: Authentication, database, and backend services
 - **File Processing**: Client-side document processing with XLSX, Mammoth, and PapaParse libraries
