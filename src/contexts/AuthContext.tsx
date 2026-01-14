@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase, isSupabaseAvailable } from '@/lib/supabase';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export interface UserProfile {
@@ -79,6 +79,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Initialize auth state
   useEffect(() => {
+    // If Supabase is not available, set loading to false and return
+    if (!isSupabaseAvailable) {
+      console.warn('Supabase not configured. Running in offline mode.');
+      setIsLoading(false);
+      return;
+    }
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
