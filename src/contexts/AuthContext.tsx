@@ -1,7 +1,23 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from '@/hooks/use-toast';
-import { supabase, isSupabaseAvailable } from '@/lib/supabase';
-import type { User as SupabaseUser } from '@supabase/supabase-js';
+
+// Demo user for testing without backend
+const DEMO_USER = {
+  id: 'demo-user-001',
+  email: 'demo@befinance.com',
+  user_metadata: { full_name: 'Demo Loan Officer' }
+};
+
+const DEMO_PROFILE = {
+  id: 'demo-profile-001',
+  user_id: 'demo-user-001',
+  full_name: 'Demo Loan Officer',
+  email: 'demo@befinance.com',
+  phone: '+91 98765 43210',
+  role: 'loan_officer' as const
+};
+
+const DEMO_SESSION_KEY = 'be_finance_demo_session';
 
 export interface UserProfile {
   id: string;
@@ -12,12 +28,20 @@ export interface UserProfile {
   role: 'loan_officer' | 'admin';
 }
 
+interface DemoUser {
+  id: string;
+  email: string;
+  user_metadata: { full_name: string };
+}
+
 interface AuthContextType {
-  user: SupabaseUser | null;
+  user: DemoUser | null;
   profile: UserProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isDemoMode: boolean;
   login: (email: string, password: string) => Promise<boolean>;
+  loginDemo: () => Promise<boolean>;
   loginWithOTP: (email: string, otp: string) => Promise<boolean>;
   sendOTP: (email: string) => Promise<boolean>;
   signup: (email: string, password: string, fullName: string) => Promise<boolean>;
@@ -35,232 +59,101 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [user, setUser] = useState<DemoUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(false);
 
-  // Fetch user profile and role
-  const fetchUserProfile = async (userId: string): Promise<UserProfile | null> => {
-    try {
-      // Fetch profile
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
-
-      if (profileError) {
-        console.error('Error fetching profile:', profileError);
-        return null;
-      }
-
-      // Fetch role
-      const { data: roleData, error: roleError } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', userId)
-        .single();
-
-      if (roleError) {
-        console.error('Error fetching role:', roleError);
-        return null;
-      }
-
-      return {
-        ...profileData,
-        role: roleData.role as 'loan_officer' | 'admin'
-      };
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      return null;
-    }
-  };
-
-  // Initialize auth state
+  // Initialize auth state from sessionStorage
   useEffect(() => {
-    // If Supabase is not available, set loading to false and return
-    if (!isSupabaseAvailable) {
-      console.warn('Supabase not configured. Running in offline mode.');
-      setIsLoading(false);
-      return;
-    }
-
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          setUser(session.user);
+    const storedSession = sessionStorage.getItem(DEMO_SESSION_KEY);
+    if (storedSession) {
+      try {
+        const session = JSON.parse(storedSession);
+        if (session.isDemo) {
+          setUser(DEMO_USER);
+          setProfile(DEMO_PROFILE);
           setIsAuthenticated(true);
-          
-          // Fetch profile with setTimeout to avoid deadlock
-          setTimeout(async () => {
-            const userProfile = await fetchUserProfile(session.user.id);
-            setProfile(userProfile);
-            setIsLoading(false);
-          }, 0);
-        } else {
-          setUser(null);
-          setProfile(null);
-          setIsAuthenticated(false);
-          setIsLoading(false);
+          setIsDemoMode(true);
         }
+      } catch (e) {
+        sessionStorage.removeItem(DEMO_SESSION_KEY);
       }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        setUser(session.user);
-        setIsAuthenticated(true);
-        const userProfile = await fetchUserProfile(session.user.id);
-        setProfile(userProfile);
-      }
-      setIsLoading(false);
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    }
+    setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  // Demo login - works without any backend
+  const loginDemo = async (): Promise<boolean> => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        toast({
-          title: "Login successful",
-          description: "Welcome back!",
-        });
-        return true;
-      }
-    } catch (error: any) {
-      console.error('Login error:', error);
+      setUser(DEMO_USER);
+      setProfile(DEMO_PROFILE);
+      setIsAuthenticated(true);
+      setIsDemoMode(true);
+      
+      // Persist demo session
+      sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({ isDemo: true, timestamp: Date.now() }));
+      
       toast({
-        variant: "destructive",
-        title: "Login failed",
-        description: error.message || "Invalid credentials.",
-      });
-    }
-    return false;
-  };
-
-  const sendOTP = async (email: string): Promise<boolean> => {
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      toast({
-        title: "OTP Sent",
-        description: "Check your email for the one-time password.",
+        title: "Demo Mode Active",
+        description: "Welcome! You're using BE Finance in demo mode.",
       });
       return true;
-    } catch (error: any) {
-      console.error('Send OTP error:', error);
-      toast({
-        variant: "destructive",
-        title: "Failed to Send OTP",
-        description: error.message || "Could not send OTP. Please try again.",
-      });
+    } catch (error) {
+      console.error('Demo login error:', error);
       return false;
     }
   };
 
+  // Regular login - shows demo mode message since backend is disconnected
+  const login = async (email: string, password: string): Promise<boolean> => {
+    toast({
+      variant: "destructive",
+      title: "Backend Not Connected",
+      description: "Please use Demo Mode to test the application.",
+    });
+    return false;
+  };
+
+  const sendOTP = async (email: string): Promise<boolean> => {
+    toast({
+      variant: "destructive",
+      title: "Backend Not Connected",
+      description: "OTP login requires backend. Please use Demo Mode.",
+    });
+    return false;
+  };
+
   const loginWithOTP = async (email: string, otp: string): Promise<boolean> => {
-    try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: otp,
-        type: 'email',
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        toast({
-          title: "Login successful",
-          description: "Welcome!",
-        });
-        return true;
-      }
-    } catch (error: any) {
-      console.error('OTP verification error:', error);
-      toast({
-        variant: "destructive",
-        title: "OTP verification failed",
-        description: error.message || "Invalid OTP.",
-      });
-    }
+    toast({
+      variant: "destructive",
+      title: "Backend Not Connected",
+      description: "OTP login requires backend. Please use Demo Mode.",
+    });
     return false;
   };
 
   const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: window.location.origin,
-          data: {
-            full_name: fullName,
-          },
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        toast({
-          title: "Registration successful",
-          description: "Welcome to BE Finance!",
-        });
-        return true;
-      }
-    } catch (error: any) {
-      console.error('Signup error:', error);
-      toast({
-        variant: "destructive",
-        title: "Registration failed",
-        description: error.message || "Could not create account.",
-      });
-    }
+    toast({
+      variant: "destructive",
+      title: "Backend Not Connected",
+      description: "Registration requires backend. Please use Demo Mode to test.",
+    });
     return false;
   };
 
   const logout = async () => {
-    try {
-      await supabase.auth.signOut();
-      setUser(null);
-      setProfile(null);
-      setIsAuthenticated(false);
+    setUser(null);
+    setProfile(null);
+    setIsAuthenticated(false);
+    setIsDemoMode(false);
+    sessionStorage.removeItem(DEMO_SESSION_KEY);
 
-      toast({
-        title: "Logged out",
-        description: "You have been logged out successfully",
-      });
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
   };
 
   return (
@@ -268,8 +161,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       user, 
       profile, 
       isAuthenticated, 
-      isLoading, 
-      login, 
+      isLoading,
+      isDemoMode,
+      login,
+      loginDemo,
       loginWithOTP, 
       sendOTP,
       signup,

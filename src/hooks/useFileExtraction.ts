@@ -18,6 +18,43 @@ export const useFileExtraction = () => {
     const [extractedData, setExtractedData] = useState<ExtractedData | null>(null);
     const [progress, setProgress] = useState({ current: 0, total: 0, stage: '', percentage: 0 });
 
+    const extractTextFromPdf = useCallback(async (file: File): Promise<string> => {
+        try {
+            // Dynamic import of pdfjs-dist
+            const pdfjsLib = await import('pdfjs-dist');
+            
+            // Set worker source
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+            
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            
+            let fullText = '';
+            const totalPages = pdf.numPages;
+            
+            for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                setProgress({
+                    current: pageNum,
+                    total: totalPages,
+                    stage: `Extracting page ${pageNum} of ${totalPages}`,
+                    percentage: Math.round((pageNum / totalPages) * 100)
+                });
+                
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items
+                    .map((item: any) => item.str)
+                    .join(' ');
+                fullText += pageText + '\n\n';
+            }
+            
+            return fullText.trim();
+        } catch (error) {
+            console.error('PDF extraction error:', error);
+            throw new Error('Failed to extract text from PDF. Please try another file.');
+        }
+    }, []);
+
     const extractTextFromFile = useCallback(async (file: File): Promise<ExtractedData> => {
         setIsProcessing(true);
         setProgress({ current: 0, total: 1, stage: 'Starting extraction...', percentage: 10 });
@@ -108,13 +145,13 @@ export const useFileExtraction = () => {
                 };
             }
             else if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-                // PDF processing - currently not supported without backend service
-                // Future: Could integrate a client-side PDF library like pdf.js
-                result.error = 'PDF extraction requires backend service. Please upload Word, Excel, CSV, or text files.';
-                result.extractedText = '';
+                // PDF processing with pdf.js
+                setProgress({ current: 0, total: 1, stage: 'Loading PDF...', percentage: 40 });
+                result.extractedText = await extractTextFromPdf(file);
+                
                 result.metadata = {
                     ...result.metadata,
-                    note: 'PDF processing will be available in a future update'
+                    note: 'Text extracted using PDF.js'
                 };
             }
             else {
@@ -136,7 +173,7 @@ export const useFileExtraction = () => {
             setIsProcessing(false);
             setProgress({ current: 0, total: 0, stage: '', percentage: 0 });
         }
-    }, []);
+    }, [extractTextFromPdf]);
 
     const processFile = useCallback(async (file: File) => {
         const result = await extractTextFromFile(file);
