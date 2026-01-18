@@ -159,7 +159,7 @@ const LoanApplicationReview = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel - Applicant Details */}
-        <Card>
+        <Card data-tour="review-applicant-details">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Applicant Details</CardTitle>
             <CardDescription>Basic information and loan request</CardDescription>
@@ -227,7 +227,7 @@ const LoanApplicationReview = ({
         </Card>
 
         {/* Center Panel - AI Risk Assessment */}
-        <Card className="bg-gray-50">
+        <Card className="bg-gray-50" data-tour="review-risk-assessment">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">AI Risk Assessment</CardTitle>
             <CardDescription>AI-powered risk evaluation</CardDescription>
@@ -340,7 +340,7 @@ const LoanApplicationReview = ({
         </Card>
 
         {/* Right Panel - Stress Test Results */}
-        <Card>
+        <Card data-tour="review-stress-test">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Stress Test Analysis</CardTitle>
             <CardDescription>AI-driven resilience assessment</CardDescription>
@@ -445,7 +445,7 @@ const LoanApplicationReview = ({
       </div>
 
       {/* Decision Actions */}
-      <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm" data-tour="review-decision-actions">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-medium">Loan Decision</h3>

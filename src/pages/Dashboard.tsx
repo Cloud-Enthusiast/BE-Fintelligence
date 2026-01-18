@@ -171,7 +171,7 @@ const Dashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               {/* Pending Applications */}
-              <Card>
+              <Card data-tour="dashboard-applications-list">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg font-medium">Pending Applications</CardTitle>
@@ -201,8 +201,8 @@ const Dashboard = () => {
                             <td className="py-3 text-sm">${app.loanAmount.toLocaleString()}</td>
                             <td className="py-3 text-sm">
                               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${app.eligibilityScore >= 80 ? 'bg-green-100 text-green-800' :
-                                  app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-red-100 text-red-800'
+                                app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                                  'bg-red-100 text-red-800'
                                 }`}>
                                 {app.eligibilityScore >= 80 ? 'low' :
                                   app.eligibilityScore >= 60 ? 'medium' : 'high'}
@@ -233,7 +233,7 @@ const Dashboard = () => {
               </Card>
 
               {/* Risk Alerts */}
-              <Card>
+              <Card data-tour="dashboard-risk-alerts">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg font-medium">Risk Alerts</CardTitle>

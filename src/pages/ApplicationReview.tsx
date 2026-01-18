@@ -5,16 +5,28 @@ import { useAuth } from '@/contexts/AuthContext';
 import LoanApplicationReview from '@/components/LoanApplicationReview';
 import { toast } from '@/hooks/use-toast';
 import { useUpdateAssessmentStatus } from '@/hooks/useUpdateAssessmentStatus'; // Import the hook
+import { useTour } from '@/components/Tour/TourContext';
+import { APPLICATION_REVIEW_TOUR } from '@/components/Tour/tours';
 
 const ApplicationReview = () => {
   const { id: applicationId } = useParams<{ id: string }>(); // Ensure id is treated as string | undefined
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { profile } = useAuth();
   const { mutate: updateStatusMutation, isPending: isUpdatingStatus } = useUpdateAssessmentStatus(); // Get mutate function, use isPending
-  
+  const { startTour, isTourSeen } = useTour();
+
+  useEffect(() => {
+    if (!isTourSeen('application_review')) {
+      const timer = setTimeout(() => {
+        startTour(APPLICATION_REVIEW_TOUR);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTourSeen, startTour]);
+
   // Check if user is a loan officer
   useEffect(() => {
-    if (user?.role !== 'Loan Officer') {
+    if (profile && profile.role !== 'loan_officer') {
       navigate('/dashboard');
       toast({
         variant: "destructive",
@@ -22,8 +34,8 @@ const ApplicationReview = () => {
         description: "You don't have permission to view this page",
       });
     }
-  }, [user, navigate]);
-  
+  }, [profile, navigate]);
+
   const handleApprove = () => {
     if (!applicationId) return;
     updateStatusMutation(
@@ -46,7 +58,7 @@ const ApplicationReview = () => {
       }
     );
   };
-  
+
   const handleReject = () => {
     if (!applicationId) return;
     updateStatusMutation(
@@ -70,7 +82,7 @@ const ApplicationReview = () => {
       }
     );
   };
-  
+
   const handleRequestInfo = () => {
     // TODO: Implement actual logic for requesting more information
     // This might involve setting a different status, e.g., 'pending_information'
@@ -81,12 +93,12 @@ const ApplicationReview = () => {
       description: `Additional information has been requested for application ${applicationId}.`,
     });
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50 pt-16 pb-10 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <button 
+          <button
             onClick={() => navigate('/applications')} // Navigate back to the list
             className="text-finance-600 hover:text-finance-800 font-medium flex items-center gap-1"
           >
@@ -96,13 +108,13 @@ const ApplicationReview = () => {
             Back to Applications
           </button>
         </div>
-        
+
         <LoanApplicationReview
           applicationId={applicationId}
           onApprove={handleApprove}
           onReject={handleReject}
           onRequestInfo={handleRequestInfo}
-          // Consider passing isUpdatingStatus to disable buttons during mutation
+        // Consider passing isUpdatingStatus to disable buttons during mutation
         />
       </div>
     </div>

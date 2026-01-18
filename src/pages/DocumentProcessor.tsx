@@ -8,10 +8,23 @@ import { Button } from '@/components/ui/button';
 import FileUploadExtractor from '@/components/FileUploadExtractor';
 import { ExtractedData } from '@/hooks/useFileExtraction';
 import Layout from '@/components/Layout';
+import { useTour } from '@/components/Tour/TourContext';
+import { DOCUMENT_PROCESSOR_TOUR } from '@/components/Tour/tours';
+import { useEffect } from 'react';
 
 const DocumentProcessor = () => {
   const navigate = useNavigate();
   const [processedFiles, setProcessedFiles] = useState<ExtractedData[]>([]);
+  const { startTour, isTourSeen } = useTour();
+
+  useEffect(() => {
+    if (!isTourSeen('document_processor')) {
+      const timer = setTimeout(() => {
+        startTour(DOCUMENT_PROCESSOR_TOUR);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTourSeen, startTour]);
 
   const handleExtractedData = (data: ExtractedData) => {
     setProcessedFiles(prev => [data, ...prev.slice(0, 4)]); // Keep last 5 files
@@ -72,10 +85,10 @@ const DocumentProcessor = () => {
                 <div className="rounded-full bg-blue-100 p-3 mr-3">
                   <FileText className="h-8 w-8 text-blue-600" />
                 </div>
-                <h1 className="text-3xl font-bold text-gray-900">Document Processor</h1>
+                <h1 className="text-3xl font-bold text-gray-900" data-tour="doc-processor-title">Document Processor</h1>
               </div>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Extract text and structured data from your documents instantly. Upload CSV, Excel, Word, PDF, 
+                Extract text and structured data from your documents instantly. Upload CSV, Excel, Word, PDF,
                 and text files to get organized data, metadata, and searchable content.
               </p>
             </div>
@@ -105,17 +118,17 @@ const DocumentProcessor = () => {
 
           {/* Main Upload Section */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2" data-tour="doc-processor-upload">
               <Card>
                 <CardHeader>
                   <CardTitle>Upload & Extract</CardTitle>
                   <CardDescription>
-                    Drag and drop your file or click to browse. Supported formats include documents, 
+                    Drag and drop your file or click to browse. Supported formats include documents,
                     images, and structured data files.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <FileUploadExtractor 
+                  <FileUploadExtractor
                     onExtractedData={handleExtractedData}
                     showInline={true}
                     maxFileSize={15 * 1024 * 1024} // 15MB
@@ -125,7 +138,7 @@ const DocumentProcessor = () => {
             </div>
 
             {/* Processing History Sidebar */}
-            <div>
+            <div data-tour="doc-processor-recent">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -182,7 +195,7 @@ const DocumentProcessor = () => {
               </Card>
 
               {/* Usage Tips */}
-              <Card className="mt-6">
+              <Card className="mt-6" data-tour="doc-processor-tips">
                 <CardHeader>
                   <CardTitle className="text-lg">Tips for Best Results</CardTitle>
                 </CardHeader>
