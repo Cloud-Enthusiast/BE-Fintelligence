@@ -122,6 +122,7 @@ export const MSMEApplicationForm = ({ onSubmit, isSubmitting = false }: MSMEAppl
                         className="bg-white hover:bg-blue-50 text-blue-700 border-blue-200"
                         onClick={handleAutoPopulate}
                         disabled={documents.length === 0}
+                        data-tour="auto-populate-btn"
                     >
                         <RefreshCw className="h-3 w-3 mr-2" />
                         Auto-Populate

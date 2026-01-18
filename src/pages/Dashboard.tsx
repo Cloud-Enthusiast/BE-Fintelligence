@@ -8,11 +8,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import { useApplications } from '@/contexts/ApplicationContext';
-import { 
-  BarChart3Icon, 
-  AlertTriangleIcon, 
-  CircleDollarSignIcon, 
-  TrendingUpIcon, 
+import { useTour } from '@/components/Tour/TourContext';
+import { ONBOARDING_TOUR } from '@/components/Tour/tours';
+import { useEffect } from 'react';
+import {
+  BarChart3Icon,
+  AlertTriangleIcon,
+  CircleDollarSignIcon,
+  TrendingUpIcon,
   CheckCircleIcon,
   XCircleIcon,
   ClockIcon,
@@ -41,6 +44,18 @@ const Dashboard = () => {
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
+
+  const { startTour, isTourSeen } = useTour();
+
+  useEffect(() => {
+    if (!isTourSeen('onboarding')) {
+      // Small delay to ensure layout is ready
+      const timer = setTimeout(() => {
+        startTour(ONBOARDING_TOUR);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTourSeen, startTour]);
 
   // Filter applications by status
   const pendingApplications = applications.filter(app => app.status === 'pending');
@@ -76,12 +91,12 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <DashboardSidebar isOpen={sidebarOpen} />
-      
+
       <div className="flex-1 flex flex-col">
-        <DashboardHeader 
+        <DashboardHeader
           onSidebarToggle={handleSidebarToggle}
         />
-        
+
         <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
           <motion.div
             initial={{ opacity: 0 }}
@@ -92,29 +107,29 @@ const Dashboard = () => {
               <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
               <p className="text-gray-600">Welcome back, {profile?.full_name || 'User'}</p>
             </div>
-            
+
             {/* Stats Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-              <StatsCard 
-                title="Pending Applications" 
-                value={pendingApplications.length.toString()} 
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6" data-tour="dashboard-stats">
+              <StatsCard
+                title="Pending Applications"
+                value={pendingApplications.length.toString()}
                 description="Applications awaiting review"
                 icon={<ClockIcon className="h-5 w-5 text-blue-600" />}
                 trend="+2 since yesterday"
                 trendUp={true}
                 linkTo="/applications?tab=pending"
               />
-              <StatsCard 
-                title="Approved Loans" 
-                value={approvedApplications.length.toString()} 
+              <StatsCard
+                title="Approved Loans"
+                value={approvedApplications.length.toString()}
                 description="Applications approved this month"
                 icon={<CheckCircleIcon className="h-5 w-5 text-green-600" />}
                 trend="+8% from last month"
                 trendUp={true}
                 linkTo="/applications?tab=approved"
               />
-              <StatsCard 
-                title="Rejected Applications" 
+              <StatsCard
+                title="Rejected Applications"
                 value={rejectedApplications.length.toString()}
                 description="Applications rejected this month"
                 icon={<XCircleIcon className="h-5 w-5 text-red-600" />}
@@ -123,37 +138,37 @@ const Dashboard = () => {
                 linkTo="/applications?tab=rejected"
               />
             </div>
-            
+
             {/* Quick Access Cards */}
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Access</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-              <QuickAccessCard 
-                title="Manage Applications" 
+              <QuickAccessCard
+                title="Manage Applications"
                 description="Review and process loan applications"
                 icon={<FileTextIcon className="h-8 w-8 text-blue-600" />}
                 linkTo="/applications"
               />
-              <QuickAccessCard 
-                title="View Analytics" 
+              <QuickAccessCard
+                title="View Analytics"
                 description="Monitor lending performance metrics"
                 icon={<BarChart3Icon className="h-8 w-8 text-purple-600" />}
                 linkTo="/analytics"
               />
-              <QuickAccessCard 
-                title="Customer Directory" 
+              <QuickAccessCard
+                title="Customer Directory"
                 description="Manage customer profiles and history"
                 icon={<UsersIcon className="h-8 w-8 text-green-600" />}
                 linkTo="/customers"
               />
-              <QuickAccessCard 
-                title="Document Processor" 
+              <QuickAccessCard
+                title="Document Processor"
                 description="Extract text and data from documents"
                 icon={<ScanTextIcon className="h-8 w-8 text-orange-600" />}
                 linkTo="/document-processor"
               />
             </div>
-            
-            
+
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               {/* Pending Applications */}
               <Card>
@@ -185,17 +200,16 @@ const Dashboard = () => {
                             <td className="py-3 text-sm font-medium">{app.businessName}</td>
                             <td className="py-3 text-sm">${app.loanAmount.toLocaleString()}</td>
                             <td className="py-3 text-sm">
-                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                app.eligibilityScore >= 80 ? 'bg-green-100 text-green-800' :
-                                app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
-                                'bg-red-100 text-red-800'
-                              }`}>
-                                {app.eligibilityScore >= 80 ? 'low' : 
-                                 app.eligibilityScore >= 60 ? 'medium' : 'high'}
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${app.eligibilityScore >= 80 ? 'bg-green-100 text-green-800' :
+                                  app.eligibilityScore >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                                    'bg-red-100 text-red-800'
+                                }`}>
+                                {app.eligibilityScore >= 80 ? 'low' :
+                                  app.eligibilityScore >= 60 ? 'medium' : 'high'}
                               </span>
                             </td>
                             <td className="py-3 text-sm">
-                              <Link 
+                              <Link
                                 to={`/application-review/${app.id}`}
                                 className="text-finance-600 hover:text-finance-800 font-medium"
                               >
@@ -217,7 +231,7 @@ const Dashboard = () => {
                   </div>
                 </CardContent>
               </Card>
-              
+
               {/* Risk Alerts */}
               <Card>
                 <CardHeader className="pb-3">
@@ -255,7 +269,7 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
             </div>
-            
+
             {/* Loan Performance Chart */}
             <Card className="mb-6">
               <CardHeader>

@@ -146,7 +146,7 @@ const Applications = () => {
                 <h1 className="text-2xl font-bold text-gray-900">Loan Applications</h1>
                 <p className="text-gray-600">Review and manage loan eligibility assessments</p>
               </div>
-              <Button onClick={() => window.location.href = '/create-application'} className="bg-finance-600 hover:bg-finance-700">
+              <Button onClick={() => window.location.href = '/create-application'} className="bg-finance-600 hover:bg-finance-700" data-tour="new-app-button">
                 + New Application
               </Button>
             </div>
@@ -308,8 +308,8 @@ const ApplicationTable = ({
                         {app.eligibility_score !== null && app.eligibility_score !== undefined ? (
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${app.eligibility_score >= 80 ? 'bg-green-100 text-green-800' :
-                                app.eligibility_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
-                                  'bg-red-100 text-red-800'
+                              app.eligibility_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-red-100 text-red-800'
                               }`}
                           >
                             {app.eligibility_score}

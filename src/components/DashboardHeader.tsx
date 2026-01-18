@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { 
-  BellIcon, 
-  MenuIcon, 
-  SearchIcon, 
-  UserCircleIcon 
+import {
+  BellIcon,
+  MenuIcon,
+  SearchIcon,
+  UserCircleIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,21 +28,21 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
   const displayName = profile?.full_name || profile?.email || 'User';
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-30" data-tour="dashboard-header">
       <div className="px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="lg:hidden"
             onClick={onSidebarToggle}
           >
             <MenuIcon className="h-5 w-5" />
           </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
+
+          <Button
+            variant="ghost"
+            size="icon"
             className="hidden lg:flex"
             onClick={onSidebarToggle}
           >
@@ -60,15 +60,15 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="md:hidden"
             onClick={() => setShowMobileSearch(!showMobileSearch)}
           >
             <SearchIcon className="h-5 w-5" />
           </Button>
-          
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="relative">
@@ -80,19 +80,19 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <div className="max-h-96 overflow-auto">
-                <NotificationItem 
-                  title="New Loan Application" 
+                <NotificationItem
+                  title="New Loan Application"
                   description="Tech Innovations Inc. has submitted a new loan application"
                   time="5 minutes ago"
                 />
-                <NotificationItem 
-                  title="Risk Alert" 
+                <NotificationItem
+                  title="Risk Alert"
                   description="AI detected potential risk issues with Oceanview Resorts"
                   time="1 hour ago"
                   isAlert
                 />
-                <NotificationItem 
-                  title="Loan Approved" 
+                <NotificationItem
+                  title="Loan Approved"
                   description="Green Valley Farms loan application was approved"
                   time="3 hours ago"
                 />
@@ -103,7 +103,7 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative flex items-center gap-2 pl-2 pr-4">

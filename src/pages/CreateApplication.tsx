@@ -6,7 +6,9 @@ import { useCreateAssessment } from '@/hooks/useCreateAssessment';
 import { useToast } from '@/hooks/use-toast';
 import { useDocuments } from '@/contexts/DocumentContext';
 import { calculateEligibility } from '@/utils/MSMEEligibilityCalculator';
-import { useState } from 'react';
+import { useTour } from '@/components/Tour/TourContext';
+import { ELIGIBILITY_TOUR } from '@/components/Tour/tours';
+import { useEffect, useState } from 'react';
 
 const CreateApplication = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -14,6 +16,16 @@ const CreateApplication = () => {
     const { toast } = useToast();
     const { documents } = useDocuments();
     const { mutate: createAssessment, isPending } = useCreateAssessment();
+    const { startTour, isTourSeen } = useTour();
+
+    useEffect(() => {
+        if (!isTourSeen('eligibility_features')) {
+            const timer = setTimeout(() => {
+                startTour(ELIGIBILITY_TOUR);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [isTourSeen, startTour]);
 
     const handleSidebarToggle = () => setSidebarOpen(!sidebarOpen);
 
