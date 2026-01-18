@@ -25,7 +25,7 @@ export interface UserProfile {
   full_name: string | null;
   email: string | null;
   phone: string | null;
-  role: 'loan_officer' | 'admin';
+  role: 'loan_officer';
 }
 
 interface DemoUser {
@@ -42,9 +42,6 @@ interface AuthContextType {
   isDemoMode: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   loginDemo: () => Promise<boolean>;
-  loginWithOTP: (email: string, otp: string) => Promise<boolean>;
-  sendOTP: (email: string) => Promise<boolean>;
-  signup: (email: string, password: string, fullName: string) => Promise<boolean>;
   logout: () => Promise<void>;
 }
 
@@ -91,10 +88,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setProfile(DEMO_PROFILE);
       setIsAuthenticated(true);
       setIsDemoMode(true);
-      
+
       // Persist demo session
       sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({ isDemo: true, timestamp: Date.now() }));
-      
+
       toast({
         title: "Demo Mode Active",
         description: "Welcome! You're using BE Finance in demo mode.",
@@ -116,33 +113,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return false;
   };
 
-  const sendOTP = async (email: string): Promise<boolean> => {
-    toast({
-      variant: "destructive",
-      title: "Backend Not Connected",
-      description: "OTP login requires backend. Please use Demo Mode.",
-    });
-    return false;
-  };
-
-  const loginWithOTP = async (email: string, otp: string): Promise<boolean> => {
-    toast({
-      variant: "destructive",
-      title: "Backend Not Connected",
-      description: "OTP login requires backend. Please use Demo Mode.",
-    });
-    return false;
-  };
-
-  const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
-    toast({
-      variant: "destructive",
-      title: "Backend Not Connected",
-      description: "Registration requires backend. Please use Demo Mode to test.",
-    });
-    return false;
-  };
-
   const logout = async () => {
     setUser(null);
     setProfile(null);
@@ -157,18 +127,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      profile, 
-      isAuthenticated, 
+    <AuthContext.Provider value={{
+      user,
+      profile,
+      isAuthenticated,
       isLoading,
       isDemoMode,
       login,
       loginDemo,
-      loginWithOTP, 
-      sendOTP,
-      signup,
-      logout 
+      logout
     }}>
       {children}
     </AuthContext.Provider>

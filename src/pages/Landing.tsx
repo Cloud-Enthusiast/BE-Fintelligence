@@ -22,7 +22,7 @@ const Landing = () => {
             </h1>
           </div>
         </div>
-        
+
         {/* Purple accent diagonal line */}
         <div className="absolute top-0 right-0 w-32 h-32">
           <div className="absolute transform rotate-45 right-0 h-[2px] w-40 bg-gradient-to-r from-purple-200 via-purple-400 to-transparent"></div>
@@ -45,7 +45,7 @@ const Landing = () => {
               transition={{ duration: 4, repeat: Infinity, repeatType: "loop", repeatDelay: 1 }}
             />
           </svg>
-          
+
           {/* Abstract wave shape on the right bottom */}
           <svg className="absolute right-20 bottom-20 h-80 w-80 text-purple-400/20" viewBox="0 0 100 100" fill="none">
             <motion.path
@@ -58,7 +58,7 @@ const Landing = () => {
               transition={{ duration: 5, repeat: Infinity, repeatType: "loop", repeatDelay: 0.5 }}
             />
           </svg>
-          
+
           {/* Hexagon pattern on the right */}
           <svg className="absolute right-40 top-20 h-40 w-40 text-gold-300/25" viewBox="0 0 100 100" fill="none">
             <motion.path
@@ -99,7 +99,7 @@ const Landing = () => {
           <motion.div
             whileHover={{ scale: 1.02 }}
           >
-            <Card className="h-full transition-colors hover-lift card-shine border-2 border-transparent hover:border-gold-400 hover:shadow-lg bg-white/90 backdrop-blur-sm relative overflow-hidden">              
+            <Card className="h-full transition-colors hover-lift card-shine border-2 border-transparent hover:border-gold-400 hover:shadow-lg bg-white/90 backdrop-blur-sm relative overflow-hidden">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <div className="bg-finance-100 p-4 rounded-full mb-6 border-2 border-finance-200 relative">
                   <BookUser className="h-12 w-12 text-finance-500" />
@@ -107,20 +107,12 @@ const Landing = () => {
                 <h2 className="text-2xl font-bold mb-2 text-finance-900">Loan Officer Portal</h2>
                 <p className="text-gray-600 mb-6">Access the dashboard to assess MSME loan eligibility and manage applications</p>
                 <div className="w-full mt-auto grid gap-4">
-                  <Button 
-                    className="w-full bg-finance-500 hover:bg-finance-600 text-white border-b-4 border-purple-700" 
+                  <Button
+                    className="w-full bg-finance-500 hover:bg-finance-600 text-white border-b-4 border-purple-700"
                     size="lg"
                     onClick={() => navigate('/login')}
                   >
                     Sign In
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-finance-300 hover:bg-purple-50 text-finance-600 hover:border-purple-400" 
-                    size="lg"
-                    onClick={() => navigate('/register')}
-                  >
-                    Create Account
                   </Button>
                 </div>
               </CardContent>
@@ -137,7 +129,7 @@ const Landing = () => {
         {/* Purple accent line */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
       </footer>
-      
+
       {/* Background decorations with SVG patterns instead of blobs */}
       <div className="fixed inset-0 -z-10 diagonal-stripes opacity-10 pointer-events-none"></div>
       <div className="fixed inset-0 -z-10 subtle-grid opacity-30 pointer-events-none"></div>

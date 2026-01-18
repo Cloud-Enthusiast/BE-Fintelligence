@@ -15,7 +15,6 @@ import RiskManagement from "./pages/RiskManagement";
 import Settings from "./pages/Settings";
 import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
-import Register from "./pages/Register";
 import DocumentProcessor from "./pages/DocumentProcessor";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
@@ -36,12 +35,11 @@ const App = () => {
                 {/* Public routes */}
                 <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
+
                 {/* Legacy route - now redirects to landing page */}
-                <Route 
-                  path="/index" 
-                  element={<Navigate to="/" replace />} 
+                <Route
+                  path="/index"
+                  element={<Navigate to="/" replace />}
                 />
 
                 {/* Protected Loan Officer routes */}
