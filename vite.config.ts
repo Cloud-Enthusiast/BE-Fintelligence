@@ -27,6 +27,9 @@ export default defineConfig(({ mode }) => ({
     },
   },
   optimizeDeps: {
-    include: ['pdfjs-dist'],
+    esbuildOptions: {
+      target: "esnext",
+    },
   },
+
 }));

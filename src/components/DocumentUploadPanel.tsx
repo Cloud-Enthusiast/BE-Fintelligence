@@ -1,140 +1,121 @@
-import React, { useCallback, useState } from 'react';
+
+import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { motion } from 'framer-motion';
-import { 
-  Upload, FileText, Landmark, Receipt, ShieldCheck, Scale, TrendingUp, 
-  CheckCircle, AlertCircle, Loader2, X 
-} from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { MSMEDocumentType, DocumentUploadState, DOCUMENT_TYPE_CONFIG } from '@/types/msmeDocuments';
+import { Card, CardContent } from '@/components/ui/card'; // Using shorter imports if configured, but keeping relative if needed. The previous file used ../ui/card
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import { MSMEDocumentType, DOCUMENT_TYPE_CONFIG, DocumentUploadState } from '@/types/msmeDocuments';
+import { UploadCloud, FileText, CheckCircle, AlertCircle, X, Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Progress } from '@/components/ui/progress';
 
 interface DocumentUploadPanelProps {
   documentType: MSMEDocumentType;
   onUpload: (file: File, type: MSMEDocumentType) => void;
   uploadState: DocumentUploadState;
   onClear: () => void;
+  className?: string;
 }
 
-const iconMap = {
-  scale: Scale,
-  'trending-up': TrendingUp,
-  landmark: Landmark,
-  receipt: Receipt,
-  'file-text': FileText,
-  'shield-check': ShieldCheck,
-};
-
-const colorMap: Record<string, string> = {
-  blue: 'bg-blue-100 text-blue-600 border-blue-200',
-  green: 'bg-green-100 text-green-600 border-green-200',
-  purple: 'bg-purple-100 text-purple-600 border-purple-200',
-  orange: 'bg-orange-100 text-orange-600 border-orange-200',
-  red: 'bg-red-100 text-red-600 border-red-200',
-  indigo: 'bg-indigo-100 text-indigo-600 border-indigo-200',
+// Helper to map simplified format names (PDF, Excel) to MIME types for Dropzone
+const getAcceptedMimes = (formats: string[]): Record<string, string[]> => {
+  const mimes: Record<string, string[]> = {};
+  formats.forEach(fmt => {
+    if (fmt === 'PDF') mimes['application/pdf'] = ['.pdf'];
+    if (fmt === 'Excel') {
+      mimes['application/vnd.ms-excel'] = ['.xls'];
+      mimes['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'] = ['.xlsx'];
+    }
+    if (fmt === 'CSV') mimes['text/csv'] = ['.csv'];
+    if (fmt === 'JSON') mimes['application/json'] = ['.json'];
+  });
+  return mimes;
 };
 
 const DocumentUploadPanel: React.FC<DocumentUploadPanelProps> = ({
   documentType,
   onUpload,
   uploadState,
-  onClear
+  onClear,
+  className
 }) => {
-  const { toast } = useToast();
   const config = DOCUMENT_TYPE_CONFIG[documentType];
-  const IconComponent = iconMap[config.icon as keyof typeof iconMap] || FileText;
-  const colorClasses = colorMap[config.color] || colorMap.blue;
+  const { status, file, extractedData, error } = uploadState;
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       onUpload(acceptedFiles[0], documentType);
     }
-  }, [onUpload, documentType]);
+  }, [documentType, onUpload]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    accept: getAcceptedMimes(config.acceptedFormats),
     maxFiles: 1,
-    disabled: uploadState.status === 'processing' || uploadState.status === 'uploading'
+    disabled: status === 'processing' || status === 'success'
   });
 
-  const isProcessing = uploadState.status === 'processing' || uploadState.status === 'uploading';
-  const hasData = uploadState.status === 'success' && uploadState.extractedData;
-  const hasError = uploadState.status === 'error';
-
   return (
-    <Card className={`transition-all duration-200 ${isDragActive ? 'ring-2 ring-primary' : ''} ${hasData ? 'border-green-300' : hasError ? 'border-red-300' : ''}`}>
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className={`p-2 rounded-lg ${colorClasses}`}>
-              <IconComponent className="h-5 w-5" />
+    <Card className={cn("h-full border-2", className,
+      status === 'success' ? "border-green-200 bg-green-50/30" :
+        status === 'error' ? "border-red-200 bg-red-50/30" :
+          isDragActive ? "border-primary bg-primary/5" : "border-dashed hover:border-primary/50"
+    )}>
+      <CardContent className="p-6 flex flex-col h-full justify-center">
+        {status === 'success' && extractedData ? (
+          <div className="text-center space-y-4">
+            <div className="bg-green-100 p-3 rounded-full w-fit mx-auto">
+              <CheckCircle className="h-6 w-6 text-green-600" />
             </div>
             <div>
-              <CardTitle className="text-base">{config.label}</CardTitle>
-              <CardDescription className="text-xs">{config.description}</CardDescription>
+              <h3 className="font-medium text-gray-900">{config.label}</h3>
+              <p className="text-sm text-gray-500 truncate max-w-[200px] mx-auto" title={extractedData.fileName}>
+                {extractedData.fileName}
+              </p>
             </div>
-          </div>
-          {hasData && (
-            <Button variant="ghost" size="sm" onClick={onClear}>
-              <X className="h-4 w-4" />
+            <div className="text-xs text-green-700 bg-green-100 px-2 py-1 rounded inline-block">
+              Parsed Successfully
+            </div>
+            <Button variant="outline" size="sm" onClick={onClear} className="w-full mt-2">
+              Replace
             </Button>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent>
-        {!hasData ? (
-          <div
-            {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
-              isDragActive ? 'border-primary bg-primary/5' : 'border-muted hover:border-primary/50'
-            } ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            <input {...getInputProps()} />
-            {isProcessing ? (
-              <div className="flex flex-col items-center space-y-2">
-                <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                <p className="text-sm text-muted-foreground">Processing...</p>
-              </div>
-            ) : hasError ? (
-              <div className="flex flex-col items-center space-y-2">
-                <AlertCircle className="h-8 w-8 text-destructive" />
-                <p className="text-sm text-destructive">{uploadState.error}</p>
-                <p className="text-xs text-muted-foreground">Click to try again</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center space-y-2">
-                <Upload className="h-8 w-8 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">
-                  {isDragActive ? 'Drop file here' : 'Drop or click to upload'}
-                </p>
-                <div className="flex gap-1">
-                  {config.acceptedFormats.map(format => (
-                    <Badge key={format} variant="secondary" className="text-xs">{format}</Badge>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-green-50 border border-green-200 rounded-lg p-3"
-          >
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-green-800 truncate">
-                  {uploadState.extractedData?.fileName}
-                </p>
-                <p className="text-xs text-green-600">
-                  Extracted • {uploadState.extractedData?.extractionConfidence} confidence
-                </p>
-              </div>
+          <div {...getRootProps()} className={cn("text-center cursor-pointer space-y-4", status === 'processing' && "pointer-events-none")}>
+            <input {...getInputProps()} />
+
+            <div className="bg-gray-100 p-3 rounded-full w-fit mx-auto group-hover:bg-gray-200 transition-colors">
+              {status === 'processing' ? (
+                <Loader2 className="h-6 w-6 text-primary animate-spin" />
+              ) : error ? (
+                <AlertCircle className="h-6 w-6 text-red-500" />
+              ) : (
+                <UploadCloud className="h-6 w-6 text-gray-500" />
+              )}
             </div>
-          </motion.div>
+
+            <div className="space-y-1">
+              <h3 className="font-medium text-gray-900">{config.label}</h3>
+              {status === 'processing' ? (
+                <p className="text-sm text-primary">Processing...</p>
+              ) : error ? (
+                <p className="text-xs text-red-600">{error}</p>
+              ) : (
+                <p className="text-xs text-gray-500">{config.description}</p>
+              )}
+            </div>
+
+            {status !== 'processing' && !error && (
+              <p className="text-[10px] text-gray-400 uppercase tracking-wide">
+                {config.acceptedFormats.join(', ')}
+              </p>
+            )}
+
+            {error && (
+              <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); onClear(); }} className="text-xs text-red-600 h-6">
+                Try Again
+              </Button>
+            )}
+          </div>
         )}
       </CardContent>
     </Card>
