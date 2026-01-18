@@ -6,14 +6,14 @@ import DashboardSidebar from '@/components/DashboardSidebar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFetchAssessments, MappedAssessment } from '@/hooks/useFetchAssessments'; // Import the new hook and type
 import { useUpdateAssessmentStatus } from '@/hooks/useUpdateAssessmentStatus'; // Import the update hook
-import { 
-  Table, 
-  TableBody, 
-  TableCaption, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -85,7 +85,7 @@ const Applications = () => {
       case 'rejected':
         return <Badge variant="outline" className="bg-red-100 text-red-800 border-red-300">Rejected</Badge>;
       case 'completed': // Assuming 'completed' from assessment maps to 'pending' review
-         return <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-300">Completed (Review)</Badge>;
+        return <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-300">Completed (Review)</Badge>;
       default:
         return <Badge variant="secondary">Unknown</Badge>;
     }
@@ -116,10 +116,10 @@ const Applications = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center p-8 bg-red-50 border border-red-200 rounded-lg">
-           <XCircleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
-           <h2 className="text-xl font-semibold text-red-800 mb-2">Error Loading Applications</h2>
-           <p className="text-red-600">{error.message}</p>
-           <Button onClick={() => window.location.reload()} className="mt-4">Retry</Button>
+          <XCircleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-red-800 mb-2">Error Loading Applications</h2>
+          <p className="text-red-600">{error.message}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">Retry</Button>
         </div>
       </div>
     );
@@ -141,9 +141,14 @@ const Applications = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">Loan Applications</h1>
-              <p className="text-gray-600">Review and manage loan eligibility assessments</p>
+            <div className="mb-6 flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Loan Applications</h1>
+                <p className="text-gray-600">Review and manage loan eligibility assessments</p>
+              </div>
+              <Button onClick={() => window.location.href = '/create-application'} className="bg-finance-600 hover:bg-finance-700">
+                + New Application
+              </Button>
             </div>
 
             {/* Summary Cards */}
@@ -302,11 +307,10 @@ const ApplicationTable = ({
                       <div className="flex items-center">
                         {app.eligibility_score !== null && app.eligibility_score !== undefined ? (
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
-                              app.eligibility_score >= 80 ? 'bg-green-100 text-green-800' :
-                              app.eligibility_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-red-100 text-red-800'
-                            }`}
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${app.eligibility_score >= 80 ? 'bg-green-100 text-green-800' :
+                                app.eligibility_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
+                                  'bg-red-100 text-red-800'
+                              }`}
                           >
                             {app.eligibility_score}
                           </div>

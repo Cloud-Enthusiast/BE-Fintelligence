@@ -15,6 +15,7 @@ import RiskManagement from "./pages/RiskManagement";
 import Settings from "./pages/Settings";
 import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
+import CreateApplication from "./pages/CreateApplication";
 import DocumentProcessor from "./pages/DocumentProcessor";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
@@ -56,6 +57,14 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <Applications />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/create-application"
+                  element={
+                    <ProtectedRoute>
+                      <CreateApplication />
                     </ProtectedRoute>
                   }
                 />

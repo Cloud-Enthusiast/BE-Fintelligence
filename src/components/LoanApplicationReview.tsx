@@ -39,14 +39,14 @@ const mockApplicationData = {
   // loanTenure: 60, // months // This was duplicated (and is overridden by displayData anyway)
   // loanPurpose: 'Business Expansion', // This was duplicated
   // submittedAt: '2023-06-10T10:30:00Z', // This was duplicated (and is overridden by displayData anyway)
-  
+
   // Risk assessment
   financialRiskScore: 78,
   behavioralCreditScore: 82,
   fraudAlerts: [
     { level: 'low', message: 'Minor discrepancy in reported address' }
   ],
-  
+
   // Stress test results
   incomeShockResilience: 65,
   interestRateSensitivity: 72,
@@ -54,14 +54,14 @@ const mockApplicationData = {
   debtServiceRatio: 38
 };
 
-const LoanApplicationReview = ({ 
-  applicationId, 
-  onApprove, 
-  onReject, 
-  onRequestInfo 
+const LoanApplicationReview = ({
+  applicationId,
+  onApprove,
+  onReject,
+  onRequestInfo
 }: LoanApplicationReviewProps) => {
   const { data: currentApplication, isLoading, error } = useFetchSingleBasicAssessment(applicationId);
-  
+
   // We still need mockApplicationData for fields not covered by currentApplication yet
   // and to ensure the component structure doesn't break before full data integration.
   // The `application` variable will be a merge or primarily use currentApplication where available.
@@ -74,7 +74,7 @@ const LoanApplicationReview = ({
       </div>
     );
   }
-  
+
   if (error) {
     return (
       <div className="w-full p-8 text-center">
@@ -108,10 +108,14 @@ const LoanApplicationReview = ({
     submittedAt: currentApplication.created_at,
     // Fields from mockApplicationData that are not in MappedAssessment will persist here:
     // panId, email, annualIncome, monthlyIncome, creditScore, loanPurpose,
-    // financialRiskScore, behavioralCreditScore, fraudAlerts,
+
+    // Use actual eligibility score if available, otherwise mock
+    financialRiskScore: currentApplication.eligibility_score !== undefined ? currentApplication.eligibility_score : mockApplicationData.financialRiskScore,
+
+    // behavioralCreditScore, fraudAlerts,
     // incomeShockResilience, interestRateSensitivity, emergencyFundBuffer, debtServiceRatio
   };
-  
+
   // Helper to format currency
   const formatCurrency = (amount: number | null | undefined) => {
     if (amount === null || amount === undefined) return 'N/A';
@@ -121,19 +125,19 @@ const LoanApplicationReview = ({
       maximumFractionDigits: 0
     }).format(amount);
   };
-  
+
   const getRiskColor = (score: number) => {
     if (score >= 80) return 'bg-green-500';
     if (score >= 60) return 'bg-yellow-500';
     return 'bg-red-500';
   };
-  
+
   const getScoreLabel = (score: number) => {
     if (score >= 80) return 'Low Risk';
     if (score >= 60) return 'Medium Risk';
     return 'High Risk';
   };
-  
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -152,7 +156,7 @@ const LoanApplicationReview = ({
           Submitted on {new Date(displayData.submittedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
         </Badge>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Panel - Applicant Details */}
         <Card>
@@ -175,7 +179,7 @@ const LoanApplicationReview = ({
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-gray-500">Annual Income</span>
@@ -189,8 +193,8 @@ const LoanApplicationReview = ({
                 <span className="text-sm font-medium text-gray-500">Credit Score</span>
                 <span className={cn(
                   "font-medium",
-                  displayData.creditScore >= 700 ? "text-green-600" : 
-                  displayData.creditScore >= 600 ? "text-yellow-600" : "text-red-600"
+                  displayData.creditScore >= 700 ? "text-green-600" :
+                    displayData.creditScore >= 600 ? "text-yellow-600" : "text-red-600"
                 )}>
                   {displayData.creditScore}
                 </span>
@@ -212,8 +216,8 @@ const LoanApplicationReview = ({
                 <span className="text-sm font-medium text-gray-500">Debt Service Ratio</span>
                 <span className={cn(
                   "font-medium",
-                  displayData.debtServiceRatio <= 30 ? "text-green-600" : 
-                  displayData.debtServiceRatio <= 45 ? "text-yellow-600" : "text-red-600"
+                  displayData.debtServiceRatio <= 30 ? "text-green-600" :
+                    displayData.debtServiceRatio <= 45 ? "text-yellow-600" : "text-red-600"
                 )}>
                   {displayData.debtServiceRatio}%
                 </span>
@@ -221,7 +225,7 @@ const LoanApplicationReview = ({
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Center Panel - AI Risk Assessment */}
         <Card className="bg-gray-50">
           <CardHeader className="pb-2">
@@ -241,18 +245,18 @@ const LoanApplicationReview = ({
                     "absolute px-2 py-0.5 text-xs font-medium text-white rounded-md -top-1 transform -translate-y-full",
                     getRiskColor(displayData.financialRiskScore)
                   )}
-                  style={{ left: `${Math.min(Math.max(displayData.financialRiskScore - 10, 0), 90)}%` }}>
+                    style={{ left: `${Math.min(Math.max(displayData.financialRiskScore - 10, 0), 90)}%` }}>
                     {getScoreLabel(displayData.financialRiskScore)}
                   </span>
                 </div>
                 <p className="mt-3 text-sm text-gray-600">
-                  The applicant's financial risk score indicates 
-                  {displayData.financialRiskScore >= 80 ? " strong financial stability." : 
-                   displayData.financialRiskScore >= 60 ? " moderate financial stability." : 
-                   " potential financial vulnerability."}
+                  The applicant's financial risk score indicates
+                  {displayData.financialRiskScore >= 80 ? " strong financial stability." :
+                    displayData.financialRiskScore >= 60 ? " moderate financial stability." :
+                      " potential financial vulnerability."}
                 </p>
               </div>
-              
+
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium">Behavioral Credit Score</span>
@@ -264,7 +268,7 @@ const LoanApplicationReview = ({
                     "absolute px-2 py-0.5 text-xs font-medium text-white rounded-md -top-1 transform -translate-y-full",
                     getRiskColor(displayData.behavioralCreditScore)
                   )}
-                  style={{ left: `${Math.min(Math.max(displayData.behavioralCreditScore - 10, 0), 90)}%` }}>
+                    style={{ left: `${Math.min(Math.max(displayData.behavioralCreditScore - 10, 0), 90)}%` }}>
                     {getScoreLabel(displayData.behavioralCreditScore)}
                   </span>
                 </div>
@@ -273,13 +277,13 @@ const LoanApplicationReview = ({
                 </p>
               </div>
             </div>
-            
+
             <div className="border border-gray-200 rounded-lg p-4 bg-white">
               <h4 className="text-base font-medium mb-3 flex items-center">
                 <AlertTriangle className="h-4 w-4 mr-2 text-amber-500" />
                 Fraud Detection Alerts
               </h4>
-              
+
               {displayData.fraudAlerts.length > 0 ? (
                 <ul className="space-y-2">
                   {displayData.fraudAlerts.map((alert, index) => (
@@ -287,19 +291,19 @@ const LoanApplicationReview = ({
                       <div className={cn(
                         "h-5 w-5 rounded-full flex items-center justify-center flex-shrink-0 mr-2",
                         alert.level === 'high' ? "bg-red-100" :
-                        alert.level === 'medium' ? "bg-yellow-100" : "bg-blue-100"
+                          alert.level === 'medium' ? "bg-yellow-100" : "bg-blue-100"
                       )}>
                         <span className={cn(
                           "h-2 w-2 rounded-full",
                           alert.level === 'high' ? "bg-red-500" :
-                          alert.level === 'medium' ? "bg-yellow-500" : "bg-blue-500"
+                            alert.level === 'medium' ? "bg-yellow-500" : "bg-blue-500"
                         )} />
                       </div>
                       <span className="text-sm">
                         <span className={cn(
                           "font-medium mr-1",
                           alert.level === 'high' ? "text-red-600" :
-                          alert.level === 'medium' ? "text-yellow-600" : "text-blue-600"
+                            alert.level === 'medium' ? "text-yellow-600" : "text-blue-600"
                         )}>
                           {alert.level.charAt(0).toUpperCase() + alert.level.slice(1)}:
                         </span>
@@ -315,26 +319,26 @@ const LoanApplicationReview = ({
                 </div>
               )}
             </div>
-            
+
             <div className="rounded-lg bg-white border border-gray-200 p-4">
               <h4 className="text-base font-medium mb-2 flex items-center">
                 <Info className="h-4 w-4 mr-2 text-blue-500" />
                 AI Recommendation
               </h4>
               <p className="text-sm text-gray-600">
-                Based on comprehensive analysis, this application presents a 
+                Based on comprehensive analysis, this application presents a
                 {
-                  (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 75 ? 
-                  " low overall risk profile. Approval recommended." : 
-                  (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 60 ? 
-                  " moderate risk profile. Further review suggested." :
-                  " high risk profile. Rejection or significant risk mitigation recommended."
+                  (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 75 ?
+                    " low overall risk profile. Approval recommended." :
+                    (displayData.financialRiskScore + displayData.behavioralCreditScore) / 2 >= 60 ?
+                      " moderate risk profile. Further review suggested." :
+                      " high risk profile. Rejection or significant risk mitigation recommended."
                 }
               </p>
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Right Panel - Stress Test Results */}
         <Card>
           <CardHeader className="pb-2">
@@ -347,55 +351,55 @@ const LoanApplicationReview = ({
                 <span className="text-sm font-medium">Income Shock Resilience</span>
                 <span className="text-sm font-medium">{displayData.incomeShockResilience}%</span>
               </div>
-              <Progress 
-                value={displayData.incomeShockResilience} 
+              <Progress
+                value={displayData.incomeShockResilience}
                 className={cn(
                   "h-2",
-                  displayData.incomeShockResilience >= 70 ? "bg-green-500" : 
-                  displayData.incomeShockResilience >= 40 ? "bg-yellow-500" : "bg-red-500"
-                )} 
+                  displayData.incomeShockResilience >= 70 ? "bg-green-500" :
+                    displayData.incomeShockResilience >= 40 ? "bg-yellow-500" : "bg-red-500"
+                )}
               />
               <p className="mt-2 text-xs text-gray-500">
                 Ability to withstand a 20% reduction in income for 6 months
               </p>
             </div>
-            
+
             <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Interest Rate Sensitivity</span>
                 <span className="text-sm font-medium">{displayData.interestRateSensitivity}%</span>
               </div>
-              <Progress 
-                value={displayData.interestRateSensitivity} 
+              <Progress
+                value={displayData.interestRateSensitivity}
                 className={cn(
                   "h-2",
-                  displayData.interestRateSensitivity >= 70 ? "bg-green-500" : 
-                  displayData.interestRateSensitivity >= 40 ? "bg-yellow-500" : "bg-red-500"
-                )} 
+                  displayData.interestRateSensitivity >= 70 ? "bg-green-500" :
+                    displayData.interestRateSensitivity >= 40 ? "bg-yellow-500" : "bg-red-500"
+                )}
               />
               <p className="mt-2 text-xs text-gray-500">
                 Resilience to a 2% interest rate hike
               </p>
             </div>
-            
+
             <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Emergency Fund Buffer</span>
                 <span className="text-sm font-medium">{displayData.emergencyFundBuffer}%</span>
               </div>
-              <Progress 
-                value={displayData.emergencyFundBuffer} 
+              <Progress
+                value={displayData.emergencyFundBuffer}
                 className={cn(
                   "h-2",
-                  displayData.emergencyFundBuffer >= 70 ? "bg-green-500" : 
-                  displayData.emergencyFundBuffer >= 40 ? "bg-yellow-500" : "bg-red-500"
-                )} 
+                  displayData.emergencyFundBuffer >= 70 ? "bg-green-500" :
+                    displayData.emergencyFundBuffer >= 40 ? "bg-yellow-500" : "bg-red-500"
+                )}
               />
               <p className="mt-2 text-xs text-gray-500">
                 Availability of emergency funds relative to 3 months of expenses
               </p>
             </div>
-            
+
             <div className="rounded-lg bg-gray-50 border border-gray-200 p-4 mt-4">
               <h4 className="text-base font-medium mb-3">Stress Test Findings</h4>
               <ul className="space-y-2">
@@ -405,31 +409,31 @@ const LoanApplicationReview = ({
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Income Stability: </span>
-                    {displayData.incomeShockResilience >= 60 
+                    {displayData.incomeShockResilience >= 60
                       ? "The applicant can maintain payments even with temporary income reduction."
                       : "The applicant may struggle with payments if income decreases temporarily."}
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <div className={displayData.interestRateSensitivity >= 60 ? "text-green-500" : "text-red-500"}>
                     {displayData.interestRateSensitivity >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Rate Sensitivity: </span>
-                    {displayData.interestRateSensitivity >= 60 
+                    {displayData.interestRateSensitivity >= 60
                       ? "The loan remains affordable even if interest rates increase."
                       : "Rising interest rates could significantly impact affordability."}
                   </div>
                 </li>
-                
+
                 <li className="flex items-start">
                   <div className={displayData.emergencyFundBuffer >= 60 ? "text-green-500" : "text-red-500"}>
                     {displayData.emergencyFundBuffer >= 60 ? <CheckCircle className="h-5 w-5 mr-2" /> : <AlertCircle className="h-5 w-5 mr-2" />}
                   </div>
                   <div className="text-sm">
                     <span className="font-medium">Emergency Preparedness: </span>
-                    {displayData.emergencyFundBuffer >= 60 
+                    {displayData.emergencyFundBuffer >= 60
                       ? "Sufficient emergency funds available to cover unexpected expenses."
                       : "Limited emergency funds could lead to payment difficulties."}
                   </div>
@@ -439,7 +443,7 @@ const LoanApplicationReview = ({
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Decision Actions */}
       <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <div className="flex items-center justify-between">
@@ -454,8 +458,8 @@ const LoanApplicationReview = ({
             <Button variant="destructive" onClick={onReject}>
               Reject Application
             </Button>
-            <Button 
-              className="bg-green-600 hover:bg-green-700" 
+            <Button
+              className="bg-green-600 hover:bg-green-700"
               onClick={onApprove}
             >
               Approve Loan

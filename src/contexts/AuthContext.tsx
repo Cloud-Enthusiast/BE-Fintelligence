@@ -43,6 +43,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<boolean>;
   loginDemo: () => Promise<boolean>;
   logout: () => Promise<void>;
+  signup: (email: string, password: string, fullName: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -68,12 +69,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (storedSession) {
       try {
         const session = JSON.parse(storedSession);
-        if (session.isDemo) {
-          setUser(DEMO_USER);
-          setProfile(DEMO_PROFILE);
-          setIsAuthenticated(true);
-          setIsDemoMode(true);
-        }
+        // Restore session regardless of whether it was demo or "real" (mocked)
+        setUser(session.user || DEMO_USER);
+        setProfile(session.profile || DEMO_PROFILE);
+        setIsAuthenticated(true);
+        setIsDemoMode(!!session.isDemo);
       } catch (e) {
         sessionStorage.removeItem(DEMO_SESSION_KEY);
       }
@@ -90,7 +90,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsDemoMode(true);
 
       // Persist demo session
-      sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({ isDemo: true, timestamp: Date.now() }));
+      sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({
+        isDemo: true,
+        user: DEMO_USER,
+        profile: DEMO_PROFILE,
+        timestamp: Date.now()
+      }));
 
       toast({
         title: "Demo Mode Active",
@@ -103,14 +108,82 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Regular login - shows demo mode message since backend is disconnected
+  // Regular login - Mocked for frontend-only
   const login = async (email: string, password: string): Promise<boolean> => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    const mockUser = {
+      id: 'user-' + Math.random().toString(36).substr(2, 9),
+      email: email,
+      user_metadata: { full_name: email.split('@')[0] }
+    };
+
+    const mockProfile: UserProfile = {
+      id: 'profile-' + Math.random().toString(36).substr(2, 9),
+      user_id: mockUser.id,
+      full_name: email.split('@')[0],
+      email: email,
+      phone: null,
+      role: 'loan_officer'
+    };
+
+    setUser(mockUser);
+    setProfile(mockProfile);
+    setIsAuthenticated(true);
+    setIsDemoMode(false); // It's a "real" login in this context
+
+    sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({
+      isDemo: false,
+      user: mockUser,
+      profile: mockProfile,
+      timestamp: Date.now()
+    }));
+
     toast({
-      variant: "destructive",
-      title: "Backend Not Connected",
-      description: "Please use Demo Mode to test the application.",
+      title: "Welcome back!",
+      description: "Successfully logged in.",
     });
-    return false;
+    return true;
+  };
+
+  // Signup - Mocked for frontend-only
+  const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    const mockUser = {
+      id: 'user-' + Math.random().toString(36).substr(2, 9),
+      email: email,
+      user_metadata: { full_name: fullName }
+    };
+
+    const mockProfile: UserProfile = {
+      id: 'profile-' + Math.random().toString(36).substr(2, 9),
+      user_id: mockUser.id,
+      full_name: fullName,
+      email: email,
+      phone: null,
+      role: 'loan_officer'
+    };
+
+    setUser(mockUser);
+    setProfile(mockProfile);
+    setIsAuthenticated(true);
+    setIsDemoMode(false);
+
+    sessionStorage.setItem(DEMO_SESSION_KEY, JSON.stringify({
+      isDemo: false,
+      user: mockUser,
+      profile: mockProfile,
+      timestamp: Date.now()
+    }));
+
+    toast({
+      title: "Account created!",
+      description: "Welcome to BE Finance.",
+    });
+    return true;
   };
 
   const logout = async () => {
@@ -135,6 +208,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isDemoMode,
       login,
       loginDemo,
+      signup,
       logout
     }}>
       {children}
