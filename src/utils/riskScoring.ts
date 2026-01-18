@@ -3,7 +3,7 @@
 
 import { LoanApplication } from '@/contexts/ApplicationContext';
 import { ExtractedMSMEData, CIBILReportData, BankStatementData } from '@/types/msmeDocuments';
-import { EligibilityResult } from '@/utils/msmeEligibilityCalculator';
+import { EligibilityResult } from '@/utils/MSMEEligibilityCalculator';
 
 export interface RiskScore {
   overall: number;           // 0-100 (higher = riskier)
@@ -75,15 +75,15 @@ export const calculateRiskScore = (
   };
 
   // Base risk from eligibility score (inverse relationship)
-  let baseRisk = eligibility ? Math.max(0, 100 - eligibility.score) : 50;
+  let baseRisk = eligibility ? Math.max(0, 100 - eligibility.overallScore) : 50;
 
   // Credit-related risks
   if (documents) {
     const cibil = documents.find(d => d.documentType === 'cibil_report')?.data as CIBILReportData | undefined;
-    
+
     if (cibil) {
       const score = parseInt(cibil.creditScore);
-      
+
       if (!isNaN(score)) {
         if (score < 600) {
           flags.push({
@@ -131,7 +131,7 @@ export const calculateRiskScore = (
 
     // Banking risks
     const bankStatement = documents.find(d => d.documentType === 'bank_statement')?.data as BankStatementData | undefined;
-    
+
     if (bankStatement) {
       if (bankStatement.chequeBounces > 0) {
         const severity = bankStatement.chequeBounces > 3 ? 'critical' : 'warning';
