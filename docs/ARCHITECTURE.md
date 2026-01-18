@@ -39,12 +39,12 @@ The application routes are defined in `App.tsx`, with protected routes ensuring 
 
 ### 2. Authentication System
 
-Authentication is managed through Supabase Auth via `AuthContext`:
+Authentication is managed through a demo system via `AuthContext`:
 
-- User authentication state with Supabase
-- Login/logout functionality
+- Demo user authentication for testing
+- Session persistence using sessionStorage
 - Role-based access (loan_officer, admin)
-- Profile management via `profiles` table
+- Frontend-only implementation
 
 The `ProtectedRoute` component ensures that only authenticated users can access certain routes.
 
@@ -71,14 +71,14 @@ State is managed at different levels:
 1. **Component State**: Local state using `useState` for component-specific data
 2. **Form State**: Custom hooks like `useEligibilityForm` to manage form data
 3. **Global State**: React contexts for application-wide state:
-   - `AuthContext`: Authentication and user information (via Supabase)
-   - `ApplicationContext`: Loan application data
+   - `AuthContext`: Demo authentication and user information
+   - `ApplicationContext`: Loan application data (stored in localStorage)
 
 ## Data Flow
 
-1. **User Authentication**: Supabase Auth handles login/registration
+1. **User Authentication**: Demo authentication system for testing
 2. **Eligibility Assessment**: Form data flows through multi-step components and is processed via the eligibility calculator
-3. **Application Submission**: Assessment results are saved to the database
+3. **Application Submission**: Assessment results are saved to localStorage
 
 ## File Upload and Document Processing
 
@@ -98,14 +98,13 @@ The application includes document processing capabilities:
 - **Structured Data**: CSV and Excel files are parsed into structured JSON
 - **Error Handling**: Graceful handling of unsupported files
 
-## Database Schema
+## Data Storage
 
-The application uses Supabase with the following tables:
+The application uses browser-based storage:
 
-- **profiles**: User profile information linked to auth.users
-- **user_roles**: Role assignments (loan_officer, admin)
+- **localStorage**: Persistent application data across browser sessions
+- **sessionStorage**: Authentication session data
 
 ## External Integrations
 
-- **Supabase**: Authentication, database, and backend services
 - **File Processing**: Client-side document processing with XLSX, Mammoth, and PapaParse libraries

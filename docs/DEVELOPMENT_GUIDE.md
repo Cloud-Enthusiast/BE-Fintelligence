@@ -178,36 +178,30 @@ const handleSubmit = (e: React.FormEvent) => {
 };
 ```
 
-## Working with Supabase
+## Frontend-Only Development
 
-The application uses Supabase for backend services.
+The application is configured for frontend-only operation:
 
-### Authentication
+### Demo Authentication
 
 ```typescript
-// Login example
-const { data, error } = await supabase.auth.signInWithPassword({
-  email: username,
-  password: password,
-});
+// Demo login example
+const { loginDemo } = useAuth();
+await loginDemo(); // Automatically logs in with demo user
 
 // Logout example
-await supabase.auth.signOut();
+await logout(); // Clears session storage
 ```
 
-### Database Operations
+### Data Storage
 
 ```typescript
-// Insert data example
-const { error } = await supabase
-  .from('table_name')
-  .insert({ field1: value1, field2: value2 });
+// Store data in localStorage
+localStorage.setItem('loanApplications', JSON.stringify(applications));
 
-// Query data example
-const { data, error } = await supabase
-  .from('table_name')
-  .select('*')
-  .eq('field', value);
+// Retrieve data from localStorage
+const storedApplications = localStorage.getItem('loanApplications');
+const applications = storedApplications ? JSON.parse(storedApplications) : [];
 ```
 
 ## Best Practices

@@ -8,20 +8,17 @@ This document outlines the main user flows in the BE Finance application.
 ### Login Process
 
 1. User navigates to `/login` (or is redirected when attempting to access a protected route)
-2. User enters email and password
-3. Supabase Auth validates credentials
+2. User clicks "Continue in Demo Mode" button
+3. Demo authentication system logs them in automatically
 4. Upon successful authentication:
-   - User profile and role are fetched
+   - Demo user profile is loaded
    - Loan Officers are directed to `/dashboard`
-   - Other users see the eligibility form
 
 ### Registration Process
 
 1. User navigates to `/register`
-2. User enters full name, email, and password
-3. Account is created via Supabase Auth
-4. Profile is created in the `profiles` table
-5. User is redirected to login
+2. User sees a message that backend is not connected
+3. User is directed to use Demo Mode instead
 
 ## Loan Eligibility Assessment Flow
 
@@ -49,7 +46,7 @@ This document outlines the main user flows in the BE Finance application.
    - System calculates eligibility based on provided information
    - User is shown eligibility result (eligible/ineligible)
    - If eligible, additional loan details and next steps are shown
-   - User can save the assessment to their account
+   - User can save the assessment to localStorage
 
 ### Form Navigation Controls
 

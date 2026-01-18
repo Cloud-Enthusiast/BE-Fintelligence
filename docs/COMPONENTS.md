@@ -116,7 +116,7 @@ Custom hook that manages the eligibility form state and logic.
 - `handleNumericInputChange`: Handles numeric inputs with validation
 - `handleSubmit`: Processes form submission
 - `nextStep`/`prevStep`: Handles form navigation
-- `handleSaveToDatabase`: Persists form data to Supabase
+- `handleSaveToLocalStorage`: Persists form data to browser storage
 
 ## UI Components
 
@@ -138,4 +138,4 @@ Example data flow for the eligibility assessment:
 2. `useEligibilityForm` hook manages the data
 3. When submitted, data is processed by `calculateEligibility` utility
 4. Results are displayed in `EligibilityResult` component
-5. Data can be saved to Supabase through the hook's `handleSaveToDatabase` function
+5. Data can be saved to localStorage through the hook's `handleSaveToLocalStorage` function

@@ -12,12 +12,12 @@ BE Finance is a commercial loan application platform that provides loan eligibil
 - **Tailwind CSS**: Utility-first CSS framework
 - **Framer Motion**: Animation library
 - **Shadcn UI**: Component library for beautiful UI elements
-- **Supabase**: Authentication and database backend
+- **React Query**: Data fetching and caching (frontend-only)
 - **File Processing**: Document upload and text extraction capabilities
 
 ## Key Features
 
-- **Supabase Authentication**: Secure login system with role-based access
+- **Demo Authentication**: Frontend-only authentication system for testing
 - **Loan Eligibility Assessment**: Interactive multi-step form to check commercial loan eligibility
 - **Dashboard**: Comprehensive view for loan officers with analytics
 - **Application Management**: View and manage loan applications
@@ -28,6 +28,9 @@ BE Finance is a commercial loan application platform that provides loan eligibil
 1. Clone the repository
 2. Install dependencies with `npm install`
 3. Start the development server with `npm run dev`
+4. Use "Demo Mode" on the login page to test the application
+
+**Note**: This is a frontend-only version for testing purposes. All data is stored locally in the browser.
 
 ## Project Structure
 
@@ -36,7 +39,6 @@ src/
 ├── components/     # Reusable UI components
 ├── contexts/       # React context providers (Auth, Application)
 ├── hooks/          # Custom React hooks
-├── integrations/   # Supabase client and types
 ├── lib/            # Utilities and configuration
 ├── pages/          # Page components
 └── utils/          # Utility functions
