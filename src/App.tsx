@@ -17,6 +17,7 @@ import HelpSupport from "./pages/HelpSupport";
 import ApplicationReview from "./pages/ApplicationReview";
 import CreateApplication from "./pages/CreateApplication";
 import DocumentProcessor from "./pages/DocumentProcessor";
+import EligibilityChecker from "./pages/EligibilityChecker";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
 import { TourProvider } from "./components/Tour/TourContext";
@@ -127,6 +128,14 @@ const App = () => {
                     element={
                       <ProtectedRoute>
                         <DocumentProcessor />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/eligibility-checker"
+                    element={
+                      <ProtectedRoute>
+                        <EligibilityChecker />
                       </ProtectedRoute>
                     }
                   />

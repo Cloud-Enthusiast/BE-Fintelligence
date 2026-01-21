@@ -9,7 +9,8 @@ import {
   SettingsIcon,
   HelpCircleIcon,
   BuildingIcon,
-  ScanTextIcon
+  ScanTextIcon,
+  CheckCircle2Icon
 } from 'lucide-react';
 
 interface DashboardSidebarProps {
@@ -78,6 +79,13 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
               active={location.pathname === '/document-processor'}
               dataTour="sidebar-document-processor"
             />
+            <SidebarItem
+              icon={<CheckCircle2Icon />}
+              title="Eligibility Checker"
+              path="/eligibility-checker"
+              isOpen={isOpen}
+              active={location.pathname === '/eligibility-checker'}
+            />
 
             <li className="pt-4 mt-4 border-t border-gray-200">
               <span className={`px-2 text-xs font-semibold text-gray-500 uppercase ${!isOpen && 'hidden'}`}>
@@ -120,8 +128,8 @@ const SidebarItem = ({ icon, title, path, isOpen, active = false, dataTour }: Si
     <Link
       to={path}
       className={`flex items-center p-2 rounded-lg transition-colors ${active
-          ? 'bg-finance-50 text-finance-700'
-          : 'text-gray-500 hover:bg-gray-100'
+        ? 'bg-finance-50 text-finance-700'
+        : 'text-gray-500 hover:bg-gray-100'
         } ${!isOpen && 'justify-center'}`}
     >
       <span className="text-lg">{icon}</span>
