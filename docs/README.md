@@ -17,7 +17,7 @@ BE Finance is a commercial loan application platform that provides loan eligibil
 
 ## Key Features
 
-- **Demo Authentication**: Frontend-only authentication system for testing
+- **Authentication**: Frontend-only authentication system for testing
 - **Loan Eligibility Assessment**: Interactive multi-step form to check commercial loan eligibility
 - **Dashboard**: Comprehensive view for loan officers with analytics
 - **Application Management**: View and manage loan applications
@@ -28,7 +28,7 @@ BE Finance is a commercial loan application platform that provides loan eligibil
 1. Clone the repository
 2. Install dependencies with `npm install`
 3. Start the development server with `npm run dev`
-4. Use "Demo Mode" on the login page to test the application
+4. Use your credentials on the login page to test the application
 
 **Note**: This is a frontend-only version for testing purposes. All data is stored locally in the browser.
 

@@ -13,7 +13,7 @@ import { BuildingIcon, KeyIcon, MailIcon, Loader2, ArrowLeft, Zap, AlertTriangle
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, loginDemo, signup } = useAuth();
+  const { login, signup } = useAuth();
   const { toast } = useToast();
 
   const from = (location.state as any)?.from || '/dashboard';
@@ -43,17 +43,6 @@ const Login = () => {
     }
   };
 
-  const handleDemoLogin = async () => {
-    setIsLoading(true);
-    try {
-      const success = await loginDemo();
-      if (success) {
-        navigate(from);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -114,7 +103,7 @@ const Login = () => {
               {isSignUp ? "Create Account" : "Sign In"}
             </CardTitle>
             <CardDescription className="text-center text-finance-600">
-              {isSignUp ? "Enter your details to create an account" : "Enter your credentials or use demo mode"}
+              {isSignUp ? "Enter your details to create an account" : "Enter your credentials to sign in"}
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
@@ -124,41 +113,7 @@ const Login = () => {
               animate="visible"
               key={isSignUp ? "signup" : "login"}
             >
-              {/* Demo Mode Button - Primary action */}
-              {!isSignUp && (
-                <Button
-                  className="w-full mb-6 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg"
-                  size="lg"
-                  onClick={handleDemoLogin}
-                  disabled={isLoading}
-                  type="button"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Starting Demo...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="mr-2 h-4 w-4" />
-                      Continue in Demo Mode
-                    </>
-                  )}
-                </Button>
-              )}
 
-              {!isSignUp && (
-                <div className="relative mb-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-muted-foreground">
-                      Or sign in with credentials
-                    </span>
-                  </div>
-                </div>
-              )}
 
               <form onSubmit={handlePasswordAuth}>
                 <div className="space-y-4">

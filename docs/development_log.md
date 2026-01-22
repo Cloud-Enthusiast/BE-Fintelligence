@@ -9,7 +9,7 @@
   - Modified ApplicationContext to use localStorage for data persistence
   - Updated all hooks to work with local data instead of API calls
   - Updated documentation to reflect frontend-only architecture
-  - Added demo mode prominently in login interface
+  - Added demo mode prominently in login interface (Removed on Jan 22, 2026)
 
 - **Current Status:** Application is fully functional in frontend-only mode
   - Demo authentication works with sessionStorage

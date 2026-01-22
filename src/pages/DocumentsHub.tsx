@@ -15,16 +15,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { toast } from '@/hooks/use-toast';
-import { 
-  MSMEDocumentType, 
-  DocumentUploadState, 
+import {
+  MSMEDocumentType,
+  DocumentUploadState,
   ExtractedMSMEData,
-  DOCUMENT_TYPE_CONFIG 
+  DOCUMENT_TYPE_CONFIG
 } from '@/types/msmeDocuments';
-import { 
-  FileStack, 
-  Upload, 
-  FileCheck2, 
+import {
+  FileStack,
+  Upload,
+  FileCheck2,
   AlertCircle,
   Trash2,
   Eye
@@ -49,10 +49,10 @@ const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
 };
 
 const DocumentsHub = () => {
-  const { profile, isDemoMode } = useAuth();
+  const { profile } = useAuth();
   const { documents, addDocument, removeDocument, clearAllDocuments } = useDocuments();
   const { processFile, isProcessing, progress } = useFileExtraction();
-  
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
   const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
@@ -70,7 +70,7 @@ const DocumentsHub = () => {
     try {
       // Extract text from file
       const extractedData = await processFile(file);
-      
+
       if (extractedData.error) {
         throw new Error(extractedData.error);
       }
@@ -94,11 +94,11 @@ const DocumentsHub = () => {
       // Update upload state
       setUploadStates(prev => ({
         ...prev,
-        [type]: { 
-          file, 
-          status: 'success', 
-          extractedData: msmeData, 
-          error: null 
+        [type]: {
+          file,
+          status: 'success',
+          extractedData: msmeData,
+          error: null
         }
       }));
 
@@ -126,7 +126,7 @@ const DocumentsHub = () => {
       ...prev,
       [type]: initialUploadStates[type]
     }));
-    
+
     // Remove from stored documents
     const docToRemove = documents.find(d => d.documentType === type);
     if (docToRemove) {
@@ -145,10 +145,10 @@ const DocumentsHub = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <DashboardSidebar isOpen={sidebarOpen} />
-      
+
       <div className="flex-1 flex flex-col">
         <DashboardHeader onSidebarToggle={handleSidebarToggle} />
-        
+
         <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
           <motion.div
             initial={{ opacity: 0 }}
@@ -160,11 +160,6 @@ const DocumentsHub = () => {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <h1 className="text-2xl font-bold text-gray-900">Document Upload Hub</h1>
-                  {isDemoMode && (
-                    <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                      Demo Mode
-                    </Badge>
-                  )}
                 </div>
                 <p className="text-gray-600">Upload MSME financial documents for automated data extraction</p>
               </div>
@@ -174,8 +169,8 @@ const DocumentsHub = () => {
                   <span>{completedDocs} of {DOCUMENT_TYPES.length} documents</span>
                 </div>
                 {documents.length > 0 && (
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={clearAllDocuments}
                     className="text-red-600 hover:bg-red-50"
@@ -270,7 +265,7 @@ const DocumentsHub = () => {
               {selectedDocument?.fileName} • Extracted at {selectedDocument && new Date(selectedDocument.extractedAt).toLocaleString()}
             </DialogDescription>
           </DialogHeader>
-          
+
           <ScrollArea className="max-h-[60vh]">
             {selectedDocument && (
               <div className="space-y-4">

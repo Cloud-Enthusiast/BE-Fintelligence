@@ -8,17 +8,17 @@ This document outlines the main user flows in the BE Finance application.
 ### Login Process
 
 1. User navigates to `/login` (or is redirected when attempting to access a protected route)
-2. User clicks "Continue in Demo Mode" button
-3. Demo authentication system logs them in automatically
+2. User enters credentials and clicks "Sign In"
+3. Authentication system validates credentials
 4. Upon successful authentication:
-   - Demo user profile is loaded
+   - User profile is loaded
    - Loan Officers are directed to `/dashboard`
 
 ### Registration Process
 
 1. User navigates to `/register`
 2. User sees a message that backend is not connected
-3. User is directed to use Demo Mode instead
+3. User enters correct credentials
 
 ## Loan Eligibility Assessment Flow
 

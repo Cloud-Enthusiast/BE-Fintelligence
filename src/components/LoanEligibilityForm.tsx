@@ -45,6 +45,23 @@ import {
     CreditCard
 } from 'lucide-react';
 
+// Utility function for Indian number formatting
+const formatIndianNumber = (num: number | string): string => {
+    const numStr = num.toString().replace(/,/g, '');
+    if (!numStr || isNaN(Number(numStr))) return '';
+
+    const [integer, decimal] = numStr.split('.');
+    const lastThree = integer.slice(-3);
+    const otherNumbers = integer.slice(0, -3);
+
+    const formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + (otherNumbers ? ',' : '') + lastThree;
+    return decimal ? `${formatted}.${decimal}` : formatted;
+};
+
+const parseIndianNumber = (formattedNum: string): number => {
+    return Number(formattedNum.replace(/,/g, ''));
+};
+
 const formSchema = z.object({
     // Step 1: Personal Details
     fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -90,6 +107,7 @@ const STEPS = [
 export const LoanEligibilityForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [eligibility, setEligibility] = useState<EligibilityResult | null>(null);
+    const [showResults, setShowResults] = useState(false);
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -122,29 +140,28 @@ export const LoanEligibilityForm = () => {
 
     const watchAllFields = form.watch();
 
-    useEffect(() => {
-        const subscription = form.watch((value) => {
-            const input: EligibilityInput = {
-                annualRevenue: Number(value.annualRevenue) || 0,
-                monthlyIncome: Number(value.monthlyProfit) || 0,
-                existingLoanAmount: Number(value.existingLoanAmount) || 0,
-                loanAmount: Number(value.loanAmount) || 0,
-                loanTerm: Number(value.loanTerm) || 12,
-                creditScore: Number(value.creditScore) || 300,
-                businessType: value.businessType || 'Services',
-            };
-
-            const result = calculateEligibility(input);
-            setEligibility(result);
-        });
-        return () => subscription.unsubscribe();
-    }, [form.watch]);
-
     const onSubmit = (values: FormValues) => {
         console.log("Form Submitted:", values);
+
+        // Calculate eligibility on submit
+        const input: EligibilityInput = {
+            annualRevenue: Number(values.annualRevenue) || 0,
+            monthlyIncome: Number(values.monthlyProfit) || 0,
+            existingLoanAmount: Number(values.existingLoanAmount) || 0,
+            loanAmount: Number(values.loanAmount) || 0,
+            loanTerm: Number(values.loanTerm) || 12,
+            creditScore: Number(values.creditScore) || 300,
+            businessType: values.businessType || 'Services',
+        };
+
+        const result = calculateEligibility(input);
+        setEligibility(result);
+        setShowResults(true);
+
         const monthlyIncome = values.monthlyProfit;
         const debtToIncomeRatio = monthlyIncome > 0 ? (values.monthlyEMI / monthlyIncome) * 100 : 0;
         console.log("Debt-to-Income Ratio:", debtToIncomeRatio.toFixed(2) + "%");
+        console.log("Eligibility Result:", result);
     };
 
     const nextStep = async () => {
@@ -213,10 +230,10 @@ export const LoanEligibilityForm = () => {
                                 <React.Fragment key={step.id}>
                                     <div className="flex flex-col items-center">
                                         <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isActive
-                                                ? 'bg-finance-600 text-white shadow-lg scale-110'
-                                                : isCompleted
-                                                    ? 'bg-emerald-500 text-white'
-                                                    : 'bg-gray-200 text-gray-400'
+                                            ? 'bg-finance-600 text-white shadow-lg scale-110'
+                                            : isCompleted
+                                                ? 'bg-emerald-500 text-white'
+                                                : 'bg-gray-200 text-gray-400'
                                             }`}>
                                             <StepIcon className="h-5 w-5" />
                                         </div>
@@ -451,7 +468,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                            <Input className="pl-9" type="number" placeholder="50,00,000" {...field} />
+                                                            <Input
+                                                                className="pl-9"
+                                                                type="text"
+                                                                placeholder="50,00,000"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormDescription>Total revenue for the last financial year</FormDescription>
@@ -468,7 +494,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                            <Input className="pl-9" type="number" placeholder="50,000" {...field} />
+                                                            <Input
+                                                                className="pl-9"
+                                                                type="text"
+                                                                placeholder="50,000"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormDescription>Net profit after expenses</FormDescription>
@@ -490,7 +525,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                            <Input className="pl-9" type="number" placeholder="0" {...field} />
+                                                            <Input
+                                                                className="pl-9"
+                                                                type="text"
+                                                                placeholder="0"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormDescription>Total outstanding loan balance</FormDescription>
@@ -507,7 +551,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                            <Input className="pl-9" type="number" placeholder="0" {...field} />
+                                                            <Input
+                                                                className="pl-9"
+                                                                type="text"
+                                                                placeholder="0"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormDescription>Total monthly EMI payments</FormDescription>
@@ -525,7 +578,7 @@ export const LoanEligibilityForm = () => {
                                                 <p className="text-xs text-blue-700">Lower is better (Ideal: &lt;40%)</p>
                                             </div>
                                             <div className={`text-2xl font-bold ${parseFloat(debtToIncomeRatio) < 40 ? 'text-emerald-600' :
-                                                    parseFloat(debtToIncomeRatio) < 60 ? 'text-amber-600' : 'text-red-600'
+                                                parseFloat(debtToIncomeRatio) < 60 ? 'text-amber-600' : 'text-red-600'
                                                 }`}>
                                                 {debtToIncomeRatio}%
                                             </div>
@@ -589,7 +642,16 @@ export const LoanEligibilityForm = () => {
                                                 <FormControl>
                                                     <div className="relative">
                                                         <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                        <Input className="pl-9" type="number" placeholder="1,00,000" {...field} />
+                                                        <Input
+                                                            className="pl-9"
+                                                            type="text"
+                                                            placeholder="1,00,000"
+                                                            value={field.value ? formatIndianNumber(field.value) : ''}
+                                                            onChange={(e) => {
+                                                                const parsed = parseIndianNumber(e.target.value);
+                                                                field.onChange(parsed);
+                                                            }}
+                                                        />
                                                     </div>
                                                 </FormControl>
                                                 <FormDescription>Average balance over last 6 months</FormDescription>
@@ -624,7 +686,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-finance-600" />
-                                                            <Input className="pl-9 border-finance-200 bg-finance-50 text-lg font-semibold" type="number" placeholder="5,00,000" {...field} />
+                                                            <Input
+                                                                className="pl-9 border-finance-200 bg-finance-50 text-lg font-semibold"
+                                                                type="text"
+                                                                placeholder="5,00,000"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -697,7 +768,16 @@ export const LoanEligibilityForm = () => {
                                                     <FormControl>
                                                         <div className="relative">
                                                             <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-                                                            <Input className="pl-9" type="number" placeholder="10,00,000" {...field} />
+                                                            <Input
+                                                                className="pl-9"
+                                                                type="text"
+                                                                placeholder="10,00,000"
+                                                                value={field.value ? formatIndianNumber(field.value) : ''}
+                                                                onChange={(e) => {
+                                                                    const parsed = parseIndianNumber(e.target.value);
+                                                                    field.onChange(parsed);
+                                                                }}
+                                                            />
                                                         </div>
                                                     </FormControl>
                                                     <FormDescription>Market value of the collateral</FormDescription>
@@ -767,7 +847,7 @@ export const LoanEligibilityForm = () => {
                             </div>
                         </CardHeader>
                         <CardContent className="pt-6">
-                            {eligibility ? (
+                            {eligibility && showResults ? (
                                 <div className="space-y-6">
                                     <div className="text-center">
                                         <span className={`text-5xl font-extrabold ${getScoreText(eligibility.overallScore)}`}>
