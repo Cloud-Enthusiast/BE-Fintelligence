@@ -86,14 +86,20 @@ const getPromptForType = (type: MSMEDocumentType, text: string): string => {
         - activeLoans (number)
         - defaults (number of default accounts)
         - overdueAmount (total overdue amount in INR)
-        - suitFiled (boolean or number)
+        - suitFiled (boolean - true if "Suit Filed" or "Wilful Default" mention found)
+        - wilfulDefault (boolean)
+        - writtenOffAccounts (number)
         - paymentHistoryGood (boolean)
         - panNumber (string)
         - reportDate (string)
+        - dpdStrings (array of strings found in payment history resembling '000', '030', 'XXX', 'STD', 'SUB', 'DBT')
         
-        CRITICAL: Identify any "Suit Filed", "Written Off", or "Settled" flags.
+        CRITICAL: 
+        1. Identify "Suit Filed" OR "Wilful Default".
+        2. Look for "DPD" (Days Past Due) matrix. valid values like 000, 055, 900.
+        3. Look for "Written Off" or "Settled".
         
-        Text: ${text.slice(0, 10000)}
+        Text: ${text.slice(0, 15000)}
       `;
         case 'bank_statement':
             return `

@@ -57,6 +57,10 @@ export interface CIBILReportData {
   paymentHistory: 'excellent' | 'good' | 'fair' | 'poor' | 'unknown';
   defaults: number;
   settledAccounts: number;
+  writtenOffAccounts: number;
+  suitFiled: boolean;
+  wilfulDefault: boolean;
+  dpdStrings: string[]; // e.g., ["000", "030", "090"]
   reportDate: string;
   panNumber: string;
   totalLoanAmount: string;

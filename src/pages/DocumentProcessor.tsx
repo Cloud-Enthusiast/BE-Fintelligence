@@ -1,228 +1,359 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Upload, Zap, Shield, Clock, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { useDocuments } from '@/contexts/DocumentContext';
+import { useFileExtraction } from '@/hooks/useFileExtraction';
+import { extractMsmeDocument } from '@/utils/msmeFinancialExtractor';
+import { parseDocumentWithAI } from '@/utils/aiDocumentParser';
+import DashboardHeader from '@/components/DashboardHeader';
+import DashboardSidebar from '@/components/DashboardSidebar';
+import DocumentUploadPanel from '@/components/DocumentUploadPanel';
+import FinancialSummaryCard from '@/components/FinancialSummaryCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import FileUploadExtractor from '@/components/FileUploadExtractor';
-import { ExtractedData } from '@/hooks/useFileExtraction';
-import Layout from '@/components/Layout';
-import { useTour } from '@/components/Tour/TourContext';
-import { DOCUMENT_PROCESSOR_TOUR } from '@/components/Tour/tours';
-import { useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { toast } from '@/hooks/use-toast';
+import {
+  MSMEDocumentType,
+  DocumentUploadState,
+  ExtractedMSMEData,
+  DOCUMENT_TYPE_CONFIG
+} from '@/types/msmeDocuments';
+import {
+  FileStack,
+  Upload,
+  FileCheck2,
+  AlertCircle,
+  Trash2,
+  Eye,
+  Zap
+} from 'lucide-react';
+
+import CibilReportView from '@/components/CibilReportView';
+
+const DOCUMENT_TYPES: MSMEDocumentType[] = [
+  'balance_sheet',
+  'profit_loss',
+  'bank_statement',
+  'gst_returns',
+  'itr_document',
+  'cibil_report'
+];
+
+const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
+  balance_sheet: { file: null, status: 'idle', extractedData: null, error: null },
+  profit_loss: { file: null, status: 'idle', extractedData: null, error: null },
+  bank_statement: { file: null, status: 'idle', extractedData: null, error: null },
+  gst_returns: { file: null, status: 'idle', extractedData: null, error: null },
+  itr_document: { file: null, status: 'idle', extractedData: null, error: null },
+  cibil_report: { file: null, status: 'idle', extractedData: null, error: null },
+};
 
 const DocumentProcessor = () => {
-  const navigate = useNavigate();
-  const [processedFiles, setProcessedFiles] = useState<ExtractedData[]>([]);
-  const { startTour, isTourSeen } = useTour();
+  const { profile } = useAuth();
+  const { documents, addDocument, removeDocument, clearAllDocuments } = useDocuments();
+  const { processFile, isProcessing, progress } = useFileExtraction();
 
-  useEffect(() => {
-    if (!isTourSeen('document_processor')) {
-      const timer = setTimeout(() => {
-        startTour(DOCUMENT_PROCESSOR_TOUR);
-      }, 1000);
-      return () => clearTimeout(timer);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
+  const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [isAiProcessing, setIsAiProcessing] = useState<Record<string, boolean>>({});
+
+  const handleSidebarToggle = () => setSidebarOpen(!sidebarOpen);
+
+  const handleUpload = useCallback(async (file: File, type: MSMEDocumentType) => {
+    // Update state to processing
+    setUploadStates(prev => ({
+      ...prev,
+      [type]: { ...prev[type], file, status: 'processing', error: null }
+    }));
+
+    try {
+      // Extract text from file
+      const extractedData = await processFile(file);
+
+      if (extractedData.error) {
+        throw new Error(extractedData.error);
+      }
+
+      // Store initial manual extraction
+      let msmeData = extractMsmeDocument({
+        type,
+        extractedText: extractedData.extractedText,
+        structuredData: extractedData.structuredData,
+        fileName: file.name
+      });
+
+      // Start AI Enterprise Extraction
+      setIsAiProcessing(prev => ({ ...prev, [type]: true }));
+      try {
+        const aiResult = await parseDocumentWithAI(type, extractedData.extractedText);
+
+        // Merge AI data with manual baseline
+        msmeData = {
+          ...msmeData,
+          data: { ...msmeData.data, ...aiResult.data },
+          extractionConfidence: aiResult.confidence,
+          aiAnalysis: aiResult.analysis
+        };
+
+        toast({
+          title: "AI Extraction Complete",
+          description: `Enterprise-ready analysis completed for ${DOCUMENT_TYPE_CONFIG[type].label}`,
+        });
+      } catch (aiError) {
+        console.warn('AI Extraction failed, falling back to pattern matching:', aiError);
+        toast({
+          variant: "destructive",
+          title: "AI Analysis Partial",
+          description: "Could not complete AI analysis, using standard patterns.",
+        });
+      } finally {
+        setIsAiProcessing(prev => ({ ...prev, [type]: false }));
+      }
+
+      // Store in context
+      addDocument({
+        documentType: type,
+        fileName: file.name,
+        fileSize: file.size,
+        extractedData: msmeData
+      });
+
+      // Update upload state
+      setUploadStates(prev => ({
+        ...prev,
+        [type]: {
+          file,
+          status: 'success',
+          extractedData: msmeData,
+          error: null
+        }
+      }));
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Failed to process document';
+      setUploadStates(prev => ({
+        ...prev,
+        [type]: { ...prev[type], status: 'error', error: errorMsg }
+      }));
+
+      toast({
+        variant: "destructive",
+        title: "Extraction Failed",
+        description: errorMsg,
+      });
     }
-  }, [isTourSeen, startTour]);
+  }, [processFile, addDocument]);
 
-  const handleExtractedData = (data: ExtractedData) => {
-    setProcessedFiles(prev => [data, ...prev.slice(0, 4)]); // Keep last 5 files
+  const handleClear = useCallback((type: MSMEDocumentType) => {
+    setUploadStates(prev => ({
+      ...prev,
+      [type]: initialUploadStates[type]
+    }));
+
+    // Remove from stored documents
+    const docToRemove = documents.find(d => d.documentType === type);
+    if (docToRemove) {
+      removeDocument(docToRemove.id);
+    }
+  }, [documents, removeDocument]);
+
+  const handleViewDetails = (data: ExtractedMSMEData) => {
+    setSelectedDocument(data);
+    setDetailsOpen(true);
   };
 
-  const handleBackToDashboard = () => {
-    navigate('/dashboard');
-  };
-
-  const features = [
-    {
-      icon: <Upload className="h-6 w-6 text-blue-600" />,
-      title: "Multiple File Types",
-      description: "Support for TXT, CSV, JSON, DOCX, Excel (XLSX/XLS), and PDF files"
-    },
-    {
-      icon: <Zap className="h-6 w-6 text-yellow-600" />,
-      title: "Instant Processing",
-      description: "Fast text and data extraction processing in your browser"
-    },
-    {
-      icon: <Shield className="h-6 w-6 text-green-600" />,
-      title: "Secure & Private",
-      description: "All processing happens locally - your files never leave your device"
-    },
-    {
-      icon: <Clock className="h-6 w-6 text-purple-600" />,
-      title: "Processing History",
-      description: "Keep track of recently processed files and their extracted data"
-    }
-  ];
+  const completedDocs = Object.values(uploadStates).filter(s => s.status === 'success').length;
+  const processingDocs = Object.values(uploadStates).filter(s => s.status === 'processing').length;
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Header */}
-          <div className="mb-8">
-            {/* Back Button */}
-            <div className="mb-6">
-              <Button
-                variant="outline"
-                onClick={handleBackToDashboard}
-                className="flex items-center space-x-2 hover:bg-gray-50"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back to Dashboard</span>
-              </Button>
-            </div>
+    <div className="min-h-screen bg-gray-50 flex">
+      <DashboardSidebar isOpen={sidebarOpen} />
 
-            {/* Title Section */}
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-4">
-                <div className="rounded-full bg-blue-100 p-3 mr-3">
-                  <FileText className="h-8 w-8 text-blue-600" />
+      <div className="flex-1 flex flex-col">
+        <DashboardHeader onSidebarToggle={handleSidebarToggle} />
+
+        <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h1 className="text-2xl font-bold text-gray-900">Document Upload Hub</h1>
                 </div>
-                <h1 className="text-3xl font-bold text-gray-900" data-tour="doc-processor-title">Document Processor</h1>
+                <p className="text-gray-600">Upload MSME financial documents for automated data extraction</p>
               </div>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Extract text and structured data from your documents instantly. Upload CSV, Excel, Word, PDF,
-                and text files to get organized data, metadata, and searchable content.
-              </p>
-            </div>
-          </div>
-
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Card className="h-full hover:shadow-md transition-shadow">
-                  <CardContent className="p-6 text-center">
-                    <div className="rounded-full bg-gray-50 p-3 w-fit mx-auto mb-4">
-                      {feature.icon}
-                    </div>
-                    <h3 className="font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-sm text-gray-600">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Main Upload Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2" data-tour="doc-processor-upload">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Upload & Extract</CardTitle>
-                  <CardDescription>
-                    Drag and drop your file or click to browse. Supported formats include documents,
-                    images, and structured data files.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <FileUploadExtractor
-                    onExtractedData={handleExtractedData}
-                    showInline={true}
-                    maxFileSize={15 * 1024 * 1024} // 15MB
-                  />
-                </CardContent>
-              </Card>
+              <div className="flex items-center gap-3 mt-4 md:mt-0">
+                <div className="flex items-center gap-2 text-sm">
+                  <FileCheck2 className="h-4 w-4 text-green-600" />
+                  <span>{completedDocs} of {DOCUMENT_TYPES.length} documents</span>
+                </div>
+                {documents.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearAllDocuments}
+                    className="text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Clear All
+                  </Button>
+                )}
+              </div>
             </div>
 
-            {/* Processing History Sidebar */}
-            <div data-tour="doc-processor-recent">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Clock className="h-5 w-5 mr-2" />
-                    Recent Files
-                  </CardTitle>
-                  <CardDescription>
-                    Recently processed files and their status
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {processedFiles.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
-                      <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                      <p>No files processed yet</p>
-                      <p className="text-sm">Upload a file to get started</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-3">
-                      {processedFiles.map((file, index) => (
-                        <motion.div
-                          key={`${file.fileName}-${index}`}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="border rounded-lg p-3 hover:bg-gray-50"
-                        >
-                          <div className="flex items-start justify-between mb-2">
-                            <h4 className="font-medium text-sm truncate flex-1 mr-2">
-                              {file.fileName}
-                            </h4>
-                            {file.error ? (
-                              <Badge variant="destructive" className="text-xs">
-                                Error
-                              </Badge>
-                            ) : (
-                              <Badge variant="default" className="text-xs bg-green-100 text-green-800">
-                                Success
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="text-xs text-gray-500 space-y-1">
-                            <p>Size: {Math.round(file.fileSize / 1024)} KB</p>
-                            <p>Text: {file.extractedText.length} chars</p>
-                            {file.structuredData && (
-                              <p>Rows: {file.structuredData.length}</p>
-                            )}
-                          </div>
-                        </motion.div>
+            <Tabs defaultValue="upload" className="space-y-6">
+              <TabsList>
+                <TabsTrigger value="upload" className="gap-2">
+                  <Upload className="h-4 w-4" />
+                  Upload Documents
+                </TabsTrigger>
+                <TabsTrigger value="extracted" className="gap-2">
+                  <FileStack className="h-4 w-4" />
+                  Extracted Data ({completedDocs})
+                </TabsTrigger>
+              </TabsList>
+
+              {/* Upload Tab */}
+              <TabsContent value="upload" className="space-y-6">
+                {processingDocs > 0 && (
+                  <Card className="border-blue-200 bg-blue-50">
+                    <CardContent className="py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600" />
+                        <span className="text-blue-800">
+                          Processing... {progress.stage} ({progress.percentage}%)
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {DOCUMENT_TYPES.map(type => (
+                    <DocumentUploadPanel
+                      key={type}
+                      documentType={type}
+                      onUpload={handleUpload}
+                      uploadState={uploadStates[type]}
+                      onClear={() => handleClear(type)}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+
+              {/* Extracted Data Tab */}
+              <TabsContent value="extracted" className="space-y-6">
+                {completedDocs === 0 ? (
+                  <Card className="border-dashed">
+                    <CardContent className="py-12 text-center">
+                      <FileStack className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                      <h3 className="text-lg font-medium mb-2">No Documents Processed Yet</h3>
+                      <p className="text-muted-foreground">
+                        Upload documents in the "Upload Documents" tab to see extracted financial data here
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {Object.entries(uploadStates)
+                      .filter(([_, state]) => state.status === 'success' && state.extractedData)
+                      .map(([type, state]) => (
+                        <FinancialSummaryCard
+                          key={type}
+                          data={state.extractedData!}
+                          onViewDetails={() => handleViewDetails(state.extractedData!)}
+                        />
                       ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Usage Tips */}
-              <Card className="mt-6" data-tour="doc-processor-tips">
-                <CardHeader>
-                  <CardTitle className="text-lg">Tips for Best Results</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3 text-sm">
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <p>Excel files will extract data from the first sheet by default</p>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <p>CSV files work best with proper headers and consistent formatting</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <p>Keep file sizes under 15MB for optimal performance</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <p>All processing happens locally - your data stays private</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </motion.div>
+                )}
+              </TabsContent>
+            </Tabs>
+          </motion.div>
+        </main>
       </div>
-    </Layout>
+
+      {/* Details Dialog */}
+      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+
+
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              {selectedDocument && DOCUMENT_TYPE_CONFIG[selectedDocument.documentType].label}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedDocument?.fileName} • Extracted at {selectedDocument && new Date(selectedDocument.extractedAt).toLocaleString()}
+            </DialogDescription>
+          </DialogHeader>
+
+          <ScrollArea className="flex-1 p-1">
+            {selectedDocument && (
+              <div className="pb-6 pr-4 pl-1">
+                {selectedDocument.documentType === 'cibil_report' ? (
+                  <CibilReportView
+                    data={selectedDocument.data as any}
+                    aiAnalysis={selectedDocument.aiAnalysis}
+                  />
+                ) : (
+                  <div className="space-y-6">
+                    {/* AI Analysis Section */}
+                    {selectedDocument.aiAnalysis && (
+                      <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4">
+                        <h4 className="text-indigo-900 font-bold mb-2 flex items-center gap-2">
+                          <Zap className="h-4 w-4 text-indigo-600" />
+                          AI Enterprise Insights
+                        </h4>
+                        <p className="text-indigo-800 text-sm leading-relaxed italic">
+                          {selectedDocument.aiAnalysis}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Extracted Fields */}
+                    <div>
+                      <h4 className="font-medium mb-2">Extracted Financial Fields</h4>
+                      <div className="bg-muted rounded-lg p-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          {Object.entries(selectedDocument.data).map(([key, value]) => (
+                            <div key={key} className="flex justify-between">
+                              <span className="text-muted-foreground capitalize">
+                                {key.replace(/([A-Z])/g, ' $1').trim()}:
+                              </span>
+                              <span className="font-medium">{String(value)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Raw Text Preview */}
+                    {selectedDocument.rawText && (
+                      <div>
+                        <h4 className="font-medium mb-2">Raw Text (Preview)</h4>
+                        <pre className="bg-muted rounded-lg p-4 text-xs overflow-auto max-h-48 whitespace-pre-wrap">
+                          {selectedDocument.rawText.slice(0, 2000)}
+                          {selectedDocument.rawText.length > 2000 && '...'}
+                        </pre>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 
