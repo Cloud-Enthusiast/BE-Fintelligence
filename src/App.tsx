@@ -20,6 +20,7 @@ import DocumentProcessor from "./pages/DocumentProcessor";
 import EligibilityChecker from "./pages/EligibilityChecker";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ApplicationProvider } from "./contexts/ApplicationContext";
+import { DocumentProvider } from "./contexts/DocumentContext";
 import { TourProvider } from "./components/Tour/TourContext";
 import { TourGuide } from "./components/Tour/TourGuide";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -33,117 +34,119 @@ const App = () => {
         <AuthProvider>
           <TourProvider>
             <ApplicationProvider>
-              <Toaster />
-              <Sonner />
-              <TourGuide />
-              <BrowserRouter>
-                <Routes>
-                  {/* Public routes */}
-                  <Route path="/" element={<Landing />} />
-                  <Route path="/login" element={<Login />} />
+              <DocumentProvider>
+                <Toaster />
+                <Sonner />
+                <TourGuide />
+                <BrowserRouter>
+                  <Routes>
+                    {/* Public routes */}
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/login" element={<Login />} />
 
-                  {/* Legacy route - now redirects to landing page */}
-                  <Route
-                    path="/index"
-                    element={<Navigate to="/" replace />}
-                  />
+                    {/* Legacy route - now redirects to landing page */}
+                    <Route
+                      path="/index"
+                      element={<Navigate to="/" replace />}
+                    />
 
-                  {/* Protected Loan Officer routes */}
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/applications"
-                    element={
-                      <ProtectedRoute>
-                        <Applications />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/create-application"
-                    element={
-                      <ProtectedRoute>
-                        <CreateApplication />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/analytics"
-                    element={
-                      <ProtectedRoute>
-                        <Analytics />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/customers"
-                    element={
-                      <ProtectedRoute>
-                        <Customers />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/application-review/:id"
-                    element={
-                      <ProtectedRoute>
-                        <ApplicationReview />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/risk-management"
-                    element={
-                      <ProtectedRoute>
-                        <RiskManagement />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ProtectedRoute>
-                        <Settings />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/help-support"
-                    element={
-                      <ProtectedRoute>
-                        <HelpSupport />
-                      </ProtectedRoute>
-                    }
-                  />
+                    {/* Protected Loan Officer routes */}
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute>
+                          <Dashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/applications"
+                      element={
+                        <ProtectedRoute>
+                          <Applications />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/create-application"
+                      element={
+                        <ProtectedRoute>
+                          <CreateApplication />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/analytics"
+                      element={
+                        <ProtectedRoute>
+                          <Analytics />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/customers"
+                      element={
+                        <ProtectedRoute>
+                          <Customers />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/application-review/:id"
+                      element={
+                        <ProtectedRoute>
+                          <ApplicationReview />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/risk-management"
+                      element={
+                        <ProtectedRoute>
+                          <RiskManagement />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/settings"
+                      element={
+                        <ProtectedRoute>
+                          <Settings />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/help-support"
+                      element={
+                        <ProtectedRoute>
+                          <HelpSupport />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                  {/* Document processor */}
-                  <Route
-                    path="/document-processor"
-                    element={
-                      <ProtectedRoute>
-                        <DocumentProcessor />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/eligibility-checker"
-                    element={
-                      <ProtectedRoute>
-                        <EligibilityChecker />
-                      </ProtectedRoute>
-                    }
-                  />
+                    {/* Document processor */}
+                    <Route
+                      path="/document-processor"
+                      element={
+                        <ProtectedRoute>
+                          <DocumentProcessor />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/eligibility-checker"
+                      element={
+                        <ProtectedRoute>
+                          <EligibilityChecker />
+                        </ProtectedRoute>
+                      }
+                    />
 
-                  {/* Catch-all route */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
+                    {/* Catch-all route */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </DocumentProvider>
             </ApplicationProvider>
           </TourProvider>
         </AuthProvider>
