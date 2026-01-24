@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDocuments } from '@/contexts/DocumentContext';
 import { useFileExtraction } from '@/hooks/useFileExtraction';
 import { extractMsmeDocument } from '@/utils/msmeFinancialExtractor';
+import { parseDocumentWithAI } from '@/utils/aiDocumentParser';
 import DashboardHeader from '@/components/DashboardHeader';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import DocumentUploadPanel from '@/components/DocumentUploadPanel';
@@ -27,7 +28,8 @@ import {
   FileCheck2,
   AlertCircle,
   Trash2,
-  Eye
+  Eye,
+  Zap
 } from 'lucide-react';
 
 const DOCUMENT_TYPES: MSMEDocumentType[] = [
@@ -57,6 +59,7 @@ const DocumentsHub = () => {
   const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
   const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [isAiProcessing, setIsAiProcessing] = useState<Record<string, boolean>>({});
 
   const handleSidebarToggle = () => setSidebarOpen(!sidebarOpen);
 
@@ -75,13 +78,41 @@ const DocumentsHub = () => {
         throw new Error(extractedData.error);
       }
 
-      // Extract MSME-specific data
-      const msmeData = extractMsmeDocument({
+      // Store initial manual extraction
+      let msmeData = extractMsmeDocument({
         type,
         extractedText: extractedData.extractedText,
         structuredData: extractedData.structuredData,
         fileName: file.name
       });
+
+      // Start AI Enterprise Extraction
+      setIsAiProcessing(prev => ({ ...prev, [type]: true }));
+      try {
+        const aiResult = await parseDocumentWithAI(type, extractedData.extractedText);
+
+        // Merge AI data with manual baseline
+        msmeData = {
+          ...msmeData,
+          data: { ...msmeData.data, ...aiResult.data },
+          extractionConfidence: aiResult.confidence,
+          aiAnalysis: aiResult.analysis
+        };
+
+        toast({
+          title: "AI Extraction Complete",
+          description: `Enterprise-ready analysis completed for ${DOCUMENT_TYPE_CONFIG[type].label}`,
+        });
+      } catch (aiError) {
+        console.warn('AI Extraction failed, falling back to pattern matching:', aiError);
+        toast({
+          variant: "destructive",
+          title: "AI Analysis Partial",
+          description: "Could not complete AI analysis, using standard patterns.",
+        });
+      } finally {
+        setIsAiProcessing(prev => ({ ...prev, [type]: false }));
+      }
 
       // Store in context
       addDocument({
@@ -101,11 +132,6 @@ const DocumentsHub = () => {
           error: null
         }
       }));
-
-      toast({
-        title: "Document Processed",
-        description: `${DOCUMENT_TYPE_CONFIG[type].label} extracted with ${msmeData.extractionConfidence} confidence`,
-      });
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Failed to process document';
       setUploadStates(prev => ({
@@ -268,10 +294,23 @@ const DocumentsHub = () => {
 
           <ScrollArea className="max-h-[60vh]">
             {selectedDocument && (
-              <div className="space-y-4">
+              <div className="space-y-6">
+                {/* AI Analysis Section */}
+                {selectedDocument.aiAnalysis && (
+                  <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-4">
+                    <h4 className="text-indigo-900 font-bold mb-2 flex items-center gap-2">
+                      <Zap className="h-4 w-4 text-indigo-600" />
+                      AI Enterprise Insights
+                    </h4>
+                    <p className="text-indigo-800 text-sm leading-relaxed italic">
+                      {selectedDocument.aiAnalysis}
+                    </p>
+                  </div>
+                )}
+
                 {/* Extracted Fields */}
                 <div>
-                  <h4 className="font-medium mb-2">Extracted Fields</h4>
+                  <h4 className="font-medium mb-2">Extracted Financial Fields</h4>
                   <div className="bg-muted rounded-lg p-4">
                     <div className="grid grid-cols-2 gap-3">
                       {Object.entries(selectedDocument.data).map(([key, value]) => (

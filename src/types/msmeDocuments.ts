@@ -1,6 +1,6 @@
 // MSME Document Types and Extracted Data Interfaces
 
-export type MSMEDocumentType = 
+export type MSMEDocumentType =
   | 'balance_sheet'
   | 'profit_loss'
   | 'bank_statement'
@@ -79,6 +79,7 @@ export interface ExtractedMSMEData {
   extractedAt: string;
   data: BalanceSheetData | ProfitLossData | BankStatementData | GSTReturnsData | CIBILReportData | ITRDocumentData;
   extractionConfidence: 'high' | 'medium' | 'low';
+  aiAnalysis?: string;
   rawText?: string;
 }
 

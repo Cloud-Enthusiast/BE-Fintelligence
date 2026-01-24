@@ -1,5 +1,23 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+/*
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  User as FirebaseUser
+} from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
+*/
 import { toast } from '@/hooks/use-toast';
+
+// Temporary mock user type since Firebase User is commented out
+interface FirebaseUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+}
 
 const SESSION_KEY = 'be_finance_session';
 
@@ -12,14 +30,8 @@ export interface UserProfile {
   role: 'loan_officer';
 }
 
-interface DemoUser {
-  id: string;
-  email: string;
-  user_metadata: { full_name: string };
-}
-
 interface AuthContextType {
-  user: DemoUser | null;
+  user: FirebaseUser | null;
   profile: UserProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -39,112 +51,139 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<DemoUser | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Initialize auth state from sessionStorage
-  useEffect(() => {
-    const storedSession = sessionStorage.getItem(SESSION_KEY);
-    if (storedSession) {
-      try {
-        const session = JSON.parse(storedSession);
-        setUser(session.user);
-        setProfile(session.profile);
-        setIsAuthenticated(true);
-      } catch (e) {
-        sessionStorage.removeItem(SESSION_KEY);
+  const fetchProfile = async (userId: string) => {
+    /*
+    try {
+      const docRef = doc(db, 'profiles', userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setProfile(docSnap.data() as UserProfile);
+      } else {
+        console.error('No such profile!');
       }
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+    */
+  };
+
+  useEffect(() => {
+    /*
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setIsAuthenticated(!!currentUser);
+
+      if (currentUser) {
+        await fetchProfile(currentUser.uid);
+      } else {
+        setProfile(null);
+      }
+
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+    */
+
+    // Simple mock initialization
+    const storedUser = localStorage.getItem('mock_user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+      const storedProfile = localStorage.getItem('mock_profile');
+      if (storedProfile) setProfile(JSON.parse(storedProfile));
     }
     setIsLoading(false);
   }, []);
 
 
-  // Regular login - Mocked for frontend-only
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    /*
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // ... toast
+      return true;
+    } catch (error: any) {
+      // ... toast
+      return false;
+    }
+    */
 
-    const mockUser = {
-      id: 'user-' + Math.random().toString(36).substr(2, 9),
-      email: email,
-      user_metadata: { full_name: email.split('@')[0] }
-    };
-
+    // Mock login
+    await new Promise(r => setTimeout(r, 800));
+    const mockUser = { uid: 'mock-123', email, displayName: email.split('@')[0] };
     const mockProfile: UserProfile = {
-      id: 'profile-' + Math.random().toString(36).substr(2, 9),
-      user_id: mockUser.id,
+      id: 'prof-123',
+      user_id: 'mock-123',
       full_name: email.split('@')[0],
       email: email,
       phone: null,
       role: 'loan_officer'
     };
 
-    setUser(mockUser);
+    setUser(mockUser as any);
     setProfile(mockProfile);
     setIsAuthenticated(true);
+    localStorage.setItem('mock_user', JSON.stringify(mockUser));
+    localStorage.setItem('mock_profile', JSON.stringify(mockProfile));
 
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      user: mockUser,
-      profile: mockProfile,
-      timestamp: Date.now()
-    }));
-
-    toast({
-      title: "Welcome back!",
-      description: "Successfully logged in.",
-    });
+    toast({ title: "Welcome back!", description: "Log in successful (Mock Mode)" });
     return true;
   };
 
-  // Signup - Mocked for frontend-only
   const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800));
+    /*
+    try {
+      // Firebase signup logic...
+    } catch (error: any) {
+      // ...
+    }
+    */
 
-    const mockUser = {
-      id: 'user-' + Math.random().toString(36).substr(2, 9),
-      email: email,
-      user_metadata: { full_name: fullName }
-    };
-
+    // Mock signup
+    await new Promise(r => setTimeout(r, 800));
+    const mockUser = { uid: 'mock-' + Date.now(), email, displayName: fullName };
     const mockProfile: UserProfile = {
-      id: 'profile-' + Math.random().toString(36).substr(2, 9),
-      user_id: mockUser.id,
+      id: 'prof-' + Date.now(),
+      user_id: mockUser.uid,
       full_name: fullName,
       email: email,
       phone: null,
       role: 'loan_officer'
     };
 
-    setUser(mockUser);
+    setUser(mockUser as any);
     setProfile(mockProfile);
     setIsAuthenticated(true);
+    localStorage.setItem('mock_user', JSON.stringify(mockUser));
+    localStorage.setItem('mock_profile', JSON.stringify(mockProfile));
 
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      user: mockUser,
-      profile: mockProfile,
-      timestamp: Date.now()
-    }));
-
-    toast({
-      title: "Account created!",
-      description: "Welcome to BE Finance.",
-    });
+    toast({ title: "Account created!", description: "Welcome (Mock Mode)" });
     return true;
   };
 
   const logout = async () => {
+    /*
+    try {
+      await signOut(auth);
+      // ... toast
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    */
+
+    // Mock logout
     setUser(null);
     setProfile(null);
     setIsAuthenticated(false);
-    sessionStorage.removeItem(SESSION_KEY);
-
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully",
-    });
+    localStorage.removeItem('mock_user');
+    localStorage.removeItem('mock_profile');
+    toast({ title: "Logged out", description: "Successful (Mock Mode)" });
   };
 
   return (

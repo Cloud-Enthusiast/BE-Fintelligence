@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, CheckCircle, XCircle, Zap } from 'lucide-react';
 import { ExtractedMSMEData, DOCUMENT_TYPE_CONFIG } from '@/types/msmeDocuments';
 import { getMetricsForData, StatusLevel } from '@/utils/financialDisplayUtils';
 
@@ -32,9 +32,17 @@ const FinancialSummaryCard: React.FC<FinancialSummaryCardProps> = ({ data, onVie
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">{config.label}</CardTitle>
-          <Badge className={confidenceBadge[data.extractionConfidence]}>
-            {data.extractionConfidence} confidence
-          </Badge>
+          <div className="flex flex-col items-end gap-1">
+            <Badge className={confidenceBadge[data.extractionConfidence]}>
+              {data.extractionConfidence} confidence
+            </Badge>
+            {data.aiAnalysis && (
+              <Badge variant="outline" className="text-[10px] bg-indigo-50 text-indigo-700 border-indigo-200 gap-1 h-5">
+                <Zap className="h-2 w-2 fill-current" />
+                AI Enhanced
+              </Badge>
+            )}
+          </div>
         </div>
         <p className="text-xs text-muted-foreground">{data.fileName}</p>
       </CardHeader>
