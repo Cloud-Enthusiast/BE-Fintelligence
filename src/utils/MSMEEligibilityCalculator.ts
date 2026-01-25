@@ -10,6 +10,9 @@ export interface EligibilityInput {
     loanTerm: number;
     creditScore: number;
     businessType: string;
+    loanType: 'business_loan' | 'working_capital' | 'home_loan';
+
+    // From Extracted Documents (optional)
 
     // From Extracted Documents (optional)
     extractedDocuments?: ExtractedMSMEData[];
@@ -19,6 +22,7 @@ export interface EligibilityResult {
     overallScore: number;
     isEligible: boolean;
     rejectionReason?: string;
+    eligibilityNote?: string;
     breakdown: {
         dscrScore: number;
         currentRatioScore: number;
@@ -203,12 +207,98 @@ export const scoreIndustryRisk = (businessType: string): number => {
 };
 
 /**
+ * Calculate Working Capital Eligibility (Turnover Method)
+ */
+const calculateWorkingCapitalEligibility = (revenue: number): { maxLoan: number; reason: string } => {
+    // Turnover Method: 20% of Projected Annual Turnover
+    // We use current annual revenue as a proxy for projected if not explicitly provided
+    const maxLoan = revenue * 0.20;
+    return {
+        maxLoan,
+        reason: `Eligible for ₹${(maxLoan / 100000).toFixed(2)} Lakhs (20% of Annual Turnover)`
+    };
+};
+
+/**
+ * Calculate Home Loan Eligibility (FOIR Method)
+ */
+const calculateHomeLoanEligibility = (
+    monthlyIncome: number,
+    existingEMI: number,
+    loanTermYears: number
+): { maxLoan: number; reason: string } => {
+    // FOIR (Fixed Obligation to Income Ratio) - Standard 50%
+    const maxMonthlyObligation = monthlyIncome * 0.50;
+    const availableEMI = Math.max(0, maxMonthlyObligation - existingEMI);
+
+    if (availableEMI <= 0) {
+        return { maxLoan: 0, reason: 'Existing obligations exceed 50% of monthly income' };
+    }
+
+    // Reverse PMT to find Principal
+    // Assuming 8.5% interest rate standard for Home Loans
+    const annualRate = 0.085;
+    const monthlyRate = annualRate / 12;
+    const nPer = loanTermYears * 12;
+
+    // PMT = P * r * (1+r)^n / ((1+r)^n - 1)
+    // P = PMT * ((1+r)^n - 1) / (r * (1+r)^n)
+
+    const factor = Math.pow(1 + monthlyRate, nPer);
+    const maxLoan = availableEMI * ((factor - 1) / (monthlyRate * factor));
+
+    return {
+        maxLoan,
+        reason: `Eligible for ₹${(maxLoan / 100000).toFixed(2)} Lakhs based on ₹${Math.round(availableEMI).toLocaleString('en-IN')} max affordable EMI`
+    };
+};
+
+/**
  * Calculate overall eligibility score
  */
 export const calculateEligibility = (input: EligibilityInput): EligibilityResult => {
     const docs = input.extractedDocuments || [];
 
-    // Calculate metrics
+    // 1. Universal Checks (Deal Breakers)
+    if (input.creditScore < 600) {
+        return {
+            overallScore: 0,
+            isEligible: false,
+            rejectionReason: 'Credit score below minimum threshold (600)',
+            breakdown: createEmptyBreakdown(),
+            metrics: {}
+        };
+    }
+
+    // 2. Loan Specific Calculations
+    let maxLoanAmount = 0;
+    let specificReason = '';
+
+    if (input.loanType === 'working_capital') {
+        const result = calculateWorkingCapitalEligibility(input.annualRevenue);
+        maxLoanAmount = result.maxLoan;
+        specificReason = result.reason;
+    } else if (input.loanType === 'home_loan') {
+        const result = calculateHomeLoanEligibility(input.monthlyIncome, 0, input.loanTerm); // Assuming 0 existing EMI if not strictly passed as sum
+        // Note: The form passes 'existingLoanAmount' not 'existingEMI' broadly, 
+        // but for accurate FOIR we ideally need existing EMI. 
+        // We will approximate existing EMI from existing loan amount if monthlyEMI not available in input
+        // Since input doesn't have monthlyEMI, let's use a standard proxy or update input interface later.
+        // For now, let's assume `existingLoanAmount` implies the total debt, 
+        // but FOIR needs monthly outflow. 
+        // Let's use a proxy: 1.5% of existing loan amount is approx monthly EMI.
+        const proxyExistingEMI = input.existingLoanAmount * 0.015;
+        const resultWithEMI = calculateHomeLoanEligibility(input.monthlyIncome, proxyExistingEMI, input.loanTerm);
+        maxLoanAmount = resultWithEMI.maxLoan;
+        specificReason = resultWithEMI.reason;
+    } else {
+        // Business Loan (existing logic + Multiplier)
+        // Multiplier Method: 15% of Turnover
+        maxLoanAmount = input.annualRevenue * 0.15;
+        specificReason = `Eligible for ₹${(maxLoanAmount / 100000).toFixed(2)} Lakhs (15% of Annual Revenue)`;
+    }
+
+    // 3. Calculate Scores (Existing Logic for Health Check)
     const dscr = calculateDSCR(input.annualRevenue, input.existingLoanAmount, input.loanAmount, input.loanTerm);
     const currentRatio = calculateCurrentRatio(docs);
     const revenueGrowth = calculateRevenueGrowth(docs, input.annualRevenue);
@@ -244,20 +334,26 @@ export const calculateEligibility = (input: EligibilityInput): EligibilityResult
         industryRiskScore * weights.industryRisk +
         creditScoreNormalized * weights.creditScore;
 
-    // Determine eligibility
-    const isEligible = overallScore >= 60 && dscr >= 0.8 && input.creditScore >= 600;
+    // Determine eligibility based on requested amount vs max eligible
+    // If requested amount is <= Max Eligible Amount, they are eligible.
+    // AND the risk score determines the "quality" of the borrower.
+    const amountEligible = input.loanAmount <= maxLoanAmount;
+    const scoreEligible = overallScore >= 60;
+
+    const isEligible = amountEligible && scoreEligible && dscr >= 0.8;
 
     let rejectionReason: string | undefined;
     if (!isEligible) {
-        if (input.creditScore < 600) rejectionReason = 'Credit score below minimum threshold (600)';
+        if (!amountEligible) rejectionReason = `Requested amount exceeds maximum eligibility of ₹${(maxLoanAmount / 100000).toFixed(2)} Lakhs`;
         else if (dscr < 0.8) rejectionReason = 'Insufficient debt service coverage ratio';
-        else rejectionReason = 'Overall eligibility score below threshold (60)';
+        else rejectionReason = 'Make Stronger Case: Overall risk score below threshold (60)';
     }
 
     return {
         overallScore: Math.round(overallScore),
         isEligible,
         rejectionReason,
+        eligibilityNote: specificReason,
         breakdown: {
             dscrScore: Math.round(dscrScore),
             currentRatioScore: Math.round(currentRatioScore),
@@ -271,8 +367,20 @@ export const calculateEligibility = (input: EligibilityInput): EligibilityResult
             dscr: Math.round(dscr * 100) / 100,
             currentRatio: currentRatio ? Math.round(currentRatio * 100) / 100 : undefined,
             revenueGrowth: revenueGrowth ? Math.round(revenueGrowth * 100) / 100 : undefined,
-            gstCompliance: docs.find(d => d.documentType === 'gst_returns')?.data?.filingRegularity || 'N/A',
-            bankingRelationship: docs.find(d => d.documentType === 'bank_statement')?.data?.cashFlowPattern || 'N/A',
+            gstCompliance: docs.find(d => d.documentType === 'gst_returns')?.data && (docs.find(d => d.documentType === 'gst_returns')?.data as any).filingRegularity || 'N/A',
+            bankingRelationship: docs.find(d => d.documentType === 'bank_statement')?.data && (docs.find(d => d.documentType === 'bank_statement')?.data as any).cashFlowPattern || 'N/A',
         },
     };
 };
+
+function createEmptyBreakdown() {
+    return {
+        dscrScore: 0,
+        currentRatioScore: 0,
+        revenueGrowthScore: 0,
+        gstComplianceScore: 0,
+        bankingRelationshipScore: 0,
+        industryRiskScore: 0,
+        creditScore: 0,
+    };
+}

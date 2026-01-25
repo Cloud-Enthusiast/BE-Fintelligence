@@ -22,9 +22,10 @@ export const useFileExtraction = () => {
         try {
             // Dynamic import of pdfjs-dist
             const pdfjsLib = await import('pdfjs-dist');
+            const pdfWorker = await import('pdfjs-dist/build/pdf.worker.mjs?url');
             
             // Set worker source
-            pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+            pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.default;
             
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;

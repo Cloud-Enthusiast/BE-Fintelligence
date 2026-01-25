@@ -93,6 +93,9 @@ const formSchema = z.object({
     loanPurpose: z.string().min(10, { message: "Please describe the loan purpose (min 10 characters)." }),
     collateralAvailable: z.enum(['yes', 'no']),
     collateralValue: z.coerce.number().min(0).optional(),
+    loanType: z.enum(['business_loan', 'working_capital', 'home_loan'], {
+        required_error: "Please select a loan type.",
+    }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -135,6 +138,7 @@ export const LoanEligibilityForm = () => {
             loanPurpose: '',
             collateralAvailable: 'no',
             collateralValue: 0,
+            loanType: 'business_loan',
         },
     });
 
@@ -152,6 +156,7 @@ export const LoanEligibilityForm = () => {
             loanTerm: Number(values.loanTerm) || 12,
             creditScore: Number(values.creditScore) || 300,
             businessType: values.businessType || 'Services',
+            loanType: values.loanType || 'business_loan',
         };
 
         const result = calculateEligibility(input);
@@ -187,7 +192,7 @@ export const LoanEligibilityForm = () => {
             case 3:
                 return ['annualRevenue', 'monthlyProfit', 'existingLoanAmount', 'monthlyEMI', 'creditScore', 'bankAccountNumber', 'ifscCode', 'averageMonthlyBalance'];
             case 4:
-                return ['loanAmount', 'loanTerm', 'loanPurpose', 'collateralAvailable'];
+                return ['loanAmount', 'loanTerm', 'loanPurpose', 'collateralAvailable', 'loanType'];
             default:
                 return [];
         }
@@ -679,6 +684,30 @@ export const LoanEligibilityForm = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <FormField
                                             control={form.control}
+                                            name="loanType"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Loan Type</FormLabel>
+                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Select loan type" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem value="business_loan">Business Turn-over Loan</SelectItem>
+                                                            <SelectItem value="working_capital">Working Capital (CC/OD)</SelectItem>
+                                                            <SelectItem value="home_loan">Home Loan</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormDescription>Select the specific product to check eligibility for</FormDescription>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+
+                                        <FormField
+                                            control={form.control}
                                             name="loanAmount"
                                             render={({ field }) => (
                                                 <FormItem>
@@ -923,7 +952,9 @@ export const LoanEligibilityForm = () => {
                                             <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0" />
                                             <div className="text-sm">
                                                 <p className="font-bold text-emerald-800">Qualified for MSME Loan</p>
-                                                <p className="text-emerald-700 mt-1">This application meets the minimum criteria for standard processing.</p>
+                                                <p className="text-emerald-700 mt-1">
+                                                    {eligibility.eligibilityNote || "This application meets the minimum criteria for standard processing."}
+                                                </p>
                                             </div>
                                         </div>
                                     )}
