@@ -125,10 +125,21 @@ const STEPS = [
     { id: 4, title: 'Loan Requirements', icon: CreditCard, color: 'violet' },
 ];
 
+import { useAuth } from '@/contexts/AuthContext';
+import { submitLoanApplication } from '@/services/loanService';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
+
+// ... (existing imports)
+
 export const LoanEligibilityForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [eligibility, setEligibility] = useState<EligibilityResult | null>(null);
     const [showResults, setShowResults] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { user } = useAuth();
+    const { toast } = useToast();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -162,7 +173,8 @@ export const LoanEligibilityForm = () => {
 
     const watchAllFields = form.watch();
 
-    const onSubmit = (values: FormValues) => {
+    const onSubmit = async (values: FormValues) => {
+        setIsSubmitting(true);
         console.log("Form Submitted:", values);
 
         // Calculate eligibility on submit
@@ -185,6 +197,35 @@ export const LoanEligibilityForm = () => {
         const debtToIncomeRatio = monthlyIncome > 0 ? (values.monthlyEMI / monthlyIncome) * 100 : 0;
         console.log("Debt-to-Income Ratio:", debtToIncomeRatio.toFixed(2) + "%");
         console.log("Eligibility Result:", result);
+
+        try {
+            if (user) {
+                await submitLoanApplication({
+                    userId: user.uid,
+                    ...values,
+                    eligibilityResult: result
+                } as any);
+                toast({
+                    title: "Application Submitted",
+                    description: "Your loan application has been saved securely.",
+                });
+            } else {
+                toast({
+                    title: "Application Calculated",
+                    description: "Sign in to save your application.",
+                    variant: "default"
+                });
+            }
+        } catch (error) {
+            console.error("Submission error:", error);
+            toast({
+                title: "Error",
+                description: "Failed to save application.",
+                variant: "destructive"
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const nextStep = async () => {
