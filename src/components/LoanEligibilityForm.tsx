@@ -42,8 +42,26 @@ import {
     ChevronRight,
     ChevronLeft,
     FileText,
-    CreditCard
+    CreditCard,
+    HelpCircle,
+    Calculator
 } from 'lucide-react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 // Utility function for Indian number formatting
 const formatIndianNumber = (num: number | string): string => {
@@ -886,6 +904,9 @@ export const LoanEligibilityForm = () => {
                                         <div className="mt-4 flex justify-center uppercase tracking-widest text-xs font-bold text-gray-500">
                                             Overall Score
                                         </div>
+                                        <div className="mt-2 text-center">
+                                            <EligibilityBreakdownDialog eligibility={eligibility} />
+                                        </div>
                                     </div>
 
                                     <div className="space-y-2">
@@ -981,6 +1002,127 @@ export const LoanEligibilityForm = () => {
         </div>
     );
 };
+
+const EligibilityBreakdownDialog = ({ eligibility }: { eligibility: EligibilityResult }) => {
+    // Helper to format score with color
+    const getScoreColor = (score: number) => {
+        if (score >= 80) return "text-emerald-600 font-bold";
+        if (score >= 60) return "text-amber-600 font-bold";
+        return "text-red-600 font-bold";
+    };
+
+    const breakdownItems = [
+        {
+            category: "Repayment Capacity (DSCR)",
+            weight: "25%",
+            score: eligibility.breakdown.dscrScore,
+            value: eligibility.metrics.dscr?.toString() || "N/A",
+            explanation: "Measures ability to pay EMI from operating income. Ratio > 1.25 is excellent."
+        },
+        {
+            category: "Credit History",
+            weight: "10%",
+            score: eligibility.breakdown.creditScore,
+            value: "CIBIL Score",
+            explanation: "Personal credit behavior. Score > 750 is ideal."
+        },
+        {
+            category: "Liquidity (Current Ratio)",
+            weight: "15%",
+            score: eligibility.breakdown.currentRatioScore,
+            value: eligibility.metrics.currentRatio?.toString() || "N/A",
+            explanation: "Ability to pay short-term debts. Ratio > 1.5 is standard."
+        },
+        {
+            category: "Banking Behavior",
+            weight: "15%",
+            score: eligibility.breakdown.bankingRelationshipScore,
+            value: eligibility.metrics.bankingRelationship || "N/A",
+            explanation: "Checks for cheque bounces and balance maintenance."
+        },
+        {
+            category: "GST Compliance",
+            weight: "15%",
+            score: eligibility.breakdown.gstComplianceScore,
+            value: eligibility.metrics.gstCompliance || "N/A",
+            explanation: "Regularity of government tax filings."
+        },
+        {
+            category: "Business Growth",
+            weight: "10%",
+            score: eligibility.breakdown.revenueGrowthScore,
+            value: (eligibility.metrics.revenueGrowth?.toString() || "0") + "%",
+            explanation: "Year-over-year revenue growth percentage."
+        },
+        {
+            category: "Industry Risk",
+            weight: "10%",
+            score: eligibility.breakdown.industryRiskScore,
+            value: "Sector Risk",
+            explanation: "Base risk associated with the specific business sector."
+        }
+    ];
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="link" size="sm" className="text-finance-600 h-auto p-0 hover:text-finance-800">
+                    <Calculator className="w-3 h-3 mr-1" />
+                    How is this calculated?
+                </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-3xl">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2 text-xl">
+                        <Calculator className="w-5 h-5 text-finance-600" />
+                        Eligibility Score Breakdown
+                    </DialogTitle>
+                    <DialogDescription>
+                        Detailed analysis of how the overall score of <span className="font-bold text-finance-700">{eligibility.overallScore}/100</span> was derived.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <div className="border rounded-md mt-2">
+                    <Table>
+                        <TableHeader className="bg-gray-50">
+                            <TableRow>
+                                <TableHead className="w-[200px]">Criteria</TableHead>
+                                <TableHead>Your Value</TableHead>
+                                <TableHead className="text-center">Weightage</TableHead>
+                                <TableHead className="text-center">Score</TableHead>
+                                <TableHead>Explanation</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {breakdownItems.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className="font-medium">{item.category}</TableCell>
+                                    <TableCell>{item.value}</TableCell>
+                                    <TableCell className="text-center text-gray-500">{item.weight}</TableCell>
+                                    <TableCell className={`text-center ${getScoreColor(item.score)}`}>
+                                        {item.score}
+                                    </TableCell>
+                                    <TableCell className="text-xs text-gray-500">{item.explanation}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+
+                <div className="bg-blue-50 p-4 rounded-md mt-4 text-sm text-blue-800 border border-blue-100 flex gap-3">
+                    <HelpCircle className="w-5 h-5 shrink-0" />
+                    <div>
+                        <span className="font-bold block mb-1">Understanding the Calculation:</span>
+                        The final score is a <strong>Weighted Average</strong>. We multiply each individual score (0-100) by its weightage and sum them up.
+                        For example, if your <strong>DSCR Score is 80</strong> (weight 25%) and <strong>Credit Score is 90</strong> (weight 10%), they contribute
+                        20 points and 9 points to the total respectively.
+                    </div>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 
 interface MetricItemProps {
     label: string;
