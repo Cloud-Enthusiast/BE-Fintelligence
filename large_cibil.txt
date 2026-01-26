@@ -1,0 +1,7296 @@
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000
+
+
+==================================================
+
+TRANSUNION CIBIL CONSUMER CREDIT REPORT
+
+Name: Rajesh Kumar Sharma
+Date of Birth : 15-08-1985
+Gender : Male
+
+Identification(s) :
+PAN : ABCDE1234F
+
+Address(es) :
+OFFICE ADDRESS : 405, Tech Park, Sector 5, Bengaluru, Karnataka, 560100
+RESIDENTIAL ADDRESS : 12, Gandhi Road, Indiranagar, Bengaluru, Karnataka, 560038
+
+CIBIL TransUnion Score : 785
+
+SUMMARY :
+Total Accounts : 5
+Overdue Accounts : 1
+Zero Balance Accounts : 2
+Report Date : 25-01-2026
+
+ACCOUNT INFORMATION :
+
+Account Type : Housing Loan
+Account Number : HDFC000123456789
+Ownership Indicator : Individual
+Date Opened : 12-05-2018
+Date of Last Payment : 10-01-2026
+Sanctioned Amount : Rs. 50,00,000
+Current Balance : Rs. 35,40,000
+Amount Overdue : Rs. 0
+Payment Status : STD
+EMI Amount : Rs. 45,000
+
+Account Type : Credit Card
+Account Number : XXXX-XXXX-XXXX-4321
+Ownership Indicator : Individual
+Date Opened : 15-06-2020
+Sanctioned Amount : Rs. 2,00,000
+Credit Limit : Rs. 2,00,000
+Current Balance : Rs. 45,000
+Amount Overdue : Rs. 0
+Payment Status : 000
+EMI Amount : Rs. 5,000
+
+Account Type : Personal Loan
+Account Number : ICIC100020003000
+Ownership Indicator : Individual
+Date Opened : 01-02-2022
+Sanctioned Amount : Rs. 5,00,000
+Current Balance : Rs. 50,000
+Amount Overdue : Rs. 15,000
+Payment Status : 030
+EMI Amount : Rs. 12,000
+Settlement Amount : Rs. 45,000
+15 Days Past Due
+
+Account Type : Auto Loan
+Account Number : SBI000555666777
+Date Opened : 10-03-2015
+Sanctioned Amount : Rs. 6,00,000
+Current Balance : Rs. 0
+Amount Overdue : Rs. 0
+Account Status : Closed
+Payment Status : STD
+
+Enquiries :
+Total Loan Amount : Rs. 80,00,000
+Total Overdue : Rs. 15,000

@@ -99,7 +99,7 @@ const getPromptForType = (type: MSMEDocumentType, text: string): string => {
         2. Look for "DPD" (Days Past Due) matrix. valid values like 000, 055, 900.
         3. Look for "Written Off" or "Settled".
         
-        Text: ${text.slice(0, 15000)}
+        Text: ${text.slice(0, 300000)}
       `;
         case 'bank_statement':
             return `
