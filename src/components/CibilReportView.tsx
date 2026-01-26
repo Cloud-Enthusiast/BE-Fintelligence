@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CIBILReportData } from '@/types/msmeDocuments';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { CibilData } from '@/utils/cibilExtractor';
 import {
     ShieldAlert,
     ShieldCheck,
@@ -12,37 +14,18 @@ import {
     AlertTriangle,
     FileText,
     CreditCard,
-    Ban
+    Ban,
+    User,
+    MapPin,
+    Calendar,
+    IndianRupee
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CibilReportViewProps {
-    data: CIBILReportData;
+    data: CibilData;
     aiAnalysis?: string;
 }
-
-const CreditScoreGauge = ({ score }: { score: number }) => {
-    const isExcellent = score >= 750;
-    const isGood = score >= 700 && score < 750;
-    const isFair = score >= 650 && score < 700;
-    const isPoor = score < 650;
-
-    let colorClass = "text-gray-500";
-    let label = "Unknown";
-    let borderColor = "border-gray-200";
-
-    if (isExcellent) { colorClass = "text-green-600"; label = "Excellent"; borderColor = "border-green-200"; }
-    else if (isGood) { colorClass = "text-blue-600"; label = "Good"; borderColor = "border-blue-200"; }
-    else if (isFair) { colorClass = "text-yellow-600"; label = "Fair"; borderColor = "border-yellow-200"; }
-    else if (isPoor) { colorClass = "text-red-600"; label = "Poor"; borderColor = "border-red-200"; }
-
-    return (
-        <div className={cn("flex flex-col items-center justify-center p-6 rounded-full border-8 w-48 h-48 mx-auto", borderColor)}>
-            <div className="text-4xl font-bold font-mono">{score}</div>
-            <div className={cn("text-lg font-medium", colorClass)}>{label}</div>
-        </div>
-    );
-};
 
 const MetricCard = ({ label, value, icon: Icon, alert = false }: { label: string, value: string | number, icon: any, alert?: boolean }) => (
     <div className={cn("flex items-start gap-4 p-4 rounded-lg border", alert ? "bg-red-50 border-red-100" : "bg-white border-gray-100")}>
@@ -57,102 +40,148 @@ const MetricCard = ({ label, value, icon: Icon, alert = false }: { label: string
 );
 
 const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) => {
-    const numericScore = parseInt(data.creditScore) || 0;
+    const numericScore = parseInt(data.cibilScore) || 0;
+
+    // Determine Score Color
+    let scoreColor = "text-gray-600";
+    let scoreBg = "border-gray-200";
+    let scoreLabel = "Unknown";
+
+    if (numericScore >= 750) { scoreColor = "text-emerald-600"; scoreBg = "border-emerald-500"; scoreLabel = "Excellent"; }
+    else if (numericScore >= 700) { scoreColor = "text-blue-600"; scoreBg = "border-blue-500"; scoreLabel = "Good"; }
+    else if (numericScore >= 650) { scoreColor = "text-amber-600"; scoreBg = "border-amber-500"; scoreLabel = "Fair"; }
+    else if (numericScore > 0) { scoreColor = "text-red-600"; scoreBg = "border-red-500"; scoreLabel = "Poor"; }
 
     return (
         <div className="space-y-6">
 
-            {/* Top Warning Banners - Only show if critical flags are true */}
-            {(data.suitFiled || data.wilfulDefault) && (
-                <Alert variant="destructive" className="border-red-600 bg-red-50">
-                    <ShieldAlert className="h-4 w-4" />
-                    <AlertTitle className="font-bold text-red-800">CRITICAL ALERTS DETECTED</AlertTitle>
-                    <AlertDescription className="text-red-700 font-medium">
-                        {data.suitFiled && <div>• Suit Filed detected against the borrower.</div>}
-                        {data.wilfulDefault && <div>• Wilful Default flag identified.</div>}
-                    </AlertDescription>
-                </Alert>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Credit Score Panel */}
-                <Card className="md:col-span-1 shadow-sm">
-                    <CardHeader className="text-center pb-2">
-                        <CardTitle className="text-gray-500 font-medium text-sm uppercase tracking-wider">CIBIL Score</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <CreditScoreGauge score={numericScore} />
-                        <div className="mt-4 text-center text-sm text-gray-500">
-                            Report Date: <span className="font-medium text-gray-900">{data.reportDate || 'N/A'}</span>
+            {/* Header / Identity Section */}
+            <Card className="bg-gradient-to-r from-slate-50 to-slate-100 border-none shadow-sm">
+                <CardContent className="pt-6">
+                    <div className="flex flex-col md:flex-row justify-between gap-6 items-start">
+                        <div className="space-y-3 flex-1">
+                            <div className="flex items-center gap-2 text-slate-500 font-medium text-sm uppercase tracking-wide">
+                                <User className="h-4 w-4" /> Consumer Details
+                            </div>
+                            <h2 className="text-xl font-bold text-slate-800">{data.name}</h2>
+                            <div className="flex items-start gap-2 text-slate-600 text-sm">
+                                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+                                <p>{data.address}</p>
+                            </div>
                         </div>
-                        <div className="mt-2 text-center text-sm text-gray-500">
-                            PAN: <span className="font-mono font-medium text-gray-900">{data.panNumber || 'N/A'}</span>
-                        </div>
-                    </CardContent>
-                </Card>
 
-                {/* Key Metrics Panel */}
-                <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <MetricCard
-                        label="Active Loans"
-                        value={data.activeLoans}
-                        icon={CreditCard}
-                    />
-                    <MetricCard
-                        label="Total Overdue"
-                        value={data.amountOverdue || '₹0'}
-                        icon={AlertTriangle}
-                        alert={parseInt(String(data.amountOverdue).replace(/[^0-9]/g, '')) > 0}
-                    />
-                    <MetricCard
-                        label="Defaults / Write-offs"
-                        value={(data.defaults || 0) + (data.writtenOffAccounts || 0)}
-                        icon={Ban}
-                        alert={(data.defaults || 0) + (data.writtenOffAccounts || 0) > 0}
-                    />
-                    <MetricCard
-                        label="Total Exposure"
-                        value={data.totalLoanAmount || '₹0'}
-                        icon={TrendingUp}
-                    />
-                </div>
+                        {/* Credit Score Dial */}
+                        <div className="flex-shrink-0 flex flex-col items-center justify-center p-4 bg-white rounded-xl shadow-sm border border-slate-100 w-full md:w-auto min-w-[180px]">
+                            <span className="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">CIBIL Score</span>
+                            <div className={cn("text-5xl font-black tabular-nums tracking-tight", scoreColor)}>
+                                {data.cibilScore}
+                            </div>
+                            <Badge variant="outline" className={cn("mt-2 px-3 py-1 font-semibold", scoreColor.replace('text-', 'border-').replace('600', '200'), "bg-white")}>
+                                {scoreLabel}
+                            </Badge>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Summary Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricCard
+                    label="Active Loans"
+                    value={data.totalLoans}
+                    icon={CreditCard}
+                />
+                <MetricCard
+                    label="Overdue Loans"
+                    value={data.totalOverdueLoans}
+                    icon={AlertTriangle}
+                    alert={data.totalOverdueLoans > 0}
+                />
+                <MetricCard
+                    label="Current Balance"
+                    value={`₹${data.totalOutstandingAmount}`}
+                    icon={IndianRupee}
+                />
+                <MetricCard
+                    label="Sanctioned Amount"
+                    value={`₹${data.totalSanctionedAmount}`}
+                    icon={TrendingUp}
+                />
             </div>
 
-            {/* DPD Analysis */}
-            {data.dpdStrings && data.dpdStrings.length > 0 && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base font-semibold flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-blue-600" />
-                            DPD (Days Past Due) Trends
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-wrap gap-2">
-                            {data.dpdStrings.map((dpd, idx) => (
-                                <Badge
-                                    key={idx}
-                                    variant={dpd === '000' || dpd === 'STD' ? 'secondary' : 'destructive'}
-                                    className="font-mono"
-                                >
-                                    {dpd}
-                                </Badge>
-                            ))}
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-2">
-                            * Sequence of payment history markers found in the report (Recent &rarr; Old).
-                        </p>
-                    </CardContent>
-                </Card>
-            )}
+            {/* Detailed Account List */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-lg font-bold flex items-center gap-2">
+                        <FileText className="h-5 w-5 text-indigo-600" />
+                        Account Details
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                    <ScrollArea className="h-[400px]">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="bg-slate-50 hover:bg-slate-50">
+                                    <TableHead className="font-bold text-slate-700">Account</TableHead>
+                                    <TableHead className="font-bold text-slate-700">Dates</TableHead>
+                                    <TableHead className="font-bold text-slate-700 text-right">Sanctioned</TableHead>
+                                    <TableHead className="font-bold text-slate-700 text-right">Current Bal</TableHead>
+                                    <TableHead className="font-bold text-slate-700 text-right">Overdue</TableHead>
+                                    <TableHead className="font-bold text-slate-700 text-center">Status</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {data.accounts.map((acc, idx) => (
+                                    <TableRow key={idx} className="hover:bg-slate-50/50 transition-colors">
+                                        <TableCell>
+                                            <div className="font-semibold text-slate-900">{acc.accountType}</div>
+                                            <div className="text-xs text-slate-500 font-mono">{acc.accountNumber}</div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="text-xs text-slate-600">Opened: {acc.memberDate}</div>
+                                        </TableCell>
+                                        <TableCell className="text-right font-medium text-slate-700">
+                                            {acc.sanctionedAmount}
+                                        </TableCell>
+                                        <TableCell className="text-right font-medium text-slate-700">
+                                            {acc.currentBalance}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            {parseInt(acc.amountOverdue.replace(/[^\d]/g, '')) > 0 ? (
+                                                <span className="text-red-600 font-bold">{acc.amountOverdue}</span>
+                                            ) : (
+                                                <span className="text-slate-400">-</span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            {acc.paymentStatus === 'STD' || acc.paymentStatus === '000' ? (
+                                                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Regular</Badge>
+                                            ) : (
+                                                <Badge variant="destructive">{acc.paymentStatus}</Badge>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                                {data.accounts.length === 0 && (
+                                    <TableRow>
+                                        <TableCell colSpan={6} className="h-24 text-center text-slate-500 italic">
+                                            No account details extracted found in the report.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </ScrollArea>
+                </CardContent>
+            </Card>
 
-            {/* AI Narrative Analysis */}
+            {/* AI Analysis Section */}
             {aiAnalysis && (
                 <Card className="bg-indigo-50 border-indigo-100">
                     <CardHeader>
                         <CardTitle className="text-indigo-900 flex items-center gap-2">
                             <ShieldCheck className="h-5 w-5" />
-                            AI Analysis Report
+                            AI Risk Assessment
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -166,9 +195,9 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
             {/* Raw Data Accordion */}
             <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                    <AccordionTrigger className="text-gray-500 text-sm">View Raw Extraction Data</AccordionTrigger>
+                    <AccordionTrigger className="text-gray-400 text-xs">Developer Debug Data</AccordionTrigger>
                     <AccordionContent>
-                        <pre className="bg-gray-100 p-4 rounded-lg text-xs overflow-auto max-h-60">
+                        <pre className="bg-gray-950 text-gray-50 p-4 rounded-lg text-xs overflow-auto max-h-60 font-mono">
                             {JSON.stringify(data, null, 2)}
                         </pre>
                     </AccordionContent>

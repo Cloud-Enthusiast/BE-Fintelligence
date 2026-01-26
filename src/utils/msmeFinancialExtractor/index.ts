@@ -1,15 +1,15 @@
 // MSME Financial Data Extractor
 // Extracts structured financial data from raw text using pattern matching
 
-import { 
-  MSMEDocumentType, 
+import {
+  MSMEDocumentType,
   ExtractedMSMEData,
   BalanceSheetData,
   ProfitLossData,
   BankStatementData,
   GSTReturnsData,
   ITRDocumentData,
-  CIBILReportData 
+  CIBILReportData
 } from '@/types/msmeDocuments';
 import {
   balanceSheetPatterns,
@@ -19,6 +19,7 @@ import {
   itrPatterns,
   cibilPatterns,
 } from './patterns';
+import { extractCibilData } from '../cibilExtractor';
 
 interface ExtractorInput {
   type: MSMEDocumentType;
@@ -50,7 +51,7 @@ const extractFirstMatch = (text: string, patterns: RegExp[]): string | null => {
 const calculateConfidence = (data: Record<string, any>, requiredFields: string[]): 'high' | 'medium' | 'low' => {
   const foundFields = requiredFields.filter(field => data[field] && data[field] !== 'N/A');
   const ratio = foundFields.length / requiredFields.length;
-  
+
   if (ratio >= 0.7) return 'high';
   if (ratio >= 0.4) return 'medium';
   return 'low';
@@ -81,8 +82,8 @@ const extractProfitLoss = (text: string): ProfitLossData => {
     operatingExpenses: formatCurrency(extractFirstMatch(text, profitLossPatterns.operatingExpenses)),
     ebitda: formatCurrency(extractFirstMatch(text, profitLossPatterns.ebitda)),
     netProfit: formatCurrency(extractFirstMatch(text, profitLossPatterns.netProfit)),
-    profitMargin: extractFirstMatch(text, profitLossPatterns.profitMargin) 
-      ? `${extractFirstMatch(text, profitLossPatterns.profitMargin)}%` 
+    profitMargin: extractFirstMatch(text, profitLossPatterns.profitMargin)
+      ? `${extractFirstMatch(text, profitLossPatterns.profitMargin)}%`
       : 'N/A',
     fiscalYear: text.match(/(?:fy|fiscal\s+year|year)\s*[:\-]?\s*(20[0-9]{2}[\-\s]?(?:20)?[0-9]{2})/i)?.[1] || 'N/A',
   };
@@ -93,7 +94,7 @@ const extractProfitLoss = (text: string): ProfitLossData => {
 const extractBankStatement = (text: string): BankStatementData => {
   const credits = extractFirstMatch(text, bankStatementPatterns.totalCredits);
   const debits = extractFirstMatch(text, bankStatementPatterns.totalDebits);
-  
+
   // Determine cash flow pattern
   let cashFlowPattern: BankStatementData['cashFlowPattern'] = 'unknown';
   if (credits && debits) {
@@ -105,7 +106,7 @@ const extractBankStatement = (text: string): BankStatementData => {
   }
 
   const bounceMatch = extractFirstMatch(text, bankStatementPatterns.chequeBounce);
-  
+
   return {
     averageMonthlyBalance: formatCurrency(extractFirstMatch(text, bankStatementPatterns.averageBalance)),
     cashFlowPattern,
@@ -153,42 +154,10 @@ const extractITRDocument = (text: string): ITRDocumentData => {
   };
 };
 
-// Extract CIBIL Report data
-const extractCIBILReport = (text: string): CIBILReportData => {
-  const score = extractFirstMatch(text, cibilPatterns.creditScore);
-  
-  // Determine payment history based on score or keywords
-  let paymentHistory: CIBILReportData['paymentHistory'] = 'unknown';
-  if (score) {
-    const scoreNum = parseInt(score);
-    if (scoreNum >= 750) paymentHistory = 'excellent';
-    else if (scoreNum >= 700) paymentHistory = 'good';
-    else if (scoreNum >= 650) paymentHistory = 'fair';
-    else paymentHistory = 'poor';
-  }
-
-  const defaults = extractFirstMatch(text, cibilPatterns.defaults);
-  const activeLoans = extractFirstMatch(text, cibilPatterns.activeLoans);
-  const settled = extractFirstMatch(text, cibilPatterns.settledAccounts);
-
-  return {
-    creditScore: score || 'N/A',
-    activeLoans: activeLoans ? parseInt(activeLoans) : 0,
-    paymentHistory,
-    defaults: defaults ? parseInt(defaults) : 0,
-    settledAccounts: settled ? parseInt(settled) : 0,
-    reportDate: text.match(/(?:report\s+)?date\s*[:\-]?\s*([0-9]{1,2}[\-\/][0-9]{1,2}[\-\/][0-9]{2,4})/i)?.[1] || 'N/A',
-    panNumber: extractFirstMatch(text, itrPatterns.panNumber) || 'N/A',
-    totalLoanAmount: formatCurrency(extractFirstMatch(text, cibilPatterns.totalLoanAmount)),
-    amountOverdue: formatCurrency(extractFirstMatch(text, cibilPatterns.overdue)),
-  };
-};
-
 // Main extraction function
 export const extractMsmeDocument = (input: ExtractorInput): ExtractedMSMEData => {
   const { type, extractedText, fileName } = input;
-  const text = extractedText.toLowerCase();
-  
+
   let data: ExtractedMSMEData['data'];
   let requiredFields: string[];
 
@@ -214,8 +183,10 @@ export const extractMsmeDocument = (input: ExtractorInput): ExtractedMSMEData =>
       requiredFields = ['grossIncome', 'taxableIncome', 'assessmentYear'];
       break;
     case 'cibil_report':
-      data = extractCIBILReport(extractedText);
-      requiredFields = ['creditScore', 'activeLoans'];
+      // Using the new robust CIBIL extractor
+      const cibilResult = extractCibilData(extractedText);
+      data = cibilResult as any; // Cast to bypass type mismatch if interfaces differ slightly
+      requiredFields = ['cibilScore', 'name'];
       break;
     default:
       throw new Error(`Unsupported document type: ${type}`);
