@@ -140,7 +140,7 @@ export const DOCUMENT_TYPE_CONFIG: Record<MSMEDocumentType, {
   cibil_report: {
     label: 'CIBIL Report',
     description: 'Credit score and credit history report',
-    acceptedFormats: ['PDF'],
+    acceptedFormats: ['PDF', 'TXT'],
     icon: 'shield-check',
     color: 'indigo'
   }

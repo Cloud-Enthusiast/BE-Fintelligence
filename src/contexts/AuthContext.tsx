@@ -1,202 +1,115 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-/*
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
+  User,
   onAuthStateChanged,
+  signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
-  User as FirebaseUser
+  GoogleAuthProvider,
+  signOut as firebaseSignOut,
+  updateProfile
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
-*/
-import { toast } from '@/hooks/use-toast';
-
-// Temporary mock user type since Firebase User is commented out
-interface FirebaseUser {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-}
-
-const SESSION_KEY = 'be_finance_session';
-
-export interface UserProfile {
-  id: string;
-  user_id: string;
-  full_name: string | null;
-  email: string | null;
-  phone: string | null;
-  role: 'loan_officer';
-}
+import { auth } from '../lib/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
-  user: FirebaseUser | null;
-  profile: UserProfile | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
+  user: User | null;
+  loading: boolean;
+  signInWithGoogle: () => Promise<void>;
+  loginWithEmail: (email: string, password: string) => Promise<boolean>;
+  signupWithEmail: (email: string, password: string, fullName: string) => Promise<boolean>;
   logout: () => Promise<void>;
-  signup: (email: string, password: string, fullName: string) => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const fetchProfile = async (userId: string) => {
-    /*
-    try {
-      const docRef = doc(db, 'profiles', userId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProfile(docSnap.data() as UserProfile);
-      } else {
-        console.error('No such profile!');
-      }
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-    }
-    */
-  };
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
-    /*
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setIsAuthenticated(!!currentUser);
-
-      if (currentUser) {
-        await fetchProfile(currentUser.uid);
-      } else {
-        setProfile(null);
-      }
-
-      setIsLoading(false);
+      setLoading(false);
     });
-
     return () => unsubscribe();
-    */
-
-    // Simple mock initialization
-    const storedUser = localStorage.getItem('mock_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
-      const storedProfile = localStorage.getItem('mock_profile');
-      if (storedProfile) setProfile(JSON.parse(storedProfile));
-    }
-    setIsLoading(false);
   }, []);
 
-
-  const login = async (email: string, password: string): Promise<boolean> => {
-    /*
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // ... toast
-      return true;
+      await signInWithPopup(auth, provider);
     } catch (error: any) {
-      // ... toast
-      return false;
+      console.error("Error signing in with Google", error);
+      throw error;
     }
-    */
-
-    // Mock login
-    await new Promise(r => setTimeout(r, 800));
-    const mockUser = { uid: 'mock-123', email, displayName: email.split('@')[0] };
-    const mockProfile: UserProfile = {
-      id: 'prof-123',
-      user_id: 'mock-123',
-      full_name: email.split('@')[0],
-      email: email,
-      phone: null,
-      role: 'loan_officer'
-    };
-
-    setUser(mockUser as any);
-    setProfile(mockProfile);
-    setIsAuthenticated(true);
-    localStorage.setItem('mock_user', JSON.stringify(mockUser));
-    localStorage.setItem('mock_profile', JSON.stringify(mockProfile));
-
-    toast({ title: "Welcome back!", description: "Log in successful (Mock Mode)" });
-    return true;
   };
 
-  const signup = async (email: string, password: string, fullName: string): Promise<boolean> => {
-    /*
+  const loginWithEmail = async (email: string, password: string): Promise<boolean> => {
     try {
-      // Firebase signup logic...
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({ title: "Welcome back!", description: "Successfully logged in." });
+      return true;
     } catch (error: any) {
-      // ...
+      console.error("Login Error:", error);
+      toast({
+        title: "Login Failed",
+        description: error.message || "Invalid credentials",
+        variant: "destructive"
+      });
+      return false;
     }
-    */
+  };
 
-    // Mock signup
-    await new Promise(r => setTimeout(r, 800));
-    const mockUser = { uid: 'mock-' + Date.now(), email, displayName: fullName };
-    const mockProfile: UserProfile = {
-      id: 'prof-' + Date.now(),
-      user_id: mockUser.uid,
-      full_name: fullName,
-      email: email,
-      phone: null,
-      role: 'loan_officer'
-    };
+  const signupWithEmail = async (email: string, password: string, fullName: string): Promise<boolean> => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: fullName });
+      // Force refresh user to get display name
+      setUser({ ...userCredential.user, displayName: fullName });
 
-    setUser(mockUser as any);
-    setProfile(mockProfile);
-    setIsAuthenticated(true);
-    localStorage.setItem('mock_user', JSON.stringify(mockUser));
-    localStorage.setItem('mock_profile', JSON.stringify(mockProfile));
-
-    toast({ title: "Account created!", description: "Welcome (Mock Mode)" });
-    return true;
+      toast({ title: "Account Created", description: "Welcome to Bridgeaasy!" });
+      return true;
+    } catch (error: any) {
+      console.error("Signup Error:", error);
+      toast({
+        title: "Signup Failed",
+        description: error.message || "Could not create account",
+        variant: "destructive"
+      });
+      return false;
+    }
   };
 
   const logout = async () => {
-    /*
     try {
-      await signOut(auth);
-      // ... toast
+      await firebaseSignOut(auth);
+      toast({ title: "Logged Out", description: "See you next time." });
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Error signing out", error);
+      throw error;
     }
-    */
-
-    // Mock logout
-    setUser(null);
-    setProfile(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem('mock_user');
-    localStorage.removeItem('mock_profile');
-    toast({ title: "Logged out", description: "Successful (Mock Mode)" });
   };
 
   return (
     <AuthContext.Provider value={{
       user,
-      profile,
-      isAuthenticated,
-      isLoading,
-      login,
-      signup,
+      loading,
+      signInWithGoogle,
+      loginWithEmail,
+      signupWithEmail,
       logout
     }}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

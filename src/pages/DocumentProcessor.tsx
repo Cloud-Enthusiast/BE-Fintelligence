@@ -53,7 +53,7 @@ const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
 };
 
 const DocumentProcessor = () => {
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const { documents, addDocument, removeDocument, clearAllDocuments } = useDocuments();
   const { processFile, isProcessing, progress } = useFileExtraction();
 
@@ -93,13 +93,41 @@ const DocumentProcessor = () => {
       try {
         const aiResult = await parseDocumentWithAI(type, extractedData.extractedText);
 
-        // Merge AI data with manual baseline
-        msmeData = {
-          ...msmeData,
-          data: { ...msmeData.data, ...aiResult.data },
-          extractionConfidence: aiResult.confidence,
-          aiAnalysis: aiResult.analysis
-        };
+        // Smart Merge: AI data enriches but shouldn't degrade high-confidence Regex data
+        if (type === 'cibil_report') {
+          const regexData = msmeData.data as any;
+          const aiData = aiResult.data as any;
+
+          // 1. Preserve Regex Accounts if found (Regex is better at iteration)
+          const accounts = (regexData.accounts && regexData.accounts.length > 0)
+            ? regexData.accounts
+            : aiData.accounts || [];
+
+          // 2. Preserve Regex Score if valid (Regex is specific to "Score: xxx")
+          const score = (regexData.cibilScore && regexData.cibilScore !== "N/A" && regexData.cibilScore !== "0")
+            ? regexData.cibilScore
+            : aiData.creditScore || aiData.cibilScore || "N/A";
+
+          msmeData = {
+            ...msmeData,
+            data: {
+              ...regexData,
+              ...aiData,
+              accounts: accounts,
+              cibilScore: score
+            },
+            extractionConfidence: aiResult.confidence,
+            aiAnalysis: aiResult.analysis
+          };
+        } else {
+          // Default merge for other documents
+          msmeData = {
+            ...msmeData,
+            data: { ...msmeData.data, ...aiResult.data },
+            extractionConfidence: aiResult.confidence,
+            aiAnalysis: aiResult.analysis
+          };
+        }
 
         toast({
           title: "AI Extraction Complete",
