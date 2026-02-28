@@ -8,6 +8,8 @@ import FormStep3 from './FormStep3';
 import EligibilityResult from './EligibilityResult';
 import FormFooter from './FormFooter';
 
+import { CibilUpload } from './CibilUpload';
+
 interface EligibilityFormProps {
   onComplete?: () => void;
 }
@@ -25,6 +27,7 @@ const EligibilityFormWrapper = ({
     prevStep,
     handleSubmit,
     resetForm,
+    prefillFormData,
   } = useEligibilityForm();
 
   // Temp input values for text inputs (strings for display)
@@ -105,20 +108,24 @@ const EligibilityFormWrapper = ({
           Complete the form to check your business loan eligibility
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent className="p-6">
         {currentStep < 4 && <FormStepIndicator currentStep={currentStep} />}
-        
+
+        {currentStep === 1 && (
+          <CibilUpload onDataExtracted={prefillFormData} />
+        )}
+
         <form onSubmit={handleFormSubmit}>
           {currentStep === 1 && (
-            <FormStep1 
+            <FormStep1
               formData={formData}
               onChange={handleChange}
             />
           )}
-          
+
           {currentStep === 2 && (
-            <FormStep2 
+            <FormStep2
               formData={formData}
               tempInputValues={tempInputValues}
               handleSliderChange={handleSliderChange}
@@ -126,9 +133,9 @@ const EligibilityFormWrapper = ({
               handleInputBlur={handleInputBlur}
             />
           )}
-          
+
           {currentStep === 3 && (
-            <FormStep3 
+            <FormStep3
               formData={formData}
               tempInputValues={tempInputValues}
               handleSliderChange={handleSliderChange}
@@ -137,10 +144,10 @@ const EligibilityFormWrapper = ({
               handleSelectChange={handleSelectChange}
             />
           )}
-          
+
           {currentStep === 4 && eligibilityResult && (
-            <EligibilityResult 
-              result={eligibilityResult} 
+            <EligibilityResult
+              result={eligibilityResult}
               onComplete={onComplete}
               onGoBack={handleGoBack}
               onSubmit={handleFormSubmit}
@@ -148,10 +155,10 @@ const EligibilityFormWrapper = ({
           )}
         </form>
       </CardContent>
-      
+
       <CardFooter className="border-t border-gray-200 bg-gray-50 p-6">
-        <FormFooter 
-          currentStep={currentStep} 
+        <FormFooter
+          currentStep={currentStep}
           isSubmitting={isSubmitting}
           isSavingToDatabase={false}
           onPrevious={prevStep}

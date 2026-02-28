@@ -212,7 +212,7 @@ describe('MSME Eligibility Calculator Properties', () => {
             annualRevenue: 500000, // Low revenue
             monthlyIncome: 41667,
             existingLoanAmount: 1000000, // High existing debt
-            loanAmount: 1000000, // High new loan
+            loanAmount: 50000, // Small new loan (within 15% of 500k revenue)
             loanTerm: 12, // Short term
             creditScore: 750,
             businessType: 'Technology',
