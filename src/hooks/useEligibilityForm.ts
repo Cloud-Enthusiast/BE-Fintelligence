@@ -8,14 +8,14 @@ export interface EligibilityFormData {
   fullName: string;
   email: string;
   phone: string;
-  
+
   // Business Information
   businessName: string;
   businessType: string;
   annualRevenue: number;
   monthlyIncome: number;
   existingLoanAmount: number;
-  
+
   // Loan Information
   loanAmount: number;
   loanTerm: number;
@@ -24,9 +24,9 @@ export interface EligibilityFormData {
 
 export const useEligibilityForm = () => {
   const { toast } = useToast();
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const { addApplication } = useApplications();
-  
+
   const [formData, setFormData] = useState<EligibilityFormData>({
     fullName: '',
     email: '',
@@ -47,19 +47,26 @@ export const useEligibilityForm = () => {
 
   // Pre-fill user data if available
   useEffect(() => {
-    if (profile) {
+    if (user) {
       setFormData(prev => ({
         ...prev,
-        fullName: profile.full_name || '',
-        email: profile.email || '',
+        fullName: user.displayName || '',
+        email: user.email || '',
       }));
     }
-  }, [profile]);
+  }, [user]);
 
   const updateFormData = (field: keyof EligibilityFormData, value: any) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const prefillFormData = (data: Partial<EligibilityFormData>) => {
+    setFormData(prev => ({
+      ...prev,
+      ...data
     }));
   };
 
@@ -143,7 +150,7 @@ export const useEligibilityForm = () => {
       eligibilityScore: Math.round(score),
       isEligible,
       rejectionReason,
-      recommendations: isEligible 
+      recommendations: isEligible
         ? ['Consider our premium loan products', 'Fast-track approval available']
         : ['Improve credit score', 'Reduce existing debt', 'Increase revenue']
     };
@@ -151,7 +158,7 @@ export const useEligibilityForm = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
+
     try {
       // Calculate eligibility
       const result = calculateEligibility(formData);
@@ -186,8 +193,8 @@ export const useEligibilityForm = () => {
 
   const resetForm = () => {
     setFormData({
-      fullName: profile?.full_name || '',
-      email: profile?.email || '',
+      fullName: user?.displayName || '',
+      email: user?.email || '',
       phone: '',
       businessName: '',
       businessType: '',
@@ -212,5 +219,6 @@ export const useEligibilityForm = () => {
     prevStep,
     handleSubmit,
     resetForm,
+    prefillFormData,
   };
 };
