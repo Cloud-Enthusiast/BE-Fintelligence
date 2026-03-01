@@ -78,7 +78,7 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
 
     return (
         <div className="mb-6">
-            <Card className="border-dashed border-2 border-indigo-200 bg-indigo-50/30">
+            <Card className="border-dashed border-2 border-primary-200 bg-primary-50/10">
                 <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row gap-6 items-start">
 
@@ -89,11 +89,11 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
                                     {...getRootProps()}
                                     className={cn(
                                         "flex flex-col items-center justify-center p-8 rounded-lg cursor-pointer transition-colors border-2 border-dashed",
-                                        isDragActive ? "border-indigo-500 bg-indigo-50" : "border-gray-300 hover:bg-white/50"
+                                        isDragActive ? "border-primary bg-primary/5" : "border-gray-300 hover:bg-white/50"
                                     )}
                                 >
                                     <input {...getInputProps()} />
-                                    <Upload className="w-10 h-10 text-indigo-400 mb-3" />
+                                    <Upload className="w-10 h-10 text-primary/40 mb-3" />
                                     <p className="text-sm font-medium text-gray-700 text-center">
                                         {isDragActive ? "Drop the CIBIL report here" : "Drag & drop CIBIL report or click to browse"}
                                     </p>
@@ -103,8 +103,8 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
                                 <div className="bg-white p-4 rounded-lg border border-gray-200">
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-indigo-100 rounded">
-                                                <FileText className="w-5 h-5 text-indigo-600" />
+                                            <div className="p-2 bg-primary/10 rounded">
+                                                <FileText className="w-5 h-5 text-primary" />
                                             </div>
                                             <div>
                                                 <p className="text-sm font-medium text-gray-900 truncate max-w-[200px]">{file.name}</p>
@@ -135,7 +135,7 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
                                     )}
 
                                     {status === 'idle' && (
-                                        <Button onClick={handleUpload} className="w-full bg-indigo-600 hover:bg-indigo-700">
+                                        <Button onClick={handleUpload} className="w-full bg-primary hover:bg-primary/90">
                                             Process Report
                                         </Button>
                                     )}
@@ -147,11 +147,14 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
                         {status === 'success' && extractedData && (
                             <div className="w-full md:w-64 bg-white p-4 rounded-lg border border-green-200 shadow-sm animate-in fade-in slide-in-from-right-4">
                                 <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-100">
-                                    <CheckCircle className="w-4 h-4 text-green-600" />
-                                    <h4 className="font-semibold text-sm text-gray-800">Extraction Success</h4>
+                                    <CheckCircle className="w-4 h-4 text-secondary" />
+                                    <h4 className="font-semibold text-sm text-gray-800">Sample Results</h4>
                                 </div>
 
                                 <div className="space-y-3 mb-4">
+                                    <div className="bg-amber-50 p-2 rounded text-[10px] text-amber-700 leading-tight border border-amber-100 mb-2">
+                                        Note: This is a sample extraction. Real parsing requires a backend integration.
+                                    </div>
                                     <div>
                                         <span className="text-xs text-gray-500 block">Credit Score</span>
                                         <span className="text-lg font-bold text-gray-900">{extractedData.creditScore}</span>
@@ -162,7 +165,7 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
                                     </div>
                                 </div>
 
-                                <Button onClick={handleApply} size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white gap-2">
+                                <Button onClick={handleApply} size="sm" className="w-full bg-secondary hover:bg-secondary/90 text-white gap-2">
                                     Auto-fill Form <ArrowRight className="w-3 h-3" />
                                 </Button>
                             </div>
@@ -170,7 +173,7 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
 
                         {status === 'processing' && (
                             <div className="w-full md:w-64 flex flex-col items-center justify-center p-8 text-center bg-white rounded-lg border border-gray-200">
-                                <Loader2 className="w-8 h-8 text-indigo-500 animate-spin mb-3" />
+                                <Loader2 className="w-8 h-8 text-primary animate-spin mb-3" />
                                 <p className="text-sm text-gray-600">Analyzing report structure...</p>
                             </div>
                         )}

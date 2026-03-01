@@ -90,15 +90,15 @@ const Settings = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" defaultValue={user?.phoneNumber || ''} placeholder="+1 (555) 123-4567" className="bg-background border-border/50" />
+                    <Input id="phone" type="tel" defaultValue={user?.phoneNumber || ''} placeholder="+91 98765 43210" className="bg-background border-border/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="department">Department</Label>
-                    <Input id="department" defaultValue="Loan Department" className="bg-background border-border/50" />
+                    <Input id="department" placeholder="Enter department" className="bg-background border-border/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="position">Position</Label>
-                    <Input id="position" defaultValue="Loan Officer" className="bg-background border-border/50" />
+                    <Input id="position" placeholder="Enter position" className="bg-background border-border/50" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="employee-id">Employee ID</Label>

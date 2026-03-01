@@ -4,7 +4,8 @@ import {
   MenuIcon,
   SearchIcon,
   UserCircleIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  InboxIcon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -76,23 +77,13 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
                 <h3 className="font-semibold text-sm">Notifications</h3>
               </div>
               <div className="max-h-[300px] overflow-auto custom-scrollbar">
-                <NotificationItem
-                  title="New Application"
-                  description="Tech Innovations Inc. has submitted a new application."
-                  time="5m ago"
-                />
-                <NotificationItem
-                  title="Risk Alert"
-                  description="High risk factors detected for Oceanview Resorts."
-                  time="1h ago"
-                  isAlert
-                />
-                <NotificationItem
-                  title="Loan Approved"
-                  description="Green Valley Farms loan was finalized."
-                  time="3h ago"
-                  isSuccess
-                />
+                <div className="py-12 flex flex-col items-center justify-center text-center px-4">
+                  <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                    <InboxIcon className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                  <p className="text-sm font-medium text-foreground">No new notifications</p>
+                  <p className="text-xs text-muted-foreground mt-1">We'll notify you when something happens</p>
+                </div>
               </div>
               <div className="p-2 border-t border-border bg-muted/30">
                 <Button variant="ghost" size="sm" className="w-full text-xs font-medium text-primary">

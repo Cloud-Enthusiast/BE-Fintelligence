@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BuildingIcon, KeyIcon, MailIcon, Loader2, ArrowLeft } from 'lucide-react';
+import { KeyIcon, MailIcon, Loader2, ArrowLeft } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -94,12 +94,10 @@ const Login = () => {
         </div>
 
         <div className="text-center mb-8">
-          <div className="flex justify-center mb-2">
-            <div className="bg-primary rounded-lg p-2 shadow-lg">
-              <BuildingIcon className="h-8 w-8 text-primary-foreground" />
-            </div>
+          <div className="flex justify-center mb-3">
+            <img src="/logo.png" alt="BridgeEasy Logo" className="h-14 w-auto" />
           </div>
-          <h1 className="text-slate-900 text-2xl font-bold text-center">BE Finance</h1>
+          <h1 className="text-slate-900 text-2xl font-bold text-center">BridgeEasy</h1>
           <p className="text-slate-600 text-lg">Loan Officer Portal</p>
         </div>
 
@@ -120,7 +118,7 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="fullname">Full Name</Label>
                     <div className="relative">
-                      <BuildingIcon className="absolute left-3 top-2.5 h-5 w-5 text-primary" />
+                      <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-primary" />
                       <Input
                         id="fullname"
                         type="text"

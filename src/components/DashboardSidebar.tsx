@@ -7,7 +7,6 @@ import {
   AlertTriangleIcon,
   SettingsIcon,
   HelpCircleIcon,
-  BuildingIcon,
   ScanTextIcon,
   CheckCircle2Icon
 } from 'lucide-react';
@@ -25,9 +24,7 @@ const DashboardSidebar = ({ isOpen }: DashboardSidebarProps) => {
         {/* Logo Area */}
         <div className="h-16 flex items-center px-4 border-b border-border bg-sidebar/50">
           <Link to="/dashboard" className="flex items-center gap-3 overflow-hidden">
-            <div className="flex-shrink-0 bg-primary rounded-lg p-2 shadow-sm">
-              <BuildingIcon className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img src="/logo.png" alt="BridgeEasy" className="h-8 w-auto flex-shrink-0" />
             {isOpen && (
               <span className="text-xl font-bold tracking-tight text-sidebar-foreground truncate whitespace-nowrap">
                 BridgeEasy
@@ -147,8 +144,8 @@ const SidebarItem = ({ icon, title, path, isOpen, active = false, dataTour }: Si
     <Link
       to={path}
       className={`group flex items-center p-2.5 rounded-lg transition-all duration-200 relative overflow-hidden ${active
-          ? 'bg-primary/10 text-primary font-medium'
-          : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+        ? 'bg-primary/10 text-primary font-medium'
+        : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
         } ${!isOpen && 'justify-center'}`}
       title={!isOpen ? title : undefined}
     >

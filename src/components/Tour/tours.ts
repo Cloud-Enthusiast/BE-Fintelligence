@@ -6,7 +6,7 @@ export const ONBOARDING_TOUR: Tour = {
     steps: [
         {
             target: '[data-tour="dashboard-header"]',
-            title: 'Welcome to BE Finance!',
+            title: 'Welcome to BridgeEasy!',
             content: 'This dashboard provides a real-time overview of your loan portfolio and risk metrics.',
             position: 'bottom'
         },

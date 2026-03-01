@@ -49,15 +49,25 @@ const Analytics = () => {
   // Colors matching the new brand system
   const COLORS = ['#10b981', '#f59e0b', '#ef4444']; // Emerald, Amber, Red
 
-  // Monthly application data (sample)
-  const monthlyData = [
-    { name: 'Jan', applications: 8, approved: 5, rejected: 3 },
-    { name: 'Feb', applications: 12, approved: 7, rejected: 5 },
-    { name: 'Mar', applications: 15, approved: 10, rejected: 5 },
-    { name: 'Apr', applications: 10, approved: 6, rejected: 4 },
-    { name: 'May', applications: 18, approved: 12, rejected: 6 },
-    { name: 'Jun', applications: 15, approved: 9, rejected: 6 },
-  ];
+  // Monthly application data — computed from real applications
+  const monthlyData = (() => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const now = new Date();
+    return Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+      const monthApps = applications.filter(app => {
+        if (!app.createdAt) return false;
+        const ad = new Date(app.createdAt);
+        return ad.getFullYear() === d.getFullYear() && ad.getMonth() === d.getMonth();
+      });
+      return {
+        name: months[d.getMonth()],
+        applications: monthApps.length,
+        approved: monthApps.filter(a => a.status === 'approved').length,
+        rejected: monthApps.filter(a => a.status === 'rejected').length,
+      };
+    });
+  })();
 
   // Business type distribution
   const businessTypes = applications.reduce((acc: Record<string, number>, app) => {
@@ -74,11 +84,11 @@ const Analytics = () => {
 
   // Loan amount range distribution
   const loanRangeData = [
-    { name: '<$100k', applications: 0 },
-    { name: '$100k-$250k', applications: 0 },
-    { name: '$250k-$500k', applications: 0 },
-    { name: '$500k-$1M', applications: 0 },
-    { name: '>$1M', applications: 0 },
+    { name: '<₹10L', applications: 0 },
+    { name: '₹10L-₹25L', applications: 0 },
+    { name: '₹25L-₹50L', applications: 0 },
+    { name: '₹50L-₹1Cr', applications: 0 },
+    { name: '>₹1Cr', applications: 0 },
   ];
 
   applications.forEach(app => {

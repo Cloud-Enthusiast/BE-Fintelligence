@@ -11,8 +11,12 @@ import {
   AlertTriangleIcon,
   DollarSignIcon,
   AlertCircleIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  ShieldAlertIcon,
+  ShieldCheckIcon,
+  ShieldQuestionIcon
 } from 'lucide-react';
+import { generateRiskAlerts } from '@/utils/riskScoring';
 
 const RiskManagement = () => {
   const { user } = useAuth();
@@ -27,32 +31,8 @@ const RiskManagement = () => {
     .filter(app => app.status === 'approved')
     .reduce((sum, app) => sum + app.loanAmount, 0);
 
-  const riskAlerts = [
-    {
-      id: '1',
-      type: 'high',
-      title: 'Portfolio Concentration Risk',
-      description: 'Over 40% of approved loans are in the retail sector',
-      timestamp: '2 hours ago',
-      action: 'Review Sector'
-    },
-    {
-      id: '2',
-      type: 'medium',
-      title: 'Credit Score Trend',
-      description: 'Average applicant credit score decreased by 15 points this month',
-      timestamp: '1 day ago',
-      action: 'Tighten Rules'
-    },
-    {
-      id: '3',
-      type: 'low',
-      title: 'Default Rate Update',
-      description: 'Monthly default rate within acceptable range at 2.1%',
-      timestamp: '2 days ago',
-      action: 'Monitor'
-    }
-  ];
+  // Get dynamic risk alerts from applications
+  const riskAlerts = generateRiskAlerts(applications);
 
   const getRiskColor = (type: string) => {
     switch (type) {
@@ -63,13 +43,20 @@ const RiskManagement = () => {
     }
   };
 
-  const getRiskIcon = (type: string) => {
-    switch (type) {
-      case 'high': return <AlertTriangleIcon className="h-5 w-5 text-destructive" />;
-      case 'medium': return <AlertCircleIcon className="h-5 w-5 text-amber-600" />;
-      case 'low': return <CheckCircleIcon className="h-5 w-5 text-emerald-600" />;
-      default: return <AlertCircleIcon className="h-5 w-5 text-muted-foreground" />;
+  const getRiskIcon = (severity: string) => {
+    switch (severity) {
+      case 'low': return <CheckCircleIcon className="h-5 w-5 text-emerald-500" />;
+      case 'medium': return <AlertTriangleIcon className="h-5 w-5 text-amber-500" />;
+      case 'high': return <AlertCircleIcon className="h-5 w-5 text-destructive" />;
+      case 'critical': return <ShieldAlertIcon className="h-5 w-5 text-destructive" />;
+      default: return <ShieldQuestionIcon className="h-5 w-5 text-muted-foreground" />;
     }
+  };
+
+  const formatTime = (isoString: string) => {
+    if (!isoString) return 'Just now';
+    const date = new Date(isoString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', ' + date.toLocaleDateString();
   };
 
   return (
@@ -133,7 +120,7 @@ const RiskManagement = () => {
                   <DollarSignIcon className="h-4 w-4 text-primary" />
                 </div>
               </div>
-              <div className="text-3xl font-bold tracking-tight text-foreground">${totalPortfolioValue.toLocaleString()}</div>
+              <div className="text-3xl font-bold tracking-tight text-foreground">₹{totalPortfolioValue.toLocaleString('en-IN')}</div>
               <p className="text-xs text-muted-foreground mt-1 font-medium">Total approved loans</p>
             </CardContent>
           </Card>
@@ -154,24 +141,31 @@ const RiskManagement = () => {
               </CardHeader>
               <CardContent className="p-0">
                 <div className="divide-y divide-border/50">
-                  {riskAlerts.map((alert) => (
-                    <div key={alert.id} className="flex flex-col sm:flex-row sm:items-center p-6 hover:bg-muted/30 transition-colors">
-                      <div className="mb-4 sm:mb-0 mr-4 mt-0.5 shrink-0 bg-background rounded-full p-2 border border-border/50 shadow-sm">
-                        {getRiskIcon(alert.type)}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
-                          <h4 className="font-semibold text-foreground">{alert.title}</h4>
-                          <Badge variant="secondary" className={getRiskColor(alert.type)}>{alert.type} risk</Badge>
+                  {riskAlerts.length > 0 ? (
+                    riskAlerts.map((alert) => (
+                      <div key={alert.id} className="flex flex-col sm:flex-row sm:items-center p-6 hover:bg-muted/30 transition-colors">
+                        <div className="mb-4 sm:mb-0 mr-4 mt-0.5 shrink-0 bg-background rounded-full p-2 border border-border/50 shadow-sm">
+                          {getRiskIcon(alert.severity)}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-3 sm:mb-0">{alert.description}</p>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-1">
+                            <h4 className="font-semibold text-foreground">{alert.title}</h4>
+                            <Badge variant="secondary" className={getRiskColor(alert.severity)}>{alert.severity} risk</Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-3 sm:mb-0">{alert.description} for {alert.businessName}</p>
+                        </div>
+                        <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-center gap-2 mt-4 sm:mt-0 shrink-0">
+                          <span className="text-xs font-medium text-muted-foreground">{formatTime(alert.timestamp)}</span>
+                          <Button size="sm" variant="outline" className="h-8 shadow-sm">{alert.actionRequired ? 'Immediate Action' : 'Monitor'}</Button>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-center gap-2 mt-4 sm:mt-0 shrink-0">
-                        <span className="text-xs font-medium text-muted-foreground">{alert.timestamp}</span>
-                        <Button size="sm" variant="outline" className="h-8 shadow-sm">{alert.action}</Button>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="py-12 text-center">
+                      <ShieldCheckIcon className="h-12 w-12 text-emerald-500/20 mx-auto mb-3" />
+                      <p className="text-muted-foreground">No active risk alerts found.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -199,7 +193,7 @@ const RiskManagement = () => {
                       {highRiskApps.slice(0, 5).map((app) => (
                         <tr key={app.id} className="hover:bg-muted/30 transition-colors group">
                           <td className="px-6 py-4 font-medium text-foreground">{app.businessName}</td>
-                          <td className="px-6 py-4 font-medium text-muted-foreground">${app.loanAmount.toLocaleString()}</td>
+                          <td className="px-6 py-4 font-medium text-muted-foreground">₹{app.loanAmount.toLocaleString('en-IN')}</td>
                           <td className="px-6 py-4">
                             <Badge variant="outline" className="bg-destructive/10 text-destructive border-transparent font-bold">
                               {app.eligibilityScore}/100

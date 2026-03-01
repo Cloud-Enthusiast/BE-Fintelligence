@@ -23,16 +23,6 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { Badge } from '@/components/ui/badge';
 
-// Sample data
-const loanPerformanceData = [
-  { name: 'Jan', approved: 65, rejected: 12 },
-  { name: 'Feb', approved: 59, rejected: 15 },
-  { name: 'Mar', approved: 80, rejected: 8 },
-  { name: 'Apr', approved: 81, rejected: 9 },
-  { name: 'May', approved: 56, rejected: 17 },
-  { name: 'Jun', approved: 55, rejected: 15 },
-];
-
 const Dashboard = () => {
   const { user } = useAuth();
   const { applications } = useApplications();
@@ -51,6 +41,29 @@ const Dashboard = () => {
   const approvedApplications = applications.filter(app => app.status === 'approved');
   const rejectedApplications = applications.filter(app => app.status === 'rejected');
 
+  // Derive chart data from real applications by month
+  const loanPerformanceData = (() => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const now = new Date();
+    const last6Months = Array.from({ length: 6 }, (_, i) => {
+      const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+      return { month: months[d.getMonth()], year: d.getFullYear(), key: `${d.getFullYear()}-${d.getMonth()}` };
+    });
+    return last6Months.map(({ month, year, key }) => {
+      const [y, m] = key.split('-').map(Number);
+      const monthApps = applications.filter(app => {
+        if (!app.createdAt) return false;
+        const d = new Date(app.createdAt);
+        return d.getFullYear() === y && d.getMonth() === m;
+      });
+      return {
+        name: month,
+        approved: monthApps.filter(a => a.status === 'approved').length,
+        rejected: monthApps.filter(a => a.status === 'rejected').length,
+      };
+    });
+  })();
+
   const chartConfig = {
     approved: {
       label: 'Approved',
@@ -58,7 +71,7 @@ const Dashboard = () => {
     },
     rejected: {
       label: 'Rejected',
-      color: 'hsl(var(--secondary))',
+      color: 'hsl(var(--destructive))',
     },
   };
 
@@ -90,26 +103,20 @@ const Dashboard = () => {
             value={pendingApplications.length.toString()}
             description="Awaiting review"
             icon={<ClockIcon className="h-5 w-5 text-amber-500" />}
-            trend="+2 since yesterday"
-            trendUp={true}
             linkTo="/applications?tab=pending"
           />
           <StatsCard
             title="Approved Loans"
             value={approvedApplications.length.toString()}
-            description="Approved this month"
+            description="Total approved"
             icon={<CheckCircleIcon className="h-5 w-5 text-emerald-500" />}
-            trend="+8% from last month"
-            trendUp={true}
             linkTo="/applications?tab=approved"
           />
           <StatsCard
             title="Rejected Applications"
             value={rejectedApplications.length.toString()}
-            description="Rejected this month"
+            description="Total rejected"
             icon={<XCircleIcon className="h-5 w-5 text-destructive" />}
-            trend="-3% from last month"
-            trendUp={false}
             linkTo="/applications?tab=rejected"
           />
         </div>
@@ -184,7 +191,7 @@ const Dashboard = () => {
                           {app.businessName}
                         </td>
                         <td className="px-4 py-3 text-foreground font-medium">
-                          ${app.loanAmount.toLocaleString()}
+                          ₹{app.loanAmount.toLocaleString('en-IN')}
                         </td>
                         <td className="px-4 py-3">
                           <Badge variant={app.eligibilityScore >= 80 ? 'outline' : app.eligibilityScore >= 60 ? 'secondary' : 'destructive'}
@@ -304,8 +311,8 @@ interface StatsCardProps {
   value: string;
   description: string;
   icon: React.ReactNode;
-  trend: string;
-  trendUp: boolean;
+  trend?: string;
+  trendUp?: boolean;
   linkTo?: string;
 }
 
@@ -322,10 +329,12 @@ const StatsCard = ({ title, value, description, icon, trend, trendUp, linkTo }: 
         <span className="text-3xl font-bold tracking-tight text-foreground">{value}</span>
       </div>
       <div className="flex items-center text-xs">
-        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md font-medium mr-2 ${trendUp ? 'bg-emerald-500/10 text-emerald-600' : 'bg-destructive/10 text-destructive'}`}>
-          {trendUp ? <TrendingUpIcon className="h-3 w-3 mr-1" /> : <TrendingUpIcon className="h-3 w-3 mr-1 transform rotate-180" />}
-          {trend}
-        </span>
+        {trend ? (
+          <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md font-medium mr-2 ${trendUp ? 'bg-emerald-500/10 text-emerald-600' : 'bg-destructive/10 text-destructive'}`}>
+            {trendUp ? <TrendingUpIcon className="h-3 w-3 mr-1" /> : <TrendingUpIcon className="h-3 w-3 mr-1 transform rotate-180" />}
+            {trend}
+          </span>
+        ) : null}
         <span className="text-muted-foreground">{description}</span>
       </div>
     </CardContent>
