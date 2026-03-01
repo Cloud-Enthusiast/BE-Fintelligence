@@ -24,6 +24,7 @@ import { DocumentProvider } from "./contexts/DocumentContext";
 import { TourProvider } from "./components/Tour/TourContext";
 import { TourGuide } from "./components/Tour/TourGuide";
 import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardLayout from "./components/DashboardLayout";
 
 const queryClient = new QueryClient();
 
@@ -50,97 +51,20 @@ const App = () => {
                       element={<Navigate to="/" replace />}
                     />
 
-                    {/* Protected Loan Officer routes */}
-                    <Route
-                      path="/dashboard"
-                      element={
-                        <ProtectedRoute>
-                          <Dashboard />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/applications"
-                      element={
-                        <ProtectedRoute>
-                          <Applications />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/create-application"
-                      element={
-                        <ProtectedRoute>
-                          <CreateApplication />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/analytics"
-                      element={
-                        <ProtectedRoute>
-                          <Analytics />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/customers"
-                      element={
-                        <ProtectedRoute>
-                          <Customers />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/application-review/:id"
-                      element={
-                        <ProtectedRoute>
-                          <ApplicationReview />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/risk-management"
-                      element={
-                        <ProtectedRoute>
-                          <RiskManagement />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/settings"
-                      element={
-                        <ProtectedRoute>
-                          <Settings />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/help-support"
-                      element={
-                        <ProtectedRoute>
-                          <HelpSupport />
-                        </ProtectedRoute>
-                      }
-                    />
-
-                    {/* Document processor */}
-                    <Route
-                      path="/document-processor"
-                      element={
-                        <ProtectedRoute>
-                          <DocumentProcessor />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/eligibility-checker"
-                      element={
-                        <ProtectedRoute>
-                          <EligibilityChecker />
-                        </ProtectedRoute>
-                      }
-                    />
+                    {/* Protected Dashboard Routes */}
+                    <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/applications" element={<Applications />} />
+                      <Route path="/create-application" element={<CreateApplication />} />
+                      <Route path="/analytics" element={<Analytics />} />
+                      <Route path="/customers" element={<Customers />} />
+                      <Route path="/application-review/:id" element={<ApplicationReview />} />
+                      <Route path="/risk-management" element={<RiskManagement />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/help-support" element={<HelpSupport />} />
+                      <Route path="/document-processor" element={<DocumentProcessor />} />
+                      <Route path="/eligibility-checker" element={<EligibilityChecker />} />
+                    </Route>
 
                     {/* Catch-all route */}
                     <Route path="*" element={<NotFound />} />

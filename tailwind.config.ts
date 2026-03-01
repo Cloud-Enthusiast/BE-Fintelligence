@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -64,43 +63,43 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				finance: {
-					50: '#f0f7fe',
-					100: '#e0f2fe',
-					200: '#bae2fd',
-					300: '#7ccbfd',
-					400: '#36aff9',
-					500: '#0070F3', // Primary: Vibrant Blue
-					600: '#0263d1',
-					700: '#0351ab',
-					800: '#04438c',
-					900: '#093974',
-					950: '#061f43',
+					50: '#f8fafc',
+					100: '#f1f5f9',
+					200: '#e2e8f0',
+					300: '#cbd5e1',
+					400: '#94a3b8',
+					500: '#0f172a', // Deep Navy / Slate 900
+					600: '#334155',
+					700: '#1e293b',
+					800: '#0f172a',
+					900: '#020617',
+					950: '#000000',
 				},
 				gold: {
-					50: '#fffbeb',
-					100: '#fff4c6',
-					200: '#fee989',
-					300: '#FFC658', // Secondary: Warm Gold
-					400: '#fdbc2a',
-					500: '#f79e09',
-					600: '#db7805',
-					700: '#b35309',
-					800: '#934011',
-					900: '#7a3612',
-					950: '#461a03',
+					50: '#ecfdf5',
+					100: '#d1fae5',
+					200: '#a7f3d0',
+					300: '#6ee7b7',
+					400: '#34d399',
+					500: '#10b981', // Emerald 500 (reused for positive actions)
+					600: '#059669',
+					700: '#047857',
+					800: '#065f46',
+					900: '#064e3b',
+					950: '#022c22',
 				},
 				purple: {
-					50: '#f6f2ff',
-					100: '#ede6ff',
-					200: '#daccff',
-					300: '#c4a8ff',
-					400: '#ab7cff',
-					500: '#9b87f5', // Primary: Rich Purple
-					600: '#7e69ab',
-					700: '#6a4695',
-					800: '#553878',
-					900: '#402b59',
-					950: '#2c1a45',
+					50: '#f8fafc',
+					100: '#f1f5f9',
+					200: '#e2e8f0',
+					300: '#cbd5e1',
+					400: '#94a3b8',
+					500: '#64748b', // Slate 500 (reused for neutral backgrounds)
+					600: '#475569',
+					700: '#334155',
+					800: '#1e293b',
+					900: '#0f172a',
+					950: '#020617',
 				}
 			},
 			borderRadius: {
@@ -110,20 +109,12 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				},
 				'fade-in': {
 					'0%': { opacity: '0' },
@@ -132,50 +123,19 @@ export default {
 				'fade-up': {
 					'0%': { opacity: '0', transform: 'translateY(10px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
-				},
-				'scale-in': {
-					'0%': { opacity: '0', transform: 'scale(0.97)' },
-					'100%': { opacity: '1', transform: 'scale(1)' }
-				},
-				'shimmer': {
-					'0%': { backgroundPosition: '-500px 0' },
-					'100%': { backgroundPosition: '500px 0' }
-				},
-				'float': {
-					'0%': { transform: 'translateY(0)' },
-					'50%': { transform: 'translateY(-5px)' },
-					'100%': { transform: 'translateY(0)' }
-				},
-				'pulse-gold': {
-					'0%': { boxShadow: '0 0 0 0 rgba(255, 198, 88, 0.4)' },
-					'70%': { boxShadow: '0 0 0 10px rgba(255, 198, 88, 0)' },
-					'100%': { boxShadow: '0 0 0 0 rgba(255, 198, 88, 0)' }
-				},
-				'pulse-purple': {
-					'0%': { boxShadow: '0 0 0 0 rgba(155, 135, 245, 0.4)' },
-					'70%': { boxShadow: '0 0 0 10px rgba(155, 135, 245, 0)' },
-					'100%': { boxShadow: '0 0 0 0 rgba(155, 135, 245, 0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
-				'fade-up': 'fade-up 0.4s ease-out',
-				'scale-in': 'scale-in 0.3s ease-out',
-				'shimmer': 'shimmer 2s infinite linear',
-				'float': 'float 3s ease-in-out infinite',
-				'pulse-gold': 'pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'pulse-purple': 'pulse-purple 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+				'fade-up': 'fade-up 0.4s ease-out'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif']
 			},
 			backgroundImage: {
-				'gradient-app': 'linear-gradient(to bottom, #f8f4ff, #f2ebff)',
-				'gradient-gold': 'linear-gradient(to right, #FFC658, #FFEDBD, #FFC658)',
-				'gradient-purple': 'linear-gradient(to right, #9b87f5, #c4a8ff, #9b87f5)',
-				'gradient-purple-gold': 'linear-gradient(to right, #9b87f5, #FFC658)'
+				'gradient-app': 'linear-gradient(to bottom, #f8fafc, #f1f5f9)',
 			}
 		}
 	},

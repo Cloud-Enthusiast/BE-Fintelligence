@@ -95,20 +95,20 @@ const Login = () => {
 
         <div className="text-center mb-8">
           <div className="flex justify-center mb-2">
-            <div className="bg-finance-500 rounded-lg p-2 shadow-lg">
-              <BuildingIcon className="h-8 w-8 text-white" />
+            <div className="bg-primary rounded-lg p-2 shadow-lg">
+              <BuildingIcon className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="text-finance-900 text-2xl font-bold text-center">BE Finance</h1>
-          <p className="text-finance-600 text-lg">Loan Officer Portal</p>
+          <h1 className="text-slate-900 text-2xl font-bold text-center">BE Finance</h1>
+          <p className="text-slate-600 text-lg">Loan Officer Portal</p>
         </div>
 
         <Card className="border-none shadow-xl bg-white/90 backdrop-blur-sm overflow-hidden card-shine">
-          <CardHeader className="space-y-1 bg-gradient-to-r from-finance-50 to-finance-100/70 rounded-t-lg border-b border-finance-100">
-            <CardTitle className="text-2xl text-center text-finance-900">
+          <CardHeader className="space-y-1 bg-gradient-to-r from-primary/5 to-primary/10 rounded-t-lg border-b border-primary/10">
+            <CardTitle className="text-2xl text-center text-slate-900">
               {isSignUp ? "Create Account" : "Sign In"}
             </CardTitle>
-            <CardDescription className="text-center text-finance-600">
+            <CardDescription className="text-center text-slate-600">
               {isSignUp ? "Enter your details to create an account" : "Enter your credentials to sign in"}
             </CardDescription>
           </CardHeader>
@@ -120,14 +120,14 @@ const Login = () => {
                   <div className="space-y-2">
                     <Label htmlFor="fullname">Full Name</Label>
                     <div className="relative">
-                      <BuildingIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                      <BuildingIcon className="absolute left-3 top-2.5 h-5 w-5 text-primary" />
                       <Input
                         id="fullname"
                         type="text"
                         placeholder="Your Name"
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
-                        className="pl-10 border-finance-200 focus:border-finance-500"
+                        className="pl-10 border-slate-200 focus:border-primary"
                         required={isSignUp}
                       />
                     </div>
@@ -137,14 +137,14 @@ const Login = () => {
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <div className="relative">
-                    <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                    <MailIcon className="absolute left-3 top-2.5 h-5 w-5 text-primary" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="Enter your email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="pl-10 border-finance-200 focus:border-finance-500"
+                      className="pl-10 border-slate-200 focus:border-primary"
                       required
                     />
                   </div>
@@ -154,21 +154,21 @@ const Login = () => {
                     <Label htmlFor="password">Password</Label>
                   </div>
                   <div className="relative">
-                    <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-finance-500" />
+                    <KeyIcon className="absolute left-3 top-2.5 h-5 w-5 text-primary" />
                     <Input
                       id="password"
                       type="password"
                       placeholder="••••••"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
-                      className="pl-10 border-finance-200 focus:border-finance-500"
+                      className="pl-10 border-slate-200 focus:border-primary"
                       required
                     />
                   </div>
                 </div>
               </div>
               <Button
-                className="w-full mt-6 bg-finance-500 hover:bg-finance-600 text-white"
+                className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground"
                 type="submit"
                 disabled={isLoading}
               >
@@ -206,7 +206,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="text-sm text-finance-600 hover:text-finance-800 underline underline-offset-4"
+                className="text-sm text-primary hover:text-primary/80 underline underline-offset-4"
               >
                 {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Create one"}
               </button>
