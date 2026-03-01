@@ -11,7 +11,7 @@ import { APPLICATION_REVIEW_TOUR } from '@/components/Tour/tours';
 const ApplicationReview = () => {
   const { id: applicationId } = useParams<{ id: string }>(); // Ensure id is treated as string | undefined
   const navigate = useNavigate();
-  const { profile } = useAuth();
+  const { user } = useAuth();
   const { mutate: updateStatusMutation, isPending: isUpdatingStatus } = useUpdateAssessmentStatus(); // Get mutate function, use isPending
   const { startTour, isTourSeen } = useTour();
 
@@ -23,18 +23,6 @@ const ApplicationReview = () => {
       return () => clearTimeout(timer);
     }
   }, [isTourSeen, startTour]);
-
-  // Check if user is a loan officer
-  useEffect(() => {
-    if (profile && profile.role !== 'loan_officer') {
-      navigate('/dashboard');
-      toast({
-        variant: "destructive",
-        title: "Access Denied",
-        description: "You don't have permission to view this page",
-      });
-    }
-  }, [profile, navigate]);
 
   const handleApprove = () => {
     if (!applicationId) return;
@@ -100,7 +88,7 @@ const ApplicationReview = () => {
         <div className="mb-8">
           <button
             onClick={() => navigate('/applications')} // Navigate back to the list
-            className="text-finance-600 hover:text-finance-800 font-medium flex items-center gap-1"
+            className="text-primary hover:text-primary/80 font-medium flex items-center gap-1"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

@@ -9,29 +9,21 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import DashboardHeader from '@/components/DashboardHeader';
-import DashboardSidebar from '@/components/DashboardSidebar';
-import { 
-  HelpCircleIcon, 
-  BookOpenIcon, 
+import {
+  HelpCircleIcon,
+  BookOpenIcon,
   MessageSquareIcon,
   PhoneIcon,
   MailIcon,
   VideoIcon,
-  FileTextIcon,
   SearchIcon,
   ExternalLinkIcon
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const HelpSupport = () => {
-  const { user, logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSidebarToggle = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
 
   const handleSubmitTicket = () => {
     toast({
@@ -67,226 +59,231 @@ const HelpSupport = () => {
     }
   ];
 
-  const filteredFAQs = faqItems.filter(item => 
+  const filteredFAQs = faqItems.filter(item =>
     item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.answer.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <DashboardSidebar isOpen={sidebarOpen} />
-      
-      <div className="flex-1 flex flex-col">
-        <DashboardHeader 
-          onSidebarToggle={handleSidebarToggle}
-        />
-        
-        <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : ''}`}>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">Help & Support</h1>
-              <p className="text-gray-600">Get help and find answers to common questions</p>
-            </div>
+    <div className="space-y-8 max-w-7xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Help & Support</h1>
+          <p className="text-muted-foreground mt-1">Get help and find answers to common questions</p>
+        </div>
 
-            {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <BookOpenIcon className="h-8 w-8 mx-auto mb-3 text-blue-600" />
-                  <h3 className="font-semibold mb-2">User Guide</h3>
-                  <p className="text-sm text-gray-600 mb-3">Complete documentation and tutorials</p>
-                  <Button variant="outline" size="sm">
-                    <ExternalLinkIcon className="h-4 w-4 mr-1" />
-                    View Guide
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <VideoIcon className="h-8 w-8 mx-auto mb-3 text-green-600" />
-                  <h3 className="font-semibold mb-2">Video Tutorials</h3>
-                  <p className="text-sm text-gray-600 mb-3">Step-by-step video walkthroughs</p>
-                  <Button variant="outline" size="sm">
-                    <ExternalLinkIcon className="h-4 w-4 mr-1" />
-                    Watch Videos
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <MessageSquareIcon className="h-8 w-8 mx-auto mb-3 text-purple-600" />
-                  <h3 className="font-semibold mb-2">Live Chat</h3>
-                  <p className="text-sm text-gray-600 mb-3">Chat with our support team</p>
-                  <Button variant="outline" size="sm">
-                    Start Chat
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* FAQ Section */}
-              <div>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <HelpCircleIcon className="h-5 w-5" />
-                      Frequently Asked Questions
-                    </CardTitle>
-                    <CardDescription>Find quick answers to common questions</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="mb-4">
-                      <div className="relative">
-                        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input
-                          placeholder="Search FAQs..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="pl-10"
-                        />
-                      </div>
-                    </div>
-                    
-                    <Accordion type="single" collapsible className="space-y-2">
-                      {filteredFAQs.map((item, index) => (
-                        <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg px-4">
-                          <AccordionTrigger className="text-left">
-                            {item.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="text-gray-600">
-                            {item.answer}
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                    
-                    {filteredFAQs.length === 0 && (
-                      <div className="text-center py-8 text-gray-500">
-                        <HelpCircleIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                        <p>No FAQs found matching your search.</p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-primary/50 group border-border/50">
+            <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
+              <div className="rounded-full bg-primary/10 p-4 mb-4 group-hover:bg-primary/20 transition-colors">
+                <BookOpenIcon className="h-8 w-8 text-primary" />
               </div>
+              <h3 className="font-semibold text-foreground mb-2 text-lg">User Guide</h3>
+              <p className="text-sm text-muted-foreground mb-6">Complete documentation and tutorials</p>
+              <Button variant="outline" size="sm" className="w-full bg-background shadow-sm group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-colors">
+                <ExternalLinkIcon className="h-4 w-4 mr-2" />
+                View Guide
+              </Button>
+            </CardContent>
+          </Card>
 
-              {/* Contact Support */}
-              <div className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Contact Support</CardTitle>
-                    <CardDescription>Get in touch with our support team</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center gap-3 p-3 border rounded-lg">
-                      <PhoneIcon className="h-5 w-5 text-blue-600" />
-                      <div>
-                        <p className="font-medium">Phone Support</p>
-                        <p className="text-sm text-gray-600">1-800-FINANCE (24/7)</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-3 p-3 border rounded-lg">
-                      <MailIcon className="h-5 w-5 text-green-600" />
-                      <div>
-                        <p className="font-medium">Email Support</p>
-                        <p className="text-sm text-gray-600">support@befinance.com</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-3 p-3 border rounded-lg">
-                      <MessageSquareIcon className="h-5 w-5 text-purple-600" />
-                      <div>
-                        <p className="font-medium">Live Chat</p>
-                        <p className="text-sm text-gray-600">Available 9 AM - 6 PM EST</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Submit Support Ticket</CardTitle>
-                    <CardDescription>Describe your issue and we'll help you resolve it</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Input id="subject" placeholder="Brief description of your issue" />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="priority">Priority</Label>
-                      <select id="priority" className="w-full p-2 border rounded-md">
-                        <option>Low</option>
-                        <option>Medium</option>
-                        <option>High</option>
-                        <option>Critical</option>
-                      </select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="category">Category</Label>
-                      <select id="category" className="w-full p-2 border rounded-md">
-                        <option>Technical Issue</option>
-                        <option>Account Problem</option>
-                        <option>Feature Request</option>
-                        <option>Training</option>
-                        <option>Other</option>
-                      </select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="description">Description</Label>
-                      <Textarea 
-                        id="description" 
-                        placeholder="Please provide detailed information about your issue..."
-                        rows={4}
-                      />
-                    </div>
-                    
-                    <Button onClick={handleSubmitTicket} className="w-full">
-                      Submit Ticket
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>System Status</CardTitle>
-                    <CardDescription>Current status of our services</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Loan Processing System</span>
-                      <Badge className="bg-green-100 text-green-800">Operational</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Database Services</span>
-                      <Badge className="bg-green-100 text-green-800">Operational</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Authentication System</span>
-                      <Badge className="bg-green-100 text-green-800">Operational</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Notification Services</span>
-                      <Badge className="bg-yellow-100 text-yellow-800">Degraded</Badge>
-                    </div>
-                  </CardContent>
-                </Card>
+          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-emerald-500/50 group border-border/50">
+            <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
+              <div className="rounded-full bg-emerald-500/10 p-4 mb-4 group-hover:bg-emerald-500/20 transition-colors">
+                <VideoIcon className="h-8 w-8 text-emerald-600" />
               </div>
-            </div>
-          </motion.div>
-        </main>
-      </div>
+              <h3 className="font-semibold text-foreground mb-2 text-lg">Video Tutorials</h3>
+              <p className="text-sm text-muted-foreground mb-6">Step-by-step video walkthroughs</p>
+              <Button variant="outline" size="sm" className="w-full bg-background shadow-sm group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 transition-colors">
+                <ExternalLinkIcon className="h-4 w-4 mr-2" />
+                Watch Videos
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-amber-500/50 group border-border/50">
+            <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
+              <div className="rounded-full bg-amber-500/10 p-4 mb-4 group-hover:bg-amber-500/20 transition-colors">
+                <MessageSquareIcon className="h-8 w-8 text-amber-600" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2 text-lg">Live Chat</h3>
+              <p className="text-sm text-muted-foreground mb-6">Chat with our support team</p>
+              <Button variant="outline" size="sm" className="w-full bg-background shadow-sm group-hover:bg-amber-600 group-hover:text-white group-hover:border-amber-600 transition-colors">
+                Start Chat
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* FAQ Section */}
+          <div className="flex flex-col h-full">
+            <Card className="border-border/50 shadow-sm flex-1">
+              <CardHeader className="bg-muted/20 border-b border-border/50 pb-6">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <HelpCircleIcon className="h-5 w-5 text-primary" />
+                  Frequently Asked Questions
+                </CardTitle>
+                <CardDescription>Find quick answers to common questions</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="mb-6">
+                  <div className="relative">
+                    <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search FAQs..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-9 bg-background border-border/50 focus-visible:ring-primary/20"
+                    />
+                  </div>
+                </div>
+
+                <Accordion type="single" collapsible className="space-y-3">
+                  {filteredFAQs.map((item, index) => (
+                    <AccordionItem key={index} value={`item-${index}`} className="border border-border/50 rounded-lg px-4 bg-background">
+                      <AccordionTrigger className="text-left font-medium hover:no-underline hover:text-primary transition-colors py-4">
+                        {item.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground pb-4 leading-relaxed">
+                        {item.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+
+                {filteredFAQs.length === 0 && (
+                  <div className="text-center py-12 text-muted-foreground bg-muted/20 rounded-lg border border-border/50 border-dashed mt-4">
+                    <HelpCircleIcon className="h-8 w-8 mx-auto mb-3 opacity-30" />
+                    <p>No FAQs found matching your search.</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Contact Support */}
+          <div className="space-y-6">
+            <Card className="border-border/50 shadow-sm">
+              <CardHeader className="border-b border-border/50 pb-6">
+                <CardTitle className="text-lg">Contact Support</CardTitle>
+                <CardDescription>Get in touch with our support team</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-6">
+                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="rounded-full bg-primary/10 p-3">
+                    <PhoneIcon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Phone Support</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">1-800-FINANCE (24/7)</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="rounded-full bg-emerald-500/10 p-3">
+                    <MailIcon className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Email Support</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">support@befinance.com</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="rounded-full bg-amber-500/10 p-3">
+                    <MessageSquareIcon className="h-5 w-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Live Chat</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Available 9 AM - 6 PM EST</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/50 shadow-sm">
+              <CardHeader className="border-b border-border/50 pb-6">
+                <CardTitle className="text-lg">Submit Support Ticket</CardTitle>
+                <CardDescription>Describe your issue and we'll help you resolve it</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-5 pt-6">
+                <div className="space-y-2">
+                  <Label htmlFor="subject">Subject</Label>
+                  <Input id="subject" placeholder="Brief description of your issue" className="bg-background border-border/50" />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="priority">Priority</Label>
+                    <select id="priority" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border-border/50">
+                      <option>Low</option>
+                      <option>Medium</option>
+                      <option>High</option>
+                      <option>Critical</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
+                    <select id="category" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border-border/50">
+                      <option>Technical Issue</option>
+                      <option>Account Problem</option>
+                      <option>Feature Request</option>
+                      <option>Training</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Please provide detailed information about your issue..."
+                    rows={4}
+                    className="bg-background border-border/50 resize-none"
+                  />
+                </div>
+
+                <Button onClick={handleSubmitTicket} className="w-full bg-primary hover:bg-primary/90">
+                  Submit Ticket
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/50 shadow-sm">
+              <CardHeader className="bg-muted/20 border-b border-border/50 pb-6">
+                <CardTitle className="text-lg">System Status</CardTitle>
+                <CardDescription>Current status of our services</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Loan Processing System</span>
+                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Database Services</span>
+                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Authentication System</span>
+                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Notification Services</span>
+                  <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-transparent font-medium">Degraded</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

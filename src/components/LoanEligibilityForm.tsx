@@ -119,10 +119,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const STEPS = [
-    { id: 1, title: 'Personal Info', icon: User, color: 'finance' },
-    { id: 2, title: 'Business Details', icon: Building2, color: 'indigo' },
-    { id: 3, title: 'Financial Metrics', icon: TrendingUp, color: 'emerald' },
-    { id: 4, title: 'Loan Requirements', icon: CreditCard, color: 'violet' },
+    { id: 1, title: 'Personal Info', icon: User, color: 'primary' },
+    { id: 2, title: 'Business Details', icon: Building2, color: 'primary' },
+    { id: 3, title: 'Financial Metrics', icon: TrendingUp, color: 'primary' },
+    { id: 4, title: 'Loan Requirements', icon: CreditCard, color: 'primary' },
 ];
 
 import { useAuth } from '@/contexts/AuthContext';
@@ -294,19 +294,19 @@ export const LoanEligibilityForm = () => {
                                 <React.Fragment key={step.id}>
                                     <div className="flex flex-col items-center">
                                         <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isActive
-                                            ? 'bg-finance-600 text-white shadow-lg scale-110'
+                                            ? 'bg-primary text-primary-foreground shadow-lg scale-110'
                                             : isCompleted
                                                 ? 'bg-emerald-500 text-white'
-                                                : 'bg-gray-200 text-gray-400'
+                                                : 'bg-muted text-muted-foreground'
                                             }`}>
                                             <StepIcon className="h-5 w-5" />
                                         </div>
-                                        <span className={`text-xs mt-2 font-medium ${isActive ? 'text-finance-700' : 'text-gray-500'}`}>
+                                        <span className={`text-xs mt-2 font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
                                             {step.title}
                                         </span>
                                     </div>
                                     {index < STEPS.length - 1 && (
-                                        <div className={`flex-1 h-1 mx-2 rounded transition-all ${isCompleted ? 'bg-emerald-500' : 'bg-gray-200'
+                                        <div className={`flex-1 h-1 mx-2 rounded transition-all ${isCompleted ? 'bg-emerald-500' : 'bg-muted'
                                             }`} />
                                     )}
                                 </React.Fragment>
@@ -320,9 +320,9 @@ export const LoanEligibilityForm = () => {
                         {/* Step 1: Personal Information */}
                         {currentStep === 1 && (
                             <Card className="border-none shadow-md overflow-hidden bg-white">
-                                <div className="h-2 bg-finance-600" />
+                                <div className="h-2 bg-primary" />
                                 <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-2 text-finance-700 mb-1">
+                                    <div className="flex items-center gap-2 text-primary mb-1">
                                         <User className="h-5 w-5" />
                                         <span className="text-sm font-semibold uppercase tracking-wider">Step 1 of 4</span>
                                     </div>
@@ -405,9 +405,9 @@ export const LoanEligibilityForm = () => {
                         {/* Step 2: Business Details */}
                         {currentStep === 2 && (
                             <Card className="border-none shadow-md overflow-hidden bg-white">
-                                <div className="h-2 bg-indigo-600" />
+                                <div className="h-2 bg-primary" />
                                 <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-2 text-indigo-700 mb-1">
+                                    <div className="flex items-center gap-2 text-primary mb-1">
                                         <Building2 className="h-5 w-5" />
                                         <span className="text-sm font-semibold uppercase tracking-wider">Step 2 of 4</span>
                                     </div>
@@ -512,9 +512,9 @@ export const LoanEligibilityForm = () => {
                         {/* Step 3: Financial Metrics */}
                         {currentStep === 3 && (
                             <Card className="border-none shadow-md overflow-hidden bg-white">
-                                <div className="h-2 bg-emerald-600" />
+                                <div className="h-2 bg-primary" />
                                 <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-2 text-emerald-700 mb-1">
+                                    <div className="flex items-center gap-2 text-primary mb-1">
                                         <TrendingUp className="h-5 w-5" />
                                         <span className="text-sm font-semibold uppercase tracking-wider">Step 3 of 4</span>
                                     </div>
@@ -730,9 +730,9 @@ export const LoanEligibilityForm = () => {
                         {/* Step 4: Loan Requirements */}
                         {currentStep === 4 && (
                             <Card className="border-none shadow-md overflow-hidden bg-white">
-                                <div className="h-2 bg-violet-600" />
+                                <div className="h-2 bg-primary" />
                                 <CardHeader className="pb-4">
-                                    <div className="flex items-center gap-2 text-violet-700 mb-1">
+                                    <div className="flex items-center gap-2 text-primary mb-1">
                                         <CreditCard className="h-5 w-5" />
                                         <span className="text-sm font-semibold uppercase tracking-wider">Step 4 of 4</span>
                                     </div>
@@ -770,12 +770,12 @@ export const LoanEligibilityForm = () => {
                                             name="loanAmount"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel className="text-finance-900 font-bold">Requested Loan Amount (₹)</FormLabel>
+                                                    <FormLabel className="text-primary font-bold">Requested Loan Amount (₹)</FormLabel>
                                                     <FormControl>
                                                         <div className="relative">
-                                                            <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-finance-600" />
+                                                            <IndianRupee className="absolute left-3 top-2.5 h-4 w-4 text-primary" />
                                                             <Input
-                                                                className="pl-9 border-finance-200 bg-finance-50 text-lg font-semibold"
+                                                                className="pl-9 border-primary/20 bg-primary/5 text-lg font-semibold"
                                                                 type="text"
                                                                 placeholder="5,00,000"
                                                                 value={field.value ? formatIndianNumber(field.value) : ''}
@@ -904,7 +904,7 @@ export const LoanEligibilityForm = () => {
                                     <Button
                                         type="button"
                                         onClick={nextStep}
-                                        className="bg-finance-600 hover:bg-finance-700 min-w-[120px]"
+                                        className="bg-primary hover:bg-primary/90 min-w-[120px]"
                                     >
                                         Next
                                         <ChevronRight className="h-4 w-4 ml-2" />
@@ -930,7 +930,7 @@ export const LoanEligibilityForm = () => {
                     <Card className="border-none shadow-lg overflow-hidden bg-white">
                         <CardHeader className="bg-gray-50 border-b">
                             <div className="flex items-center gap-2 text-gray-900">
-                                <ShieldCheck className="h-5 w-5 text-finance-600" />
+                                <ShieldCheck className="h-5 w-5 text-primary" />
                                 <CardTitle className="text-xl">Eligibility Result</CardTitle>
                             </div>
                         </CardHeader>
@@ -1030,10 +1030,10 @@ export const LoanEligibilityForm = () => {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-none shadow-md bg-finance-900 text-white">
+                    <Card className="border-none shadow-md bg-secondary text-secondary-foreground">
                         <CardContent className="p-6">
                             <h4 className="font-bold mb-2">Loan Officer Tip</h4>
-                            <p className="text-sm text-finance-100 leading-relaxed">
+                            <p className="text-sm text-secondary-foreground/80 leading-relaxed">
                                 Ensure all financial figures are cross-verified with Bank Statements and GST Returns for higher scoring accuracy.
                             </p>
                         </CardContent>
@@ -1107,7 +1107,7 @@ const EligibilityBreakdownDialog = ({ eligibility }: { eligibility: EligibilityR
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="link" size="sm" className="text-finance-600 h-auto p-0 hover:text-finance-800">
+                <Button variant="link" size="sm" className="text-primary h-auto p-0 hover:text-primary/80">
                     <Calculator className="w-3 h-3 mr-1" />
                     How is this calculated?
                 </Button>
@@ -1115,11 +1115,11 @@ const EligibilityBreakdownDialog = ({ eligibility }: { eligibility: EligibilityR
             <DialogContent className="max-w-3xl">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2 text-xl">
-                        <Calculator className="w-5 h-5 text-finance-600" />
+                        <Calculator className="w-5 h-5 text-primary" />
                         Eligibility Score Breakdown
                     </DialogTitle>
                     <DialogDescription>
-                        Detailed analysis of how the overall score of <span className="font-bold text-finance-700">{eligibility.overallScore}/100</span> was derived.
+                        Detailed analysis of how the overall score of <span className="font-bold text-primary">{eligibility.overallScore}/100</span> was derived.
                     </DialogDescription>
                 </DialogHeader>
 
