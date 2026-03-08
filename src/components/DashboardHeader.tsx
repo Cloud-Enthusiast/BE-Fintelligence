@@ -31,19 +31,19 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
   const displayName = user?.displayName || user?.email || 'User';
 
   return (
-    <header className="sticky top-0 z-30 w-full glass-effect border-b border-border" data-tour="dashboard-header">
-      <div className="flex px-4 h-16 items-center justify-between">
-        <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-30 w-full glass-effect border-b border-border overflow-hidden" data-tour="dashboard-header">
+      <div className="flex px-4 h-16 items-center justify-between gap-4">
+        <div className="flex items-center gap-4 min-w-0 flex-1">
           <Button
             variant="ghost"
             size="icon"
-            className="text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+            className="text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors flex-shrink-0"
             onClick={onSidebarToggle}
           >
             <MenuIcon className="h-5 w-5" />
           </Button>
 
-          <div className={`${showMobileSearch ? 'flex absolute inset-x-0 top-16 p-4 bg-background border-b border-border shadow-md z-40' : 'hidden'} md:flex md:relative md:top-0 md:bg-transparent md:border-none md:shadow-none md:p-0 w-full md:w-64 lg:w-96`}>
+          <div className={`${showMobileSearch ? 'flex absolute inset-x-0 top-16 p-4 bg-background border-b border-border shadow-md z-40' : 'hidden'} md:flex md:relative md:top-0 md:bg-transparent md:border-none md:shadow-none md:p-0 flex-1 min-w-0 max-w-xs lg:max-w-md`}>
             <div className="relative w-full group">
               <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 group-focus-within:text-primary transition-colors" />
               <Input

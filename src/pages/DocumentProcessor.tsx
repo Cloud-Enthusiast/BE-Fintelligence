@@ -2,14 +2,15 @@ import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDocuments } from '@/contexts/DocumentContext';
-import { useFileExtraction } from '@/hooks/useFileExtraction';
-import { extractMsmeDocument } from '@/utils/msmeFinancialExtractor';
-import { parseDocumentWithAI } from '@/utils/aiDocumentParser';
+import {
+  extractMsmeDocument,
+  getDocumentSummary,
+  MsmeDocumentType,
+} from '@/services/msmeDocumentService';
 import DocumentUploadPanel from '@/components/DocumentUploadPanel';
 import FinancialSummaryCard from '@/components/FinancialSummaryCard';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -18,18 +19,16 @@ import {
   MSMEDocumentType,
   DocumentUploadState,
   ExtractedMSMEData,
-  DOCUMENT_TYPE_CONFIG
+  DOCUMENT_TYPE_CONFIG,
 } from '@/types/msmeDocuments';
 import {
   FileStack,
   Upload,
   FileCheck2,
-  AlertCircle,
   Trash2,
   Eye,
-  Zap
+  Zap,
 } from 'lucide-react';
-
 import CibilReportView from '@/components/CibilReportView';
 
 const DOCUMENT_TYPES: MSMEDocumentType[] = [
@@ -38,7 +37,7 @@ const DOCUMENT_TYPES: MSMEDocumentType[] = [
   'bank_statement',
   'gst_returns',
   'itr_document',
-  'cibil_report'
+  'cibil_report',
 ];
 
 const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
@@ -53,136 +52,73 @@ const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
 const DocumentProcessor = () => {
   const { user } = useAuth();
   const { documents, addDocument, removeDocument, clearAllDocuments } = useDocuments();
-  const { processFile, isProcessing, progress } = useFileExtraction();
 
   const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
   const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [isAiProcessing, setIsAiProcessing] = useState<Record<string, boolean>>({});
 
   const handleUpload = useCallback(async (file: File, type: MSMEDocumentType) => {
-    // Update state to processing
+    // Mark as processing
     setUploadStates(prev => ({
       ...prev,
       [type]: { ...prev[type], file, status: 'processing', error: null }
     }));
 
     try {
-      // Extract text from file
-      const extractedData = await processFile(file);
+      // Call Gemini Vision Cloud Function — works on the raw PDF/image visually
+      const result = await extractMsmeDocument(file, type as MsmeDocumentType);
 
-      if (extractedData.error) {
-        throw new Error(extractedData.error);
-      }
-
-      // Store initial manual extraction
-      let msmeData = extractMsmeDocument({
-        type,
-        extractedText: extractedData.extractedText,
-        structuredData: extractedData.structuredData,
-        fileName: file.name
-      });
-
-      // Start AI Enterprise Extraction
-      setIsAiProcessing(prev => ({ ...prev, [type]: true }));
-      try {
-        const aiResult = await parseDocumentWithAI(type, extractedData.extractedText);
-
-        // Smart Merge: AI data enriches but shouldn't degrade high-confidence Regex data
-        if (type === 'cibil_report') {
-          const regexData = msmeData.data as any;
-          const aiData = aiResult.data as any;
-
-          // 1. Preserve Regex Accounts if found (Regex is better at iteration)
-          const accounts = (regexData.accounts && regexData.accounts.length > 0)
-            ? regexData.accounts
-            : aiData.accounts || [];
-
-          // 2. Preserve Regex Score if valid (Regex is specific to "Score: xxx")
-          const score = (regexData.cibilScore && regexData.cibilScore !== "N/A" && regexData.cibilScore !== "0")
-            ? regexData.cibilScore
-            : aiData.creditScore || aiData.cibilScore || "N/A";
-
-          msmeData = {
-            ...msmeData,
-            data: {
-              ...regexData,
-              ...aiData,
-              accounts: accounts,
-              cibilScore: score
-            },
-            extractionConfidence: aiResult.confidence,
-            aiAnalysis: aiResult.analysis
-          };
-        } else {
-          // Default merge for other documents
-          msmeData = {
-            ...msmeData,
-            data: { ...msmeData.data, ...aiResult.data },
-            extractionConfidence: aiResult.confidence,
-            aiAnalysis: aiResult.analysis
-          };
-        }
-
-        toast({
-          title: "AI Extraction Complete",
-          description: `Enterprise-ready analysis completed for ${DOCUMENT_TYPE_CONFIG[type].label}`,
-        });
-      } catch (aiError) {
-        console.warn('AI Extraction failed, falling back to pattern matching:', aiError);
-        toast({
-          variant: "destructive",
-          title: "AI Analysis Partial",
-          description: "Could not complete AI analysis, using standard patterns.",
-        });
-      } finally {
-        setIsAiProcessing(prev => ({ ...prev, [type]: false }));
-      }
+      // Build an ExtractedMSMEData-compatible object
+      const msmeData: ExtractedMSMEData = {
+        documentType: type,
+        fileName: file.name,
+        extractedAt: new Date().toISOString(),
+        data: result.data as any,
+        extractionConfidence: 'high',
+        aiAnalysis: (result.data as any).analysis ?? '',
+        rawText: '',
+      };
 
       // Store in context
       addDocument({
         documentType: type,
         fileName: file.name,
         fileSize: file.size,
-        extractedData: msmeData
+        extractedData: msmeData,
       });
 
-      // Update upload state
       setUploadStates(prev => ({
         ...prev,
-        [type]: {
-          file,
-          status: 'success',
-          extractedData: msmeData,
-          error: null
-        }
+        [type]: { file, status: 'success', extractedData: msmeData, error: null }
       }));
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : 'Failed to process document';
+
+      toast({
+        title: 'AI Extraction Complete',
+        description: `Gemini Vision successfully analysed your ${DOCUMENT_TYPE_CONFIG[type].label}.`,
+      });
+    } catch (error: any) {
+      const errorMsg =
+        error?.message?.includes('unauthenticated')
+          ? 'Please log in to extract documents.'
+          : error?.message || 'Failed to process document.';
+
       setUploadStates(prev => ({
         ...prev,
         [type]: { ...prev[type], status: 'error', error: errorMsg }
       }));
 
       toast({
-        variant: "destructive",
-        title: "Extraction Failed",
+        variant: 'destructive',
+        title: 'Extraction Failed',
         description: errorMsg,
       });
     }
-  }, [processFile, addDocument]);
+  }, [addDocument]);
 
   const handleClear = useCallback((type: MSMEDocumentType) => {
-    setUploadStates(prev => ({
-      ...prev,
-      [type]: initialUploadStates[type]
-    }));
-
-    // Remove from stored documents
+    setUploadStates(prev => ({ ...prev, [type]: initialUploadStates[type] }));
     const docToRemove = documents.find(d => d.documentType === type);
-    if (docToRemove) {
-      removeDocument(docToRemove.id);
-    }
+    if (docToRemove) removeDocument(docToRemove.id);
   }, [documents, removeDocument]);
 
   const handleViewDetails = (data: ExtractedMSMEData) => {
@@ -195,7 +131,6 @@ const DocumentProcessor = () => {
 
   return (
     <>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -247,7 +182,7 @@ const DocumentProcessor = () => {
                   <div className="flex items-center gap-3">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary" />
                     <span className="text-primary font-medium">
-                      Processing... {progress.stage} ({progress.percentage}%)
+                      Gemini Vision is analysing your document...
                     </span>
                   </div>
                 </CardContent>
@@ -319,12 +254,12 @@ const DocumentProcessor = () => {
                   />
                 ) : (
                   <div className="space-y-6">
-                    {/* AI Analysis Section */}
+                    {/* AI Analysis */}
                     {selectedDocument.aiAnalysis && (
                       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                         <h4 className="text-primary font-bold mb-2 flex items-center gap-2">
                           <Zap className="h-4 w-4 text-primary" />
-                          AI Enterprise Insights
+                          Gemini AI Analysis
                         </h4>
                         <p className="text-primary/80 text-sm leading-relaxed italic">
                           {selectedDocument.aiAnalysis}
@@ -332,33 +267,39 @@ const DocumentProcessor = () => {
                       </div>
                     )}
 
-                    {/* Extracted Fields */}
+                    {/* Key Metrics */}
                     <div>
-                      <h4 className="font-medium mb-2">Extracted Financial Fields</h4>
-                      <div className="bg-muted rounded-lg p-4">
-                        <div className="grid grid-cols-2 gap-3">
-                          {Object.entries(selectedDocument.data).map(([key, value]) => (
-                            <div key={key} className="flex justify-between">
-                              <span className="text-muted-foreground capitalize">
-                                {key.replace(/([A-Z])/g, ' $1').trim()}:
-                              </span>
-                              <span className="font-medium">{String(value)}</span>
+                      <h4 className="font-medium mb-3">Key Metrics</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {getDocumentSummary(selectedDocument.documentType as MsmeDocumentType, selectedDocument.data).map(
+                          ({ label, value }) => (
+                            <div key={label} className="flex justify-between bg-muted rounded-lg p-3">
+                              <span className="text-muted-foreground text-sm">{label}</span>
+                              <span className="font-medium text-sm">{value}</span>
                             </div>
-                          ))}
-                        </div>
+                          )
+                        )}
                       </div>
                     </div>
 
-                    {/* Raw Text Preview */}
-                    {selectedDocument.rawText && (
-                      <div>
-                        <h4 className="font-medium mb-2">Raw Text (Preview)</h4>
-                        <pre className="bg-muted rounded-lg p-4 text-xs overflow-auto max-h-48 whitespace-pre-wrap">
-                          {selectedDocument.rawText.slice(0, 2000)}
-                          {selectedDocument.rawText.length > 2000 && '...'}
-                        </pre>
+                    {/* All Extracted Fields */}
+                    <div>
+                      <h4 className="font-medium mb-2">All Extracted Fields</h4>
+                      <div className="bg-muted rounded-lg p-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          {Object.entries(selectedDocument.data)
+                            .filter(([key]) => key !== 'analysis')
+                            .map(([key, value]) => (
+                              <div key={key} className="flex justify-between">
+                                <span className="text-muted-foreground capitalize text-sm">
+                                  {key.replace(/([A-Z])/g, ' $1').trim()}:
+                                </span>
+                                <span className="font-medium text-sm">{String(value)}</span>
+                              </div>
+                            ))}
+                        </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 )}
               </div>
