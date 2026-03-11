@@ -17,7 +17,7 @@ describe('Document AI Markdown Formatter', () => {
         ];
 
         const result = formFieldsToText(mockFormFields, mockFullText);
-        expect(result).toBe("Name: John Doe\\nAge: 35");
+        expect(result).toBe("Name: John Doe\nAge: 35");
     });
 
     it('should format tables into markdown', () => {

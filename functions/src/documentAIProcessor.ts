@@ -95,22 +95,20 @@ export const formFieldsToText = (formFields: any[], fullText: string): string =>
 /**
  * Orchestrator: Sends PDF to Document AI and returns structured Markdown text
  */
-export const extractStructuredText = async (fileBase64: string, mimeType: string): Promise<string> => {
+export const extractStructuredText = async (fileBase64: string, mimeType: string, processorId: string): Promise<string> => {
     const projectId = process.env.GCLOUD_PROJECT || process.env.GCP_PROJECT;
     if (!projectId) {
         throw new HttpsError('internal', 'GCP_PROJECT environment variable not set.');
     }
 
-    // You need to set these in your Firebase environment or as process.env variables
-    // Hardcoding for now based on typical Document AI setup, but should be configurable
-    const location = 'us';
-    const processorId = process.env.DOCUMENT_AI_CIBIL_PROCESSOR_ID;
-
     if (!processorId) {
-        logger.error("Missing DOCUMENT_AI_CIBIL_PROCESSOR_ID environment variable. Ensure this is set via Firebase Secrets or config.");
+        logger.error("Missing processorId. Ensure this is passed correctly from the router.");
         throw new HttpsError('internal', 'Document AI processor ID is not configured.');
     }
 
+    // You need to set these in your Firebase environment or as process.env variables
+    // Hardcoding for now based on typical Document AI setup, but should be configurable
+    const location = 'us';
     const name = `projects/${projectId}/locations/${location}/processors/${processorId}`;
 
     // Instantiates a client
