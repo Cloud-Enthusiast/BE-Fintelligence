@@ -17,9 +17,7 @@ import {
   bankStatementPatterns,
   gstPatterns,
   itrPatterns,
-  cibilPatterns,
 } from './patterns';
-import { extractCibilData } from '../cibilExtractor';
 
 interface ExtractorInput {
   type: MSMEDocumentType;
@@ -183,11 +181,10 @@ export const extractMsmeDocument = (input: ExtractorInput): ExtractedMSMEData =>
       requiredFields = ['grossIncome', 'taxableIncome', 'assessmentYear'];
       break;
     case 'cibil_report':
-      // Using the new robust CIBIL extractor
-      const cibilResult = extractCibilData(extractedText);
-      data = cibilResult as any; // Cast to bypass type mismatch if interfaces differ slightly
-      requiredFields = ['cibilScore', 'name'];
-      break;
+      // CIBIL extraction is now handled exclusively by the Cloud Functions backend
+      // using Google Document AI + Gemini Hybrid approach. 
+      // This local regex extractor is deprecated.
+      throw new Error("CIBIL extraction must be done via the backend /extractMsmeDocument cloud function.");
     default:
       throw new Error(`Unsupported document type: ${type}`);
   }

@@ -6,7 +6,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { CibilData } from '@/utils/cibilExtractor';
 import {
     ShieldAlert,
     ShieldCheck,
@@ -21,6 +20,26 @@ import {
     IndianRupee
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+// Using inline interface mirroring the backend Zod schema
+export interface CibilData {
+    name: string;
+    addresses: string[];
+    cibilScore: number;
+    totalAccounts: number;
+    totalOverdueAccounts: number;
+    totalOutstandingAmount: number;
+    totalSanctionedAmount: number;
+    accounts: {
+        accountType: string;
+        accountNumber: string;
+        dateOpened: string;
+        sanctionedAmount: number;
+        currentBalance: number;
+        amountOverdue: number;
+        paymentStatus: string;
+    }[];
+}
 
 interface CibilReportViewProps {
     data: CibilData;
@@ -40,7 +59,7 @@ const MetricCard = ({ label, value, icon: Icon, alert = false }: { label: string
 );
 
 const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) => {
-    const numericScore = parseInt(data.cibilScore) || 0;
+    const numericScore = data.cibilScore || 0;
 
     // Determine Score Color
     let scoreColor = "text-gray-600";
@@ -66,7 +85,7 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
                             <h2 className="text-xl font-bold text-slate-800">{data.name}</h2>
                             <div className="flex items-start gap-2 text-slate-600 text-sm">
                                 <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
-                                <p>{data.address}</p>
+                                <p>{data.addresses && data.addresses.length > 0 ? data.addresses[0] : "Address not available"}</p>
                             </div>
                         </div>
 
@@ -88,14 +107,14 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <MetricCard
                     label="Active Loans"
-                    value={data.totalLoans}
+                    value={data.totalAccounts || 0}
                     icon={CreditCard}
                 />
                 <MetricCard
                     label="Overdue Loans"
-                    value={data.totalOverdueLoans}
+                    value={data.totalOverdueAccounts || 0}
                     icon={AlertTriangle}
-                    alert={data.totalOverdueLoans > 0}
+                    alert={(data.totalOverdueAccounts || 0) > 0}
                 />
                 <MetricCard
                     label="Current Balance"
@@ -138,7 +157,7 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
                                             <div className="text-xs text-slate-500 font-mono">{acc.accountNumber}</div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="text-xs text-slate-600">Opened: {acc.memberDate}</div>
+                                            <div className="text-xs text-slate-600">Opened: {acc.dateOpened}</div>
                                         </TableCell>
                                         <TableCell className="text-right font-medium text-slate-700">
                                             {acc.sanctionedAmount}
@@ -147,8 +166,8 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
                                             {acc.currentBalance}
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            {parseInt(acc.amountOverdue.replace(/[^\d]/g, '')) > 0 ? (
-                                                <span className="text-red-600 font-bold">{acc.amountOverdue}</span>
+                                            {acc.amountOverdue > 0 ? (
+                                                <span className="text-red-600 font-bold">₹{acc.amountOverdue.toLocaleString('en-IN')}</span>
                                             ) : (
                                                 <span className="text-slate-400">-</span>
                                             )}
