@@ -56,6 +56,60 @@ const DocumentProcessor = () => {
   const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
   const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
+  const [pendingDoc, setPendingDoc] = useState<{file: File, type: MSMEDocumentType, data: ExtractedMSMEData} | null>(null);
+
+  const handleSaveToFirebase = async (doc: {file: File, type: MSMEDocumentType, data: ExtractedMSMEData}) => {
+    try {
+      // Save to Firestore
+      const { collection, addDoc } = await import('firebase/firestore');
+      const { db } = await import('@/lib/firebase');
+      
+      await addDoc(collection(db, 'extracted_documents'), {
+        ...doc.data,
+        userId: user?.uid,
+        processedAt: new Date().toISOString(),
+      });
+
+      toast({
+        title: 'Saved to Database',
+        description: 'Extracted information has been persisted to Firebase.',
+      });
+    } catch (error) {
+      console.error('Error saving to Firestore:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Save Failed',
+        description: 'Could not save to database, but data is available locally.',
+      });
+    }
+  };
+
+  const finalizeExtraction = (saveToFirestore: boolean) => {
+    if (!pendingDoc) return;
+
+    const { file, type, data } = pendingDoc;
+
+    // Store in context (localStorage)
+    addDocument({
+      documentType: type,
+      fileName: file.name,
+      fileSize: file.size,
+      extractedData: data,
+    });
+
+    setUploadStates(prev => ({
+      ...prev,
+      [type]: { file, status: 'success', extractedData: data, error: null }
+    }));
+
+    if (saveToFirestore) {
+      handleSaveToFirebase(pendingDoc);
+    }
+
+    setConfirmSaveOpen(false);
+    setPendingDoc(null);
+  };
 
   const handleUpload = useCallback(async (file: File, type: MSMEDocumentType) => {
     // Mark as processing
@@ -68,7 +122,7 @@ const DocumentProcessor = () => {
       // Call Gemini Vision Cloud Function — works on the raw PDF/image visually
       const result = await extractMsmeDocument(file, type as MsmeDocumentType);
 
-      // Build an ExtractedMSMEData-compatible object
+      // Prepare compatibility object
       const msmeData: ExtractedMSMEData = {
         documentType: type,
         fileName: file.name,
@@ -79,18 +133,8 @@ const DocumentProcessor = () => {
         rawText: '',
       };
 
-      // Store in context
-      addDocument({
-        documentType: type,
-        fileName: file.name,
-        fileSize: file.size,
-        extractedData: msmeData,
-      });
-
-      setUploadStates(prev => ({
-        ...prev,
-        [type]: { file, status: 'success', extractedData: msmeData, error: null }
-      }));
+      setPendingDoc({ file, type, data: msmeData });
+      setConfirmSaveOpen(true);
 
       toast({
         title: 'AI Extraction Complete',
@@ -305,6 +349,27 @@ const DocumentProcessor = () => {
               </div>
             )}
           </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmSaveOpen} onOpenChange={(open) => !open && finalizeExtraction(false)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Save Extracted Information?</DialogTitle>
+            <DialogDescription>
+              Gemini has successfully extracted data from <strong>{pendingDoc?.file.name}</strong>. 
+              Would you like to save this permanently to the database?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-3 mt-4">
+            <Button variant="outline" onClick={() => finalizeExtraction(false)}>
+              No, keep locally
+            </Button>
+            <Button onClick={() => finalizeExtraction(true)} className="bg-primary hover:bg-primary/90">
+              Yes, save to DB
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </>

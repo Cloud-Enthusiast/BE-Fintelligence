@@ -1,6 +1,9 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { logger } from "firebase-functions/v2";
 import { VertexAI } from "@google-cloud/vertexai";
+import { extractStructuredText } from "./documentAIProcessor";
+import { validateCibilData } from "./cibilSchema";
+import { validateBankStatementData } from "./bankStatementSchema";
 
 // ────────────────────────────────────────────────────
 // Shared Types
@@ -19,8 +22,8 @@ type DocumentType =
 // ────────────────────────────────────────────────────
 
 const PROMPTS: Record<DocumentType, string> = {
-    // ─── CIBIL Report ───────────────────────────────
-    cibil_report: `You are an expert Indian credit report data extraction engine. Extract structured data from a TransUnion CIBIL Consumer Credit Report (PDF or image).
+    cibil_report: `You are an expert Indian credit report data extraction engine. Extract structured data from the provided structured markdown text of a TransUnion CIBIL Consumer Credit Report.
+The text contains key-value pairs and tables extracted from a document.
 
 CRITICAL RULES:
 1. Extract EVERY piece of information. Do NOT skip any accounts or enquiries.
@@ -271,7 +274,7 @@ const getModel = () => {
     const vertexAI = new VertexAI({ project: projectId, location: "us-central1" });
 
     return vertexAI.getGenerativeModel({
-        model: "gemini-2.5-flash-preview-05-20",
+        model: "gemini-2.0-flash-001",
         generationConfig: {
             temperature: 0.1,
             maxOutputTokens: 8192,
@@ -285,20 +288,28 @@ const getModel = () => {
 // ────────────────────────────────────────────────────
 
 const extractWithGeminiVision = async (
-    fileBase64: string,
+    fileBase64OrText: string,
     mimeType: string,
-    docType: DocumentType
+    docType: DocumentType,
+    isTextInput: boolean = false
 ) => {
     const model = getModel();
     const prompt = PROMPTS[docType];
 
+    const userParts: any[] = [{ text: prompt }];
+
+    if (isTextInput) {
+        // We pre-processed it and extracted text
+        userParts.push({ text: `\\n--- EXTRACTED DOCUMENT TEXT ---\\n${fileBase64OrText}` });
+    } else {
+        // Raw image / PDF
+        userParts.push({ inlineData: { mimeType, data: fileBase64OrText } });
+    }
+
     const result = await model.generateContent({
         contents: [{
             role: "user",
-            parts: [
-                { inlineData: { mimeType, data: fileBase64 } },
-                { text: prompt }
-            ]
+            parts: userParts
         }]
     });
 
@@ -385,9 +396,29 @@ export const extractCibilReport = onCall(
         });
 
         try {
-            const data = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
-            logger.info("CIBIL extracted", { userId: request.auth.uid, score: data.cibilScore });
-            return { success: true, data };
+            let structuredText: string;
+            const processorId = process.env.DOCUMENT_AI_CIBIL_PROCESSOR_ID;
+
+            try {
+                // Phase 1: Use Document AI to get structured markdown tables and form fields
+                structuredText = await extractStructuredText(fileBase64, mimeType, processorId!);
+                logger.info("Document AI extraction successful for CIBIL");
+            } catch (docAIError) {
+                logger.warn("Document AI extraction failed, falling back to raw Gemini Vision processing", { error: docAIError });
+                // Fallback to exactly what the code did before: pass base64 directly to Gemini
+                const rawData = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
+                const validatedFallback = validateCibilData(rawData);
+                return { success: true, data: validatedFallback };
+            }
+
+            // Phase 2: Use Gemini to reason over the structured text and extract the exact fields
+            const extractedJson = await extractWithGeminiVision(structuredText, "text/plain", "cibil_report", true);
+
+            // Phase 3: Validate the JSON with Zod
+            const validatedData = validateCibilData(extractedJson);
+
+            logger.info("CIBIL extracted & validated", { userId: request.auth.uid, score: validatedData.cibilScore });
+            return { success: true, data: validatedData };
         } catch (error: any) {
             if (error instanceof HttpsError) throw error;
             logger.error("extractCibilReport error", { error: error.message });
@@ -413,8 +444,45 @@ export const extractMsmeDocument = onCall(
         });
 
         try {
+            let structuredText: string;
+            
+            if (documentType === "cibil_report") {
+                const processorId = process.env.DOCUMENT_AI_CIBIL_PROCESSOR_ID;
+                try {
+                    structuredText = await extractStructuredText(fileBase64, mimeType, processorId!);
+                } catch (docAIError) {
+                    logger.warn("Document AI failed for generic extractMsmeDocument, falling back to Vision", { error: docAIError });
+                    const rawData = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
+                    const validatedFallbackData = validateCibilData(rawData);
+                    return { success: true, documentType, data: validatedFallbackData };
+                }
+
+                const rawExtracted = await extractWithGeminiVision(structuredText, "text/plain", "cibil_report", true);
+                const data = validateCibilData(rawExtracted);
+                logger.info("Document extracted (hybrid CIBIL)", { userId: request.auth!.uid, documentType });
+                return { success: true, documentType, data };
+            }
+            
+            if (documentType === "bank_statement") {
+                const processorId = process.env.DOCUMENT_AI_BANK_PROCESSOR_ID;
+                 try {
+                    structuredText = await extractStructuredText(fileBase64, mimeType, processorId!);
+                } catch (docAIError) {
+                    logger.warn("Document AI Bank Parser failed, falling back to Vision", { error: docAIError });
+                    const rawData = await extractWithGeminiVision(fileBase64, mimeType, "bank_statement");
+                    const validatedFallbackData = validateBankStatementData(rawData);
+                    return { success: true, documentType, data: validatedFallbackData };
+                }
+
+                const rawExtracted = await extractWithGeminiVision(structuredText, "text/plain", "bank_statement", true);
+                const data = validateBankStatementData(rawExtracted);
+                logger.info("Document extracted (hybrid Bank Statement)", { userId: request.auth!.uid, documentType });
+                return { success: true, documentType, data };
+            }
+
+            // For non-CIBIL, non-Bank documents, continue using pure Gemini Vision
             const data = await extractWithGeminiVision(fileBase64, mimeType, documentType);
-            logger.info("Document extracted", { userId: request.auth!.uid, documentType });
+            logger.info("Document extracted (vision)", { userId: request.auth!.uid, documentType });
             return { success: true, documentType, data };
         } catch (error: any) {
             if (error instanceof HttpsError) throw error;
