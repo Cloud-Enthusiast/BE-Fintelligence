@@ -491,3 +491,5 @@ export const extractMsmeDocument = onCall(
         }
     }
 );
+
+export { processLargeDocument } from "./largeDocumentProcessor";

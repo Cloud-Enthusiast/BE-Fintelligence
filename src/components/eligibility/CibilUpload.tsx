@@ -47,25 +47,13 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
 
         try {
             setStatus('uploading');
-            setProgress(10);
+            setProgress(0);
 
-            // Simulate initial upload progress
-            const progressInterval = setInterval(() => {
-                setProgress(prev => {
-                    if (prev >= 40) {
-                        clearInterval(progressInterval);
-                        return 40;
-                    }
-                    return prev + 5;
-                });
-            }, 200);
-
-            setProgress(50);
-            setStatus('processing');
-            clearInterval(progressInterval);
-
-            // Call the real Gemini extraction via Cloud Function
-            const data = await extractCibilReport(file);
+            // Extract CIBIL report natively using direct Firebase Storage upload
+            const data = await extractCibilReport(file, (currentProgress, currentStatus) => {
+                setProgress(Math.round(currentProgress));
+                setStatus(currentStatus);
+            });
 
             setProgress(100);
             setExtractedData(data);

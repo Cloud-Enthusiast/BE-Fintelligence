@@ -122,119 +122,51 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
               />
 
               <AnimatePresence>
-                {isSearchFocused && (
-                  <>
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 bg-background/20 backdrop-blur-[2px] z-[-1]"
-                      onClick={() => setIsSearchFocused(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                      className="absolute top-11 left-0 w-full bg-slate-900 border border-slate-800 shadow-2xl rounded-2xl overflow-hidden z-[60] flex flex-col max-h-[80vh]"
-                    >
-                      <div className="p-2 border-b border-slate-800 flex items-center justify-between bg-slate-900/50 backdrop-blur-md">
-                        <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-2">Quick Search</span>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 text-slate-500 hover:text-white hover:bg-slate-800 rounded-full" onClick={() => setIsSearchFocused(false)}>
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-
-                      <div className="overflow-y-auto custom-scrollbar p-2 space-y-4">
-                        {/* Recent Searches */}
-                        {recentSearches.length > 0 && !searchQuery && (
-                          <div className="space-y-1">
-                            {recentSearches.map((s: string) => (
-                              <div 
-                                key={s} 
-                                className="flex items-center justify-between group/row px-3 py-2 rounded-lg hover:bg-slate-800/80 cursor-pointer transition-colors"
-                                onClick={() => { setSearchQuery(s); }}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <History className="h-4 w-4 text-slate-500" />
-                                  <span className="text-sm text-slate-300 font-medium">{s}</span>
-                                </div>
-                                <Button 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  className="h-5 w-5 opacity-0 group-hover/row:opacity-100 text-slate-500 hover:text-rose-400 hover:bg-rose-400/10 rounded"
-                                  onClick={(e) => handleClearRecent(e, s)}
-                                >
-                                  <X className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            ))}
+                {isSearchFocused && searchQuery.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    className="absolute top-11 left-0 w-full bg-background border border-border shadow-xl rounded-xl overflow-hidden z-[60] py-2 max-h-[300px] overflow-y-auto custom-scrollbar"
+                  >
+                    {filteredPages.length > 0 && (
+                      <div className="px-2 pb-2">
+                        <div className="px-3 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Pages & Tools</div>
+                        {filteredPages.map((page) => (
+                          <div
+                            key={page.name}
+                            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted cursor-pointer transition-colors group"
+                            onClick={() => handleSearchSelect(page)}
+                          >
+                            <page.icon className="h-4 w-4 text-primary opacity-70 group-hover:opacity-100" />
+                            <span className="text-sm font-medium">{page.name}</span>
                           </div>
-                        )}
-
-                        {/* Pages & Tools */}
-                        <div className="space-y-1">
-                          <h4 className="px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter text-indigo-400/80 flex items-center justify-between">
-                            Products & Pages
-                            <ChevronDownIcon className="h-3 w-3 opacity-50" />
-                          </h4>
-                          <div className="grid grid-cols-1 gap-0.5">
-                            {filteredPages.map((page) => (
-                              <div 
-                                key={page.name} 
-                                className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:border-slate-700 hover:bg-slate-800/50 cursor-pointer transition-all group/item overflow-hidden relative"
-                                onClick={() => handleSearchSelect(page)}
-                              >
-                                <div className="h-8 w-8 rounded-lg bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 group-hover/item:bg-indigo-500 group-hover/item:text-white transition-colors shrink-0">
-                                  <page.icon className="h-4 w-4 text-indigo-400 group-hover/item:text-white" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-bold text-slate-200 group-hover/item:text-white truncate">{page.name}</p>
-                                  <p className="text-[10px] text-slate-500 font-medium group-hover/item:text-indigo-200">System Page • Tool</p>
-                                </div>
-                                <ExternalLink className="h-3 w-3 text-slate-600 opacity-0 group-hover/item:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/item:animate-[shimmer_2s_infinite] pointer-events-none" />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Extracted Resources */}
-                        <div className="space-y-1">
-                          <h4 className="px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter text-emerald-400/80 flex items-center justify-between">
-                            Extracted Resources
-                            <span className="text-[9px] lowercase font-medium opacity-50 px-1.5 py-0.5 rounded-full bg-emerald-500/10">{documents.length} items</span>
-                          </h4>
-                          <div className="grid grid-cols-1 gap-0.5">
-                            {filteredDocs.length > 0 ? (
-                              filteredDocs.map((doc) => (
-                                <div 
-                                  key={doc.id} 
-                                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:border-slate-700 hover:bg-slate-800/50 cursor-pointer transition-all group/item"
-                                  onClick={() => handleSearchSelect(doc)}
-                                >
-                                  <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shrink-0">
-                                    <FileSearch className="h-4 w-4 text-emerald-400" />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-slate-200 truncate">{doc.fileName}</p>
-                                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-widest">{doc.documentType.replace('_', ' ')}</p>
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="px-3 py-8 text-center bg-slate-800/20 rounded-xl border border-dashed border-slate-700">
-                                <p className="text-xs text-slate-500 italic">No resources matched "{searchQuery}"</p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
+                        ))}
                       </div>
+                    )}
 
-                      <div className="p-2 bg-slate-950/50 border-t border-slate-800 flex items-center justify-center">
-                        <p className="text-[10px] text-slate-500 font-medium">Tip: Find CIBIL, MSME, or Risk Reports instantly</p>
+                    {filteredDocs.length > 0 && (
+                      <div className="px-2 pt-2 border-t border-border">
+                        <div className="px-3 py-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Recent Documents</div>
+                        {filteredDocs.map((doc) => (
+                          <div
+                            key={doc.id}
+                            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted cursor-pointer transition-colors group"
+                            onClick={() => handleSearchSelect(doc)}
+                          >
+                            <FileText className="h-4 w-4 text-muted-foreground opacity-70 group-hover:opacity-100" />
+                            <span className="text-sm font-medium truncate">{doc.fileName}</span>
+                          </div>
+                        ))}
                       </div>
-                    </motion.div>
-                  </>
+                    )}
+
+                    {filteredPages.length === 0 && filteredDocs.length === 0 && (
+                      <div className="px-4 py-8 text-center text-sm text-muted-foreground italic">
+                        No results found for "{searchQuery}"
+                      </div>
+                    )}
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>

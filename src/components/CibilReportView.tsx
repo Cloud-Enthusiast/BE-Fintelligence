@@ -58,6 +58,7 @@ export interface CibilData {
         currentBalance: number;
         amountOverdue: number;
         paymentStatus: string;
+        paymentHistoryPattern?: string;
     }[];
 }
 
@@ -385,15 +386,25 @@ const CibilReportView: React.FC<CibilReportViewProps> = ({ data, aiAnalysis }) =
                                                                             Payment Trend <HelpCircle className="h-2.5 w-2.5" />
                                                                         </div>
                                                                         <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
-                                                                            {/* Mocking a 12-month payment string since it's not in the data interface but requested */}
-                                                                            {['000', '000', '000', '023', '010', '000', '000', '000', '000', '000', '000', '000'].map((val, i) => (
-                                                                                <div key={i} className={cn(
-                                                                                    "w-6 h-6 rounded flex items-center justify-center text-[8px] font-bold border shrink-0",
-                                                                                    val === '000' ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-red-50 border-red-100 text-red-700"
-                                                                                )}>
-                                                                                    {val}
-                                                                                </div>
-                                                                            ))}
+                                                                            {(() => {
+                                                                                const pattern = acc.paymentHistoryPattern || "";
+                                                                                // Split the pattern into 3-character segments (e.g. "000000024" -> ["000", "000", "024"])
+                                                                                const segments = pattern.match(/.{1,3}/g) || [];
+                                                                                
+                                                                                // If no pattern, fallback to a single placeholder or empty state
+                                                                                if (segments.length === 0) {
+                                                                                    return <div className="text-[9px] text-slate-400 italic">No history data</div>;
+                                                                                }
+
+                                                                                return segments.slice(0, 12).map((val, i) => (
+                                                                                    <div key={i} className={cn(
+                                                                                        "w-6 h-6 rounded flex items-center justify-center text-[8px] font-bold border shrink-0",
+                                                                                        val === '000' || val === 'STD' ? "bg-emerald-50 border-emerald-100 text-emerald-700" : "bg-red-50 border-red-100 text-red-700"
+                                                                                    )}>
+                                                                                        {val}
+                                                                                    </div>
+                                                                                ));
+                                                                            })()}
                                                                         </div>
                                                                     </div>
                                                                 </div>

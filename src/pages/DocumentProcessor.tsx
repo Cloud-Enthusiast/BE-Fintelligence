@@ -65,8 +65,10 @@ const DocumentProcessor = () => {
       const { collection, addDoc } = await import('firebase/firestore');
       const { db } = await import('@/lib/firebase');
       
-      await addDoc(collection(db, 'extracted_documents'), {
+      const docRef = await addDoc(collection(db, 'extracted_documents'), {
         ...doc.data,
+        fileName: doc.file.name,
+        fileSize: doc.file.size,
         userId: user?.uid,
         processedAt: new Date().toISOString(),
       });
@@ -75,6 +77,8 @@ const DocumentProcessor = () => {
         title: 'Saved to Database',
         description: 'Extracted information has been persisted to Firebase.',
       });
+
+      return docRef.id;
     } catch (error) {
       console.error('Error saving to Firestore:', error);
       toast({
@@ -82,30 +86,33 @@ const DocumentProcessor = () => {
         title: 'Save Failed',
         description: 'Could not save to database, but data is available locally.',
       });
+      return null;
     }
   };
 
-  const finalizeExtraction = (saveToFirestore: boolean) => {
+  const finalizeExtraction = async (saveToFirestore: boolean) => {
     if (!pendingDoc) return;
 
     const { file, type, data } = pendingDoc;
+    let firestoreId: string | null = null;
 
-    // Store in context (localStorage)
+    if (saveToFirestore) {
+      firestoreId = await handleSaveToFirebase(pendingDoc);
+    }
+
+    // Store in context
     addDocument({
+      ...(firestoreId ? { id: firestoreId } : {}),
       documentType: type,
       fileName: file.name,
       fileSize: file.size,
       extractedData: data,
-    });
+    } as any, saveToFirestore);
 
     setUploadStates(prev => ({
       ...prev,
       [type]: { file, status: 'success', extractedData: data, error: null }
     }));
-
-    if (saveToFirestore) {
-      handleSaveToFirebase(pendingDoc);
-    }
 
     setConfirmSaveOpen(false);
     setPendingDoc(null);
@@ -134,11 +141,14 @@ const DocumentProcessor = () => {
       };
 
       setPendingDoc({ file, type, data: msmeData });
-      setConfirmSaveOpen(true);
+      
+      // Auto-open details for the user to review
+      setSelectedDocument(msmeData);
+      setDetailsOpen(true);
 
       toast({
         title: 'AI Extraction Complete',
-        description: `Gemini Vision successfully analysed your ${DOCUMENT_TYPE_CONFIG[type].label}.`,
+        description: `Gemini Vision successfully analysed your ${DOCUMENT_TYPE_CONFIG[type].label}. Review it now.`,
       });
     } catch (error: any) {
       const errorMsg =
@@ -276,7 +286,16 @@ const DocumentProcessor = () => {
       </motion.div>
 
       {/* Details Dialog */}
-      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+      <Dialog 
+        open={detailsOpen} 
+        onOpenChange={(open) => {
+          setDetailsOpen(open);
+          // If we are closing and there is a pending doc, trigger the save prompt
+          if (!open && pendingDoc) {
+            setConfirmSaveOpen(true);
+          }
+        }}
+      >
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">

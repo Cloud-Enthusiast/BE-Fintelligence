@@ -71,48 +71,65 @@ export interface ExtractedCibilData {
     reportSummary: string;
 }
 
-// ────────────────────────────────────────────────────
-// File → Base64 Conversion
-// ────────────────────────────────────────────────────
-
-const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const result = reader.result as string;
-            // Remove the data URL prefix (e.g., "data:application/pdf;base64,")
-            const base64 = result.split(",")[1];
-            resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-};
+import { auth, db, storage } from "@/lib/firebase";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { doc, onSnapshot } from "firebase/firestore";
 
 // ────────────────────────────────────────────────────
 // Main extraction function
 // ────────────────────────────────────────────────────
 
 export const extractCibilReport = async (
-    file: File
+    file: File,
+    onProgress?: (progress: number, status: 'uploading' | 'processing') => void
 ): Promise<ExtractedCibilData> => {
-    // Convert file to base64
-    const fileBase64 = await fileToBase64(file);
-    const mimeType = file.type || "application/pdf";
+    return new Promise((resolve, reject) => {
+        const user = auth.currentUser;
+        if (!user) {
+            return reject(new Error("unauthenticated: Please log in to extract CIBIL reports."));
+        }
 
-    // Call the Cloud Function
-    const callable = httpsCallable<
-        { fileBase64: string; mimeType: string },
-        { success: boolean; data: ExtractedCibilData }
-    >(functions, "extractCibilReport");
+        const uuid = crypto.randomUUID();
+        const extension = file.name.split('.').pop() || 'pdf';
+        const storagePath = `reports/${user.uid}/${uuid}.${extension}`;
+        
+        const storageRef = ref(storage, storagePath);
+        const uploadTask = uploadBytesResumable(storageRef, file, { contentType: file.type });
 
-    const result = await callable({ fileBase64, mimeType });
-
-    if (!result.data.success) {
-        throw new Error("Failed to extract CIBIL report data.");
-    }
-
-    return result.data.data;
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                // Scale upload progress from 0 to 50%
+                onProgress?.(progress * 0.5, "uploading");
+            },
+            (error) => {
+                reject(error);
+            },
+            () => {
+                // Upload complete, Document AI is processing in the background (50% to 100%)
+                onProgress?.(50, "processing");
+                
+                const reportRef = doc(db, `users/${user.uid}/cibilReports/${uuid}`);
+                const unsubscribe = onSnapshot(reportRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        if (data.status === "completed") {
+                            unsubscribe();
+                            onProgress?.(100, "processing");
+                            resolve(data.data as ExtractedCibilData);
+                        } else if (data.status === "error") {
+                            unsubscribe();
+                            reject(new Error(data.error || "Failed to process document."));
+                        }
+                    }
+                }, (error) => {
+                    unsubscribe();
+                    reject(error);
+                });
+            }
+        );
+    });
 };
 
 // ────────────────────────────────────────────────────
