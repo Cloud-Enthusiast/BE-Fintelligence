@@ -85,7 +85,7 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
 
     const handleApply = () => {
         if (extractedData) {
-            const formData: Partial<EligibilityFormData> = {
+            const formData: Partial<EligibilityFormData> & Record<string, any> = {
                 creditScore: extractedData.cibilScore || 600,
                 existingLoanAmount: extractedData.totalCurrentBalance || 0,
             };
@@ -93,6 +93,26 @@ export const CibilUpload: React.FC<CibilUploadProps> = ({ onDataExtracted }) => 
             // Auto-fill name if available
             if (extractedData.name) {
                 formData.fullName = extractedData.name;
+            }
+
+            // Auto-fill PAN if available
+            if (extractedData.panNumber) {
+                formData.panNumber = extractedData.panNumber;
+            }
+
+            // Auto-fill monthly EMI if available
+            if (extractedData.totalEmiAmount) {
+                formData.monthlyEMI = extractedData.totalEmiAmount;
+            }
+
+            // Auto-fill first email if available
+            if (extractedData.emails && extractedData.emails.length > 0) {
+                formData.email = extractedData.emails[0];
+            }
+
+            // Auto-fill first phone if available
+            if (extractedData.phones && extractedData.phones.length > 0) {
+                formData.phone = extractedData.phones[0];
             }
 
             onDataExtracted(formData);

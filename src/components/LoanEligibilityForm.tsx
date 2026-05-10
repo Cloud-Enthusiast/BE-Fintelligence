@@ -129,17 +129,67 @@ import { useAuth } from '@/contexts/AuthContext';
 import { submitLoanApplication } from '@/services/loanService';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { CibilUpload } from '@/components/eligibility/CibilUpload';
+import { EligibilityFormData } from '@/hooks/useEligibilityForm';
+import { ExtractedCibilData } from '@/services/cibilService';
 
 // ... (existing imports)
 
-export const LoanEligibilityForm = () => {
+interface LoanEligibilityFormProps {
+    prefill?: {
+        loanAmount?: number;
+        loanType?: 'business_loan' | 'working_capital' | 'home_loan';
+        businessType?: string;
+        loanTerm?: number;
+        creditScore?: number;
+        annualRevenue?: number;
+        existingLoanAmount?: number;
+    };
+}
+
+export const LoanEligibilityForm = ({ prefill }: LoanEligibilityFormProps = {}) => {
     const [currentStep, setCurrentStep] = useState(1);
     const [eligibility, setEligibility] = useState<EligibilityResult | null>(null);
     const [showResults, setShowResults] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [cibilPrefilled, setCibilPrefilled] = useState(false);
 
     const { user } = useAuth();
     const { toast } = useToast();
+
+    // Handler for CIBIL upload extraction — maps extracted data into form fields
+    const handleCibilDataExtracted = (data: Partial<EligibilityFormData>) => {
+        if (data.creditScore && data.creditScore >= 300 && data.creditScore <= 900) {
+            form.setValue('creditScore', data.creditScore);
+        }
+        if (data.existingLoanAmount !== undefined) {
+            form.setValue('existingLoanAmount', data.existingLoanAmount);
+        }
+        if (data.fullName) {
+            form.setValue('fullName', data.fullName);
+        }
+
+        // Also populate PAN if available (passed as extra key)
+        const anyData = data as any;
+        if (anyData.panNumber) {
+            form.setValue('panNumber', anyData.panNumber);
+        }
+        if (anyData.monthlyEMI !== undefined) {
+            form.setValue('monthlyEMI', anyData.monthlyEMI);
+        }
+        if (anyData.email) {
+            form.setValue('email', anyData.email);
+        }
+        if (anyData.phone) {
+            form.setValue('phone', anyData.phone);
+        }
+
+        setCibilPrefilled(true);
+        toast({
+            title: 'CIBIL Data Applied',
+            description: `Credit score (${data.creditScore || 'N/A'}) and loan details auto-filled from your CIBIL report.`,
+        });
+    };
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -171,7 +221,50 @@ export const LoanEligibilityForm = () => {
         },
     });
 
+    useEffect(() => {
+        if (!prefill) return;
+        const patch: Partial<ReturnType<typeof form.getValues>> = {};
+        if (prefill.loanAmount !== undefined) patch.loanAmount = prefill.loanAmount;
+        if (prefill.loanType !== undefined) patch.loanType = prefill.loanType;
+        if (prefill.businessType !== undefined) patch.businessType = prefill.businessType;
+        if (prefill.loanTerm !== undefined) patch.loanTerm = prefill.loanTerm;
+        if (prefill.creditScore !== undefined) patch.creditScore = prefill.creditScore;
+        if (prefill.annualRevenue !== undefined) patch.annualRevenue = prefill.annualRevenue;
+        if (prefill.existingLoanAmount !== undefined) patch.existingLoanAmount = prefill.existingLoanAmount;
+        Object.entries(patch).forEach(([key, val]) => form.setValue(key as any, val as any));
+    }, [prefill]);
+
     const watchAllFields = form.watch();
+
+    // Real-time eligibility calculation: updates sidebar as user fills fields
+    useEffect(() => {
+        const v = watchAllFields;
+        // Only calculate if minimum financial data is present
+        if (v.annualRevenue > 0 && v.creditScore >= 300 && v.loanAmount >= 100000) {
+            const input: EligibilityInput = {
+                annualRevenue: Number(v.annualRevenue) || 0,
+                monthlyIncome: Number(v.monthlyProfit) || 0,
+                existingLoanAmount: Number(v.existingLoanAmount) || 0,
+                loanAmount: Number(v.loanAmount) || 0,
+                loanTerm: Number(v.loanTerm) || 12,
+                creditScore: Number(v.creditScore) || 300,
+                businessType: v.businessType || 'Services',
+                loanType: v.loanType || 'business_loan',
+            };
+            const result = calculateEligibility(input);
+            setEligibility(result);
+            setShowResults(true);
+        }
+    }, [
+        watchAllFields.annualRevenue,
+        watchAllFields.monthlyProfit,
+        watchAllFields.existingLoanAmount,
+        watchAllFields.creditScore,
+        watchAllFields.loanAmount,
+        watchAllFields.loanTerm,
+        watchAllFields.businessType,
+        watchAllFields.loanType,
+    ]);
 
     const onSubmit = async (values: FormValues) => {
         setIsSubmitting(true);
@@ -522,6 +615,29 @@ export const LoanEligibilityForm = () => {
                                     <CardDescription>Detailed financial information for eligibility assessment.</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
+                                    {/* CIBIL Upload Section */}
+                                    <div className={`rounded-lg border-2 ${cibilPrefilled ? 'border-emerald-200 bg-emerald-50/30' : 'border-blue-200 bg-blue-50/30'} p-4`}>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <ShieldCheck className="h-5 w-5 text-primary" />
+                                            <h3 className="text-sm font-semibold text-gray-800">
+                                                {cibilPrefilled ? '✓ CIBIL Report Applied' : 'Upload CIBIL Report (Optional)'}
+                                            </h3>
+                                            {cibilPrefilled && (
+                                                <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 ml-auto text-xs">
+                                                    Auto-filled
+                                                </Badge>
+                                            )}
+                                        </div>
+                                        {!cibilPrefilled && (
+                                            <p className="text-xs text-gray-500 mb-3">
+                                                Upload your CIBIL report to automatically fill credit score, existing loan details, and personal information.
+                                            </p>
+                                        )}
+                                        <CibilUpload onDataExtracted={handleCibilDataExtracted} />
+                                    </div>
+
+                                    <Separator />
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <FormField
                                             control={form.control}

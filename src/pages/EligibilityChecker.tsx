@@ -1,9 +1,11 @@
-
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { LoanEligibilityForm } from '@/components/LoanEligibilityForm';
 
 const EligibilityChecker = () => {
+    const { state } = useLocation();
+    const prefill = state?.prefill;
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -16,9 +18,14 @@ const EligibilityChecker = () => {
                 <p className="text-slate-500 mt-2">
                     Assess applicant eligibility in real-time by entering their business and financial details.
                 </p>
+                {prefill && (
+                    <p className="text-sm text-primary mt-1">
+                        Pre-filled from Document Hub — review and adjust as needed.
+                    </p>
+                )}
             </div>
 
-            <LoanEligibilityForm />
+            <LoanEligibilityForm prefill={prefill} />
         </motion.div>
     );
 };

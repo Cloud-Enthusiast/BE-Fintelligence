@@ -2,6 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import * as fc from 'fast-check';
 import { StoredDocument } from '../contexts/DocumentContext';
+import { ProfitLossData, GSTReturnsData } from '../types/msmeDocuments';
 
 // Mock logic from MSMEApplicationForm for testing isolation
 const populateFromDocuments = (selectedDocs: StoredDocument[]) => {
@@ -44,7 +45,7 @@ describe('Application Form Auto-Population Properties', () => {
                             fileName: 'pl.pdf',
                             extractedAt: '',
                             extractionConfidence: 'high',
-                            data: { revenue: `₹${revenueVal}` }
+                            data: { revenue: `₹${revenueVal}`, costOfGoods: '0', grossProfit: '0', operatingExpenses: '0', ebitda: '0', netProfit: '0', profitMargin: '0%', fiscalYear: '2024' } as ProfitLossData
                         }
                     }];
 
@@ -71,7 +72,7 @@ describe('Application Form Auto-Population Properties', () => {
                             fileName: 'gst.pdf',
                             extractedAt: '',
                             extractionConfidence: 'high',
-                            data: { monthlyTurnover: `₹${monthly}` }
+                            data: { monthlyTurnover: `₹${monthly}`, gstPaid: '0', inputCredit: '0', filingRegularity: 'regular', gstNumber: 'GST123', reportPeriod: '2024' } as GSTReturnsData
                         }
                     }];
 
@@ -95,7 +96,7 @@ describe('Application Form Auto-Population Properties', () => {
                     fileName: 'pl.pdf',
                     extractedAt: '',
                     extractionConfidence: 'high',
-                    data: { revenue: '120000' }
+                    data: { revenue: '120000', costOfGoods: '0', grossProfit: '0', operatingExpenses: '0', ebitda: '0', netProfit: '0', profitMargin: '0%', fiscalYear: '2024' } as ProfitLossData
                 }
             },
             {
@@ -109,7 +110,7 @@ describe('Application Form Auto-Population Properties', () => {
                     fileName: 'gst.pdf',
                     extractedAt: '',
                     extractionConfidence: 'high',
-                    data: { monthlyTurnover: '5000' } // 60k annual
+                    data: { monthlyTurnover: '5000', gstPaid: '0', inputCredit: '0', filingRegularity: 'regular', gstNumber: 'GST456', reportPeriod: '2024' } as GSTReturnsData // 60k annual
                 }
             }
         ];

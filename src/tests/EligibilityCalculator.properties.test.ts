@@ -13,7 +13,7 @@ import {
     scoreIndustryRisk,
     calculateEligibility,
 } from '../utils/MSMEEligibilityCalculator';
-import { ExtractedMSMEData } from '../types/msmeDocuments';
+import { ExtractedMSMEData, BankStatementData } from '../types/msmeDocuments';
 
 describe('MSME Eligibility Calculator Properties', () => {
 
@@ -55,9 +55,11 @@ describe('MSME Eligibility Calculator Properties', () => {
                 currentLiabilities: '₹250000',
                 totalAssets: '₹1000000',
                 totalLiabilities: '₹400000',
+                fixedAssets: '₹500000',
+                longTermDebt: '₹150000',
                 netWorth: '₹600000',
                 workingCapital: '₹250000',
-                reportDate: '2024',
+                fiscalYear: '2024',
             }
         }];
 
@@ -89,7 +91,7 @@ describe('MSME Eligibility Calculator Properties', () => {
                 ebitda: '₹200000',
                 netProfit: '₹150000',
                 profitMargin: '15%',
-                reportPeriod: '2023',
+                fiscalYear: '2023',
             }
         }];
 
@@ -147,8 +149,10 @@ describe('MSME Eligibility Calculator Properties', () => {
                 cashFlowPattern: 'positive',
                 chequeBounces: 0,
                 loanEMIs: '₹50000',
-                statementPeriod: '2024',
-            }
+                totalCredits: '₹500000',
+                totalDebits: '₹400000',
+                accountNumber: '1234567890',
+            } as BankStatementData
         }];
 
         const score = scoreBankingRelationship(goodDocs);
@@ -182,6 +186,7 @@ describe('MSME Eligibility Calculator Properties', () => {
             loanTerm: 36,
             creditScore: 750,
             businessType: 'Technology',
+            loanType: 'business_loan',
             extractedDocuments: [],
         });
 
@@ -201,6 +206,7 @@ describe('MSME Eligibility Calculator Properties', () => {
             loanTerm: 36,
             creditScore: 550, // Below threshold
             businessType: 'Technology',
+            loanType: 'business_loan',
         });
 
         expect(result.isEligible).toBe(false);
@@ -216,6 +222,7 @@ describe('MSME Eligibility Calculator Properties', () => {
             loanTerm: 12, // Short term
             creditScore: 750,
             businessType: 'Technology',
+            loanType: 'business_loan',
         });
 
         expect(result.isEligible).toBe(false);

@@ -24,7 +24,7 @@ const CreateApplication = () => {
         }
     }, [isTourSeen, startTour]);
 
-    const handleSidebarToggle = () => setSidebarOpen(!sidebarOpen);
+    // Sidebar toggle removed — handled by layout
 
     const handleSubmit = (values: MSMEApplicationFormValues) => {
         const eligibilityScore = Math.min(95, Math.max(40, (values.annualRevenue / 100000) * 5 + 50));
