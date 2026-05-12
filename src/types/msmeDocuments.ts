@@ -32,14 +32,34 @@ export interface ProfitLossData {
 }
 
 export interface BankStatementData {
-  averageMonthlyBalance: string;
-  cashFlowPattern: 'positive' | 'negative' | 'mixed' | 'unknown';
-  loanEMIs: string;
-  chequeBounces: number;
-  totalCredits: string;
-  totalDebits: string;
-  statementPeriod: string;
+  accountHolderName?: string;
+  bankName?: string;
+  branchName?: string;
   accountNumber: string;
+  accountType?: string;
+  ifscCode?: string;
+  statementFromDate?: string;
+  statementToDate?: string;
+  statementPeriod?: string;
+  openingBalance?: number;
+  closingBalance?: number;
+  totalCredits: number | string;
+  totalDebits: number | string;
+  averageMonthlyBalance: number | string;
+  minimumBalance?: number;
+  maximumBalance?: number;
+  numberOfCreditTransactions?: number;
+  numberOfDebitTransactions?: number;
+  chequeBounces: number;
+  nachEcsReturns?: number;
+  loanEMIs?: number | string;
+  inwardTransfers?: number;
+  outwardTransfers?: number;
+  salaryCredits?: number;
+  cashWithdrawals?: number;
+  cashDeposits?: number;
+  cashFlowPattern: 'positive' | 'negative' | 'mixed' | 'unknown';
+  analysis?: string;
 }
 
 export interface GSTReturnsData {

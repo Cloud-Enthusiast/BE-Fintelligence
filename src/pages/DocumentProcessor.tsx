@@ -28,8 +28,11 @@ import {
   Trash2,
   Eye,
   Zap,
+  BarChart3,
 } from 'lucide-react';
 import CibilReportView from '@/components/CibilReportView';
+import EligibilityReport from '@/components/EligibilityReport';
+import { useNavigate } from 'react-router-dom';
 
 const DOCUMENT_TYPES: MSMEDocumentType[] = [
   'balance_sheet',
@@ -170,6 +173,8 @@ const DocumentProcessor = () => {
     setDetailsOpen(true);
   };
 
+  const navigate = useNavigate();
+
   const completedDocs = Object.values(uploadStates).filter(s => s.status === 'success').length;
   const processingDocs = Object.values(uploadStates).filter(s => s.status === 'processing').length;
 
@@ -215,6 +220,10 @@ const DocumentProcessor = () => {
             <TabsTrigger value="extracted" className="gap-2">
               <FileStack className="h-4 w-4" />
               Extracted Data ({completedDocs})
+            </TabsTrigger>
+            <TabsTrigger value="eligibility" className="gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Eligibility
             </TabsTrigger>
           </TabsList>
 
@@ -271,6 +280,14 @@ const DocumentProcessor = () => {
                   ))}
               </div>
             )}
+          </TabsContent>
+          {/* Eligibility Tab */}
+          <TabsContent value="eligibility" className="space-y-6">
+            <EligibilityReport
+              onOpenFullAssessment={({ creditScore: _cs, annualRevenue: _ar, ...params }) => {
+                navigate('/eligibility-checker', { state: { prefill: params } });
+              }}
+            />
           </TabsContent>
         </Tabs>
       </motion.div>

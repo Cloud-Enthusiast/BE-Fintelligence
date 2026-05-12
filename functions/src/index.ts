@@ -4,6 +4,13 @@ import { VertexAI } from "@google-cloud/vertexai";
 import { extractStructuredText } from "./documentAIProcessor";
 import { validateCibilData } from "./cibilSchema";
 import { validateBankStatementData } from "./bankStatementSchema";
+import * as admin from "firebase-admin";
+// Azapi provider preserved for future use — currently using Gemini Vision for CIBIL
+// import { parseCibilWithAzapi } from "./financialApiProvider";
+
+if (admin.apps.length === 0) {
+    admin.initializeApp();
+}
 
 // ────────────────────────────────────────────────────
 // Shared Types
@@ -364,11 +371,11 @@ const validateRequest = (request: any) => {
 };
 
 // ────────────────────────────────────────────────────
-// Cloud Function: extractCibilReport (backwards compat)
+// Cloud Function: extractCibilReport (Gemini Vision)
 // ────────────────────────────────────────────────────
 
 export const extractCibilReport = onCall(
-    { region: "us-central1", timeoutSeconds: 120, memory: "512MiB", maxInstances: 10 },
+    { region: "us-central1", timeoutSeconds: 300, memory: "1GiB", maxInstances: 10 },
     async (request) => {
         if (!request.auth) {
             throw new HttpsError("unauthenticated", "You must be logged in to extract CIBIL reports.");
@@ -389,35 +396,44 @@ export const extractCibilReport = onCall(
             throw new HttpsError("invalid-argument", `File too large.`);
         }
 
-        logger.info("extractCibilReport called", {
+        logger.info("extractCibilReport called (Gemini Vision)", {
             userId: request.auth.uid,
             mimeType,
             fileSizeMB: (fileSizeBytes / 1024 / 1024).toFixed(2),
         });
 
         try {
-            let structuredText: string;
+            let rawExtracted: any;
+
+            // Strategy: Try Document AI first (if processor ID is configured), then Gemini Vision
             const processorId = process.env.DOCUMENT_AI_CIBIL_PROCESSOR_ID;
 
-            try {
-                // Phase 1: Use Document AI to get structured markdown tables and form fields
-                structuredText = await extractStructuredText(fileBase64, mimeType, processorId!);
-                logger.info("Document AI extraction successful for CIBIL");
-            } catch (docAIError) {
-                logger.warn("Document AI extraction failed, falling back to raw Gemini Vision processing", { error: docAIError });
-                // Fallback to exactly what the code did before: pass base64 directly to Gemini
-                const rawData = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
-                const validatedFallback = validateCibilData(rawData);
-                return { success: true, data: validatedFallback };
+            if (processorId) {
+                try {
+                    logger.info("Attempting Document AI + Gemini hybrid extraction...");
+                    const structuredText = await extractStructuredText(fileBase64, mimeType, processorId);
+                    rawExtracted = await extractWithGeminiVision(structuredText, "text/plain", "cibil_report", true);
+                } catch (docAIError: any) {
+                    logger.warn("Document AI failed, falling back to direct Gemini Vision", {
+                        error: docAIError.message,
+                    });
+                    rawExtracted = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
+                }
+            } else {
+                // No Document AI processor configured — go straight to Gemini Vision
+                logger.info("No Document AI processor configured, using direct Gemini Vision...");
+                rawExtracted = await extractWithGeminiVision(fileBase64, mimeType, "cibil_report");
             }
 
-            // Phase 2: Use Gemini to reason over the structured text and extract the exact fields
-            const extractedJson = await extractWithGeminiVision(structuredText, "text/plain", "cibil_report", true);
+            // Validate and clean the extracted data via Zod schema
+            const validatedData = validateCibilData(rawExtracted);
 
-            // Phase 3: Validate the JSON with Zod
-            const validatedData = validateCibilData(extractedJson);
+            logger.info("CIBIL extraction successful", {
+                userId: request.auth.uid,
+                cibilScore: validatedData.cibilScore,
+                totalAccounts: validatedData.totalAccounts,
+            });
 
-            logger.info("CIBIL extracted & validated", { userId: request.auth.uid, score: validatedData.cibilScore });
             return { success: true, data: validatedData };
         } catch (error: any) {
             if (error instanceof HttpsError) throw error;
