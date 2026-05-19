@@ -271,12 +271,28 @@ export const calculatePortfolioRisk = (applications: LoanApplication[]): Portfol
     }))
     .sort((a, b) => b.count - a.count);
 
-  // Mock trends (would be calculated from historical data in real implementation)
-  const trends = [
-    { period: 'This Week', avgScore: avgRiskScore, approvalRate: 75 },
-    { period: 'Last Week', avgScore: avgRiskScore + 5, approvalRate: 72 },
-    { period: '2 Weeks Ago', avgScore: avgRiskScore + 3, approvalRate: 78 },
+  const now = Date.now();
+  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  const weekBuckets = [
+    { period: 'This Week', start: now - oneWeek, end: now },
+    { period: 'Last Week', start: now - 2 * oneWeek, end: now - oneWeek },
+    { period: '2 Weeks Ago', start: now - 3 * oneWeek, end: now - 2 * oneWeek },
   ];
+
+  const trends = weekBuckets.map(({ period, start, end }) => {
+    const weekApps = applications.filter(app => {
+      const t = new Date(app.createdAt).getTime();
+      return t >= start && t < end;
+    });
+    if (weekApps.length === 0) return { period, avgScore: 0, approvalRate: 0 };
+    const weekRiskScores = weekApps.map(app => calculateRiskScore(app));
+    const avg = Math.round(
+      weekRiskScores.reduce((sum, r) => sum + r.overall, 0) / weekRiskScores.length
+    );
+    const approved = weekApps.filter(a => a.status === 'approved').length;
+    const approvalRate = Math.round((approved / weekApps.length) * 100);
+    return { period, avgScore: avg, approvalRate };
+  });
 
   return {
     totalApplications: applications.length,

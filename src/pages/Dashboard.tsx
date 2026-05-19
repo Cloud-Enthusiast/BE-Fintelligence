@@ -25,7 +25,7 @@ import { Badge } from '@/components/ui/badge';
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { applications } = useApplications();
+  const { applications, isLoading } = useApplications();
   const { startTour, isTourSeen } = useTour();
 
   useEffect(() => {
@@ -98,27 +98,41 @@ const Dashboard = () => {
 
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" data-tour="dashboard-stats">
-          <StatsCard
-            title="Pending Applications"
-            value={pendingApplications.length.toString()}
-            description="Awaiting review"
-            icon={<ClockIcon className="h-5 w-5 text-amber-500" />}
-            linkTo="/applications?tab=pending"
-          />
-          <StatsCard
-            title="Approved Loans"
-            value={approvedApplications.length.toString()}
-            description="Total approved"
-            icon={<CheckCircleIcon className="h-5 w-5 text-emerald-500" />}
-            linkTo="/applications?tab=approved"
-          />
-          <StatsCard
-            title="Rejected Applications"
-            value={rejectedApplications.length.toString()}
-            description="Total rejected"
-            icon={<XCircleIcon className="h-5 w-5 text-destructive" />}
-            linkTo="/applications?tab=rejected"
-          />
+          {isLoading ? (
+            <>
+              {[1, 2, 3].map(i => (
+                <div key={i} className="rounded-lg border bg-card p-6 animate-pulse">
+                  <div className="h-4 w-36 bg-muted rounded mb-4" />
+                  <div className="h-8 w-16 bg-muted rounded mb-2" />
+                  <div className="h-3 w-24 bg-muted rounded" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <StatsCard
+                title="Pending Applications"
+                value={pendingApplications.length.toString()}
+                description="Awaiting review"
+                icon={<ClockIcon className="h-5 w-5 text-amber-500" />}
+                linkTo="/applications?tab=pending"
+              />
+              <StatsCard
+                title="Approved Loans"
+                value={approvedApplications.length.toString()}
+                description="Total approved"
+                icon={<CheckCircleIcon className="h-5 w-5 text-emerald-500" />}
+                linkTo="/applications?tab=approved"
+              />
+              <StatsCard
+                title="Rejected Applications"
+                value={rejectedApplications.length.toString()}
+                description="Total rejected"
+                icon={<XCircleIcon className="h-5 w-5 text-destructive" />}
+                linkTo="/applications?tab=rejected"
+              />
+            </>
+          )}
         </div>
 
         {/* Quick Access Cards */}

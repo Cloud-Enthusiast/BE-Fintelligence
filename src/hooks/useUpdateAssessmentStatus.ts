@@ -6,12 +6,12 @@ export const useUpdateAssessmentStatus = () => {
   const { updateApplicationStatus } = useApplications();
 
   return useMutation({
-    mutationFn: async ({ 
-      id, 
-      status 
-    }: { 
-      id: string; 
-      status: 'pending' | 'approved' | 'rejected' 
+    mutationFn: async ({
+      id,
+      status,
+    }: {
+      id: string;
+      status: 'pending' | 'approved' | 'rejected' | 'info_requested';
     }) => {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 200));

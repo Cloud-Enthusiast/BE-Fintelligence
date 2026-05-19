@@ -42,7 +42,7 @@ export interface LoanApplicationData {
 
 export const submitLoanApplication = async (data: Omit<LoanApplicationData, 'status' | 'submittedAt'>) => {
     try {
-        const docRef = await addDoc(collection(db, 'applications'), {
+        const docRef = await addDoc(collection(db, 'loan_applications'), {
             ...data,
             status: 'pending',
             submittedAt: serverTimestamp(),

@@ -72,14 +72,26 @@ const ApplicationReview = () => {
   };
 
   const handleRequestInfo = () => {
-    // TODO: Implement actual logic for requesting more information
-    // This might involve setting a different status, e.g., 'pending_information'
-    // or triggering a notification/modal.
     if (!applicationId) return;
-    toast({
-      title: "Information Requested",
-      description: `Additional information has been requested for application ${applicationId}.`,
-    });
+    updateStatusMutation(
+      { id: applicationId, status: 'info_requested' },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Information Requested',
+            description: 'The applicant has been flagged for additional information.',
+          });
+          navigate('/applications');
+        },
+        onError: (error) => {
+          toast({
+            variant: 'destructive',
+            title: 'Action Failed',
+            description: error.message || 'Could not update application status.',
+          });
+        },
+      }
+    );
   };
 
   return (

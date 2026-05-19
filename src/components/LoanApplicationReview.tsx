@@ -1,10 +1,10 @@
 
-import { useState, useEffect } from 'react'; // Keep useState for mock data parts
 import { motion } from 'framer-motion';
 import { AlertCircle, CheckCircle, AlertTriangle, Info, Loader2 } from 'lucide-react'; // Added Loader2
-import { useFetchSingleBasicAssessment } from '@/hooks/useFetchSingleBasicAssessment'; // Import the new hook
+import { useFetchSingleBasicAssessment } from '@/hooks/useFetchSingleBasicAssessment';
+import { formatCurrency } from '@/utils/formatters';
 import { Progress } from '@/components/ui/progress';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -18,41 +18,6 @@ interface LoanApplicationReviewProps {
   onRequestInfo: () => void;
 }
 
-// Mock data for UI demonstration (for fields not yet fetched from backend)
-const mockApplicationData = {
-  // id: 'APP-2023-005', // Will come from fetched data
-  // applicantName: 'John Smith', // Will come from fetched data
-  panId: 'ABCTY1234Z', // Stays mock
-  email: 'john.smith@example.com', // Stays mock for now, or could be added to basic fetch
-  annualIncome: 750000, // Stays mock
-  monthlyIncome: 62500, // Stays mock
-  creditScore: 720, // Stays mock
-  // loanAmount: 2500000, // Will come from fetched data
-  loanTenure: 60, // months // Will come from fetched data, but mock provides fallback
-  loanPurpose: 'Business Expansion', // Stays mock
-  // submittedAt: '2023-06-10T10:30:00Z', // Will come from fetched data
-  // email: 'john.smith@example.com', // This was duplicated
-  // annualIncome: 750000, // This was duplicated
-  // monthlyIncome: 62500, // This was duplicated
-  // creditScore: 720, // This was duplicated
-  // loanAmount: 2500000, // This was duplicated (and is overridden by displayData anyway)
-  // loanTenure: 60, // months // This was duplicated (and is overridden by displayData anyway)
-  // loanPurpose: 'Business Expansion', // This was duplicated
-  // submittedAt: '2023-06-10T10:30:00Z', // This was duplicated (and is overridden by displayData anyway)
-
-  // Risk assessment
-  financialRiskScore: 78,
-  behavioralCreditScore: 82,
-  fraudAlerts: [
-    { level: 'low', message: 'Minor discrepancy in reported address' }
-  ],
-
-  // Stress test results
-  incomeShockResilience: 65,
-  interestRateSensitivity: 72,
-  emergencyFundBuffer: 45,
-  debtServiceRatio: 38
-};
 
 const LoanApplicationReview = ({
   applicationId,
@@ -98,32 +63,41 @@ const LoanApplicationReview = ({
     );
   }
 
-  // Combine real basic data with mock data for other fields
+  const eligScore = currentApplication.eligibility_score ?? 0;
+  const creditScore = currentApplication.credit_score ?? 0;
+
+  // Derive stress-test proxies from eligibility + credit scores when real actuarial
+  // data is not yet stored on the application document.
+  const behavioralCreditScore = creditScore
+    ? Math.min(100, Math.round(((creditScore - 300) / 600) * 100))
+    : 0;
+  const incomeShockResilience = Math.round(eligScore * 0.8);
+  const interestRateSensitivity = Math.round(eligScore * 0.85);
+  const emergencyFundBuffer = Math.round(eligScore * 0.6);
+  const debtServiceRatio =
+    currentApplication.monthly_income && currentApplication.existing_loan_amount
+      ? Math.min(100, Math.round((currentApplication.existing_loan_amount * 0.01) / currentApplication.monthly_income * 100))
+      : 0;
+
   const displayData = {
-    ...mockApplicationData, // Start with mock as a base for un-fetched fields
     id: currentApplication.id,
-    applicantName: currentApplication.full_name, // Mapped from customer_information
+    applicantName: currentApplication.full_name,
+    email: currentApplication.email || '—',
+    panId: currentApplication.pan_number || '—',
+    annualIncome: currentApplication.annual_revenue,
+    monthlyIncome: currentApplication.monthly_income,
+    creditScore,
     loanAmount: currentApplication.loan_amount,
-    loanTenure: currentApplication.loan_term !== null ? currentApplication.loan_term : mockApplicationData.loanTenure, // Handle null loanTerm
+    loanTenure: currentApplication.loan_term ?? 0,
+    loanPurpose: currentApplication.loan_purpose || '—',
     submittedAt: currentApplication.created_at,
-    // Fields from mockApplicationData that are not in MappedAssessment will persist here:
-    // panId, email, annualIncome, monthlyIncome, creditScore, loanPurpose,
-
-    // Use actual eligibility score if available, otherwise mock
-    financialRiskScore: currentApplication.eligibility_score !== undefined ? currentApplication.eligibility_score : mockApplicationData.financialRiskScore,
-
-    // behavioralCreditScore, fraudAlerts,
-    // incomeShockResilience, interestRateSensitivity, emergencyFundBuffer, debtServiceRatio
-  };
-
-  // Helper to format currency
-  const formatCurrency = (amount: number | null | undefined) => {
-    if (amount === null || amount === undefined) return 'N/A';
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    }).format(amount);
+    financialRiskScore: eligScore,
+    behavioralCreditScore,
+    fraudAlerts: [] as { level: string; message: string }[],
+    incomeShockResilience,
+    interestRateSensitivity,
+    emergencyFundBuffer,
+    debtServiceRatio,
   };
 
   const getRiskColor = (score: number) => {
