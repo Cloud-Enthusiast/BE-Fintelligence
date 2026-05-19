@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   BellIcon,
   MenuIcon,
@@ -15,10 +15,7 @@ import {
   HelpCircle,
   FileSearch,
   CheckCircle2,
-  Clock,
   ExternalLink,
-  History,
-  X
 } from 'lucide-react';
 import { useDocuments } from '@/contexts/DocumentContext';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +25,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -40,61 +36,71 @@ interface DashboardHeaderProps {
   onSidebarToggle: () => void;
 }
 
+const PAGES = [
+  { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, category: 'Page' },
+  { name: 'Document Processor', path: '/document-processor', icon: FileSearch, category: 'Tool' },
+  { name: 'Applications', path: '/applications', icon: FileText, category: 'Page' },
+  { name: 'Create Application', path: '/create-application', icon: FileText, category: 'Page' },
+  { name: 'Analytics', path: '/analytics', icon: BarChart3, category: 'Page' },
+  { name: 'Customers', path: '/customers', icon: Users, category: 'Page' },
+  { name: 'Risk Management', path: '/risk-management', icon: ShieldAlert, category: 'Tool' },
+  { name: 'Eligibility Checker', path: '/eligibility-checker', icon: CheckCircle2, category: 'Tool' },
+  { name: 'Settings', path: '/settings', icon: Settings, category: 'Page' },
+  { name: 'Help & Support', path: '/help-support', icon: HelpCircle, category: 'Page' },
+];
+
 const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
   const { user, logout } = useAuth();
   const { documents } = useDocuments();
   const navigate = useNavigate();
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const displayName = user?.displayName || user?.email || 'User';
 
-  const PAGES = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, category: 'Pages & Tools' },
-    { name: 'Document Processor', path: '/document-processor', icon: FileSearch, category: 'Pages & Tools' },
-    { name: 'Applications', path: '/applications', icon: FileText, category: 'Pages & Tools' },
-    { name: 'Create Application', path: '/create-application', icon: FileText, category: 'Pages & Tools' },
-    { name: 'Analytics', path: '/analytics', icon: BarChart3, category: 'Pages & Tools' },
-    { name: 'Customers', path: '/customers', icon: Users, category: 'Pages & Tools' },
-    { name: 'Risk Management', path: '/risk-management', icon: ShieldAlert, category: 'Pages & Tools' },
-    { name: 'Eligibility Checker', path: '/eligibility-checker', icon: CheckCircle2, category: 'Pages & Tools' },
-    { name: 'Settings', path: '/settings', icon: Settings, category: 'Pages' },
-    { name: 'Help & Support', path: '/help-support', icon: HelpCircle, category: 'Pages' },
-  ];
+  // Close on click outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
-  const filteredPages = searchQuery 
-    ? PAGES.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
-    : PAGES.slice(0, 4);
+  // Close on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setIsOpen(false); inputRef.current?.blur(); }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
-  const filteredDocs = searchQuery
-    ? documents.filter(d => d.fileName.toLowerCase().includes(searchQuery.toLowerCase()))
+  const q = searchQuery.trim().toLowerCase();
+
+  const matchedPages = q
+    ? PAGES.filter(p => p.name.toLowerCase().includes(q))
+    : PAGES.slice(0, 5);
+
+  const matchedDocs = q
+    ? documents.filter(d =>
+        d.fileName.toLowerCase().includes(q) ||
+        d.documentType.toLowerCase().includes(q)
+      )
     : documents.slice(0, 3);
 
-  const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+  const hasResults = matchedPages.length > 0 || matchedDocs.length > 0;
 
-  const handleSearchSelect = (item: any) => {
-    if (item.path) {
-      navigate(item.path);
-    } else if (item.fileName) {
-      // Logic for document select if needed, e.g. navigate to processor with doc selected
-      navigate('/document-processor');
-    }
-    
-    // Save to recent
-    const newRecent = [searchQuery || item.name || item.fileName, ...recentSearches.filter((s: string) => s !== (searchQuery || item.name || item.fileName))].slice(0, 5);
-    localStorage.setItem('recentSearches', JSON.stringify(newRecent));
-    
-    setIsSearchFocused(false);
+  const handleSelect = useCallback((path: string) => {
+    navigate(path);
+    setIsOpen(false);
     setSearchQuery('');
-  };
-
-  const handleClearRecent = (e: React.MouseEvent, search: string) => {
-    e.stopPropagation();
-    const newRecent = recentSearches.filter((s: string) => s !== search);
-    localStorage.setItem('recentSearches', JSON.stringify(newRecent));
-    // Force re-render if needed or just let the next render catch it
-  };
+  }, [navigate]);
 
   return (
     <header className="sticky top-0 z-30 w-full glass-effect border-b border-border overflow-hidden" data-tour="dashboard-header">
@@ -110,131 +116,97 @@ const DashboardHeader = ({ onSidebarToggle }: DashboardHeaderProps) => {
           </Button>
 
           <div className={`${showMobileSearch ? 'flex absolute inset-x-0 top-16 p-4 bg-background border-b border-border shadow-md z-40' : 'hidden'} md:flex md:relative md:top-0 md:bg-transparent md:border-none md:shadow-none md:p-0 flex-1 min-w-0 max-w-md lg:max-w-xl mx-auto z-50`}>
-            <div className="relative w-full group">
-              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 group-focus-within:text-primary transition-colors pointer-events-none" />
+            <div ref={searchRef} className="relative w-full">
+              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4 pointer-events-none transition-colors peer-focus:text-primary" />
               <Input
+                ref={inputRef}
                 type="search"
-                placeholder="Search resources, clients, or loans..."
-                className="pl-9 bg-muted/50 border-transparent focus-visible:bg-background focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary h-9 rounded-full transition-all input-transition text-center"
+                placeholder="Search pages or documents..."
+                className="pl-9 bg-muted/50 border-transparent focus-visible:bg-background focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary h-9 rounded-full transition-all"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
+                onChange={(e) => { setSearchQuery(e.target.value); setIsOpen(true); }}
+                onFocus={() => setIsOpen(true)}
               />
 
               <AnimatePresence>
-                {isSearchFocused && (
-                  <>
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 bg-background/20 backdrop-blur-[2px] z-[-1]"
-                      onClick={() => setIsSearchFocused(false)}
-                    />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                      className="absolute top-11 left-0 w-full bg-slate-900 border border-slate-800 shadow-2xl rounded-2xl overflow-hidden z-[60] flex flex-col max-h-[80vh]"
-                    >
-                      <div className="p-2 border-b border-slate-800 flex items-center justify-between bg-slate-900/50 backdrop-blur-md">
-                        <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-2">Quick Search</span>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 text-slate-500 hover:text-white hover:bg-slate-800 rounded-full" onClick={() => setIsSearchFocused(false)}>
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
+                {isOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.12 }}
+                    className="absolute top-11 left-0 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl rounded-xl overflow-hidden z-[60]"
+                  >
+                    <div className="max-h-[360px] overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
 
-                      <div className="overflow-y-auto custom-scrollbar p-2 space-y-4">
-                        {/* Recent Searches */}
-                        {recentSearches.length > 0 && !searchQuery && (
-                          <div className="space-y-1">
-                            {recentSearches.map((s: string) => (
-                              <div 
-                                key={s} 
-                                className="flex items-center justify-between group/row px-3 py-2 rounded-lg hover:bg-slate-800/80 cursor-pointer transition-colors"
-                                onClick={() => { setSearchQuery(s); }}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <History className="h-4 w-4 text-slate-500" />
-                                  <span className="text-sm text-slate-300 font-medium">{s}</span>
-                                </div>
-                                <Button 
-                                  variant="ghost" 
-                                  size="icon" 
-                                  className="h-5 w-5 opacity-0 group-hover/row:opacity-100 text-slate-500 hover:text-rose-400 hover:bg-rose-400/10 rounded"
-                                  onClick={(e) => handleClearRecent(e, s)}
-                                >
-                                  <X className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            ))}
+                      {/* Pages section */}
+                      {matchedPages.length > 0 && (
+                        <div>
+                          <div className="px-3 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                            {q ? 'Pages' : 'Quick Navigation'}
                           </div>
-                        )}
-
-                        {/* Pages & Tools */}
-                        <div className="space-y-1">
-                          <h4 className="px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter text-indigo-400/80 flex items-center justify-between">
-                            Products & Pages
-                            <ChevronDownIcon className="h-3 w-3 opacity-50" />
-                          </h4>
-                          <div className="grid grid-cols-1 gap-0.5">
-                            {filteredPages.map((page) => (
-                              <div 
-                                key={page.name} 
-                                className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:border-slate-700 hover:bg-slate-800/50 cursor-pointer transition-all group/item overflow-hidden relative"
-                                onClick={() => handleSearchSelect(page)}
-                              >
-                                <div className="h-8 w-8 rounded-lg bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 group-hover/item:bg-indigo-500 group-hover/item:text-white transition-colors shrink-0">
-                                  <page.icon className="h-4 w-4 text-indigo-400 group-hover/item:text-white" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-bold text-slate-200 group-hover/item:text-white truncate">{page.name}</p>
-                                  <p className="text-[10px] text-slate-500 font-medium group-hover/item:text-indigo-200">System Page • Tool</p>
-                                </div>
-                                <ExternalLink className="h-3 w-3 text-slate-600 opacity-0 group-hover/item:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/item:animate-[shimmer_2s_infinite] pointer-events-none" />
+                          {matchedPages.map((page) => (
+                            <button
+                              key={page.path}
+                              className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-indigo-50 dark:hover:bg-slate-800 transition-colors text-left group"
+                              onMouseDown={() => handleSelect(page.path)}
+                            >
+                              <div className="h-7 w-7 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 flex items-center justify-center shrink-0 group-hover:bg-indigo-500 group-hover:border-indigo-500 transition-colors">
+                                <page.icon className="h-3.5 w-3.5 text-indigo-500 group-hover:text-white transition-colors" />
                               </div>
-                            ))}
-                          </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{page.name}</p>
+                              </div>
+                              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded shrink-0">
+                                {page.category}
+                              </span>
+                              <ExternalLink className="h-3 w-3 text-slate-300 opacity-0 group-hover:opacity-100 shrink-0" />
+                            </button>
+                          ))}
                         </div>
+                      )}
 
-                        {/* Extracted Resources */}
-                        <div className="space-y-1">
-                          <h4 className="px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter text-emerald-400/80 flex items-center justify-between">
-                            Extracted Resources
-                            <span className="text-[9px] lowercase font-medium opacity-50 px-1.5 py-0.5 rounded-full bg-emerald-500/10">{documents.length} items</span>
-                          </h4>
-                          <div className="grid grid-cols-1 gap-0.5">
-                            {filteredDocs.length > 0 ? (
-                              filteredDocs.map((doc) => (
-                                <div 
-                                  key={doc.id} 
-                                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:border-slate-700 hover:bg-slate-800/50 cursor-pointer transition-all group/item"
-                                  onClick={() => handleSearchSelect(doc)}
-                                >
-                                  <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shrink-0">
-                                    <FileSearch className="h-4 w-4 text-emerald-400" />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-bold text-slate-200 truncate">{doc.fileName}</p>
-                                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-widest">{doc.documentType.replace('_', ' ')}</p>
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="px-3 py-8 text-center bg-slate-800/20 rounded-xl border border-dashed border-slate-700">
-                                <p className="text-xs text-slate-500 italic">No resources matched "{searchQuery}"</p>
-                              </div>
-                            )}
+                      {/* Documents section */}
+                      {matchedDocs.length > 0 && (
+                        <div>
+                          <div className="px-3 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center justify-between">
+                            <span>Documents</span>
+                            <span className="normal-case font-medium text-slate-300">{documents.length} total</span>
                           </div>
+                          {matchedDocs.map((doc) => (
+                            <button
+                              key={doc.id}
+                              className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-emerald-50 dark:hover:bg-slate-800 transition-colors text-left group"
+                              onMouseDown={() => handleSelect('/document-processor')}
+                            >
+                              <div className="h-7 w-7 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 flex items-center justify-center shrink-0">
+                                <FileSearch className="h-3.5 w-3.5 text-emerald-500" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{doc.fileName}</p>
+                                <p className="text-[10px] text-slate-400 uppercase tracking-wider truncate">
+                                  {doc.documentType.replace(/_/g, ' ')}
+                                </p>
+                              </div>
+                            </button>
+                          ))}
                         </div>
-                      </div>
+                      )}
 
-                      <div className="p-2 bg-slate-950/50 border-t border-slate-800 flex items-center justify-center">
-                        <p className="text-[10px] text-slate-500 font-medium">Tip: Find CIBIL, MSME, or Risk Reports instantly</p>
-                      </div>
-                    </motion.div>
-                  </>
+                      {/* No results */}
+                      {q && !hasResults && (
+                        <div className="px-4 py-8 text-center">
+                          <p className="text-sm text-slate-400">No results for <span className="font-semibold text-slate-600">"{searchQuery}"</span></p>
+                          <p className="text-[11px] text-slate-300 mt-1">Try a page name or document filename</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="px-3 py-2 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3 text-[10px] text-slate-400">
+                      <span><kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-700 font-mono text-[9px]">↵</kbd> to open</span>
+                      <span><kbd className="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-700 font-mono text-[9px]">Esc</kbd> to close</span>
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </div>
