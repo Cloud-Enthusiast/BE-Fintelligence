@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-/*
 import {
   collection,
   query,
@@ -8,10 +7,9 @@ import {
   updateDoc,
   doc,
   orderBy,
-  Timestamp
+  Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-*/
 import { useAuth } from './AuthContext';
 
 export interface LoanApplication {
@@ -30,14 +28,17 @@ export interface LoanApplication {
   eligibilityScore: number;
   isEligible: boolean;
   rejectionReason?: string;
+  panNumber?: string;
+  loanPurpose?: string;
   createdAt: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'info_requested';
 }
 
 interface ApplicationContextType {
   applications: LoanApplication[];
-  addApplication: (application: Omit<LoanApplication, 'id' | 'createdAt' | 'status'>) => void;
-  updateApplicationStatus: (id: string, status: 'pending' | 'approved' | 'rejected') => void;
+  isLoading: boolean;
+  addApplication: (application: Omit<LoanApplication, 'id' | 'createdAt' | 'status'>) => Promise<void>;
+  updateApplicationStatus: (id: string, status: LoanApplication['status']) => Promise<void>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(undefined);
@@ -52,82 +53,104 @@ export const useApplications = () => {
 
 export const ApplicationProvider = ({ children }: { children: ReactNode }) => {
   const [applications, setApplications] = useState<LoanApplication[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
-  // Load from localStorage for mock mode
-  useEffect(() => {
-    const stored = localStorage.getItem('mock_loan_applications');
-    if (stored) {
-      setApplications(JSON.parse(stored));
-    }
-  }, []);
-
-  // Save to localStorage for mock mode
-  useEffect(() => {
-    localStorage.setItem('mock_loan_applications', JSON.stringify(applications));
-  }, [applications]);
-
-  /*
   useEffect(() => {
     if (!user) {
       setApplications([]);
+      setIsLoading(false);
       return;
     }
+
+    setIsLoading(true);
 
     const q = query(
       collection(db, 'loan_applications'),
       orderBy('createdAt', 'desc')
     );
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      // ...
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const apps: LoanApplication[] = querySnapshot.docs.map(docSnap => {
+          const d = docSnap.data();
+          const createdAt =
+            d.createdAt instanceof Timestamp
+              ? d.createdAt.toDate().toISOString()
+              : typeof d.createdAt === 'string'
+              ? d.createdAt
+              : new Date().toISOString();
+
+          return {
+            id: docSnap.id,
+            businessName: d.businessName ?? '',
+            fullName: d.fullName ?? '',
+            email: d.email ?? '',
+            phone: d.phone ?? '',
+            businessType: d.businessType ?? '',
+            annualRevenue: d.annualRevenue ?? 0,
+            monthlyIncome: d.monthlyIncome ?? d.monthlyProfit ?? 0,
+            existingLoanAmount: d.existingLoanAmount ?? 0,
+            loanAmount: d.loanAmount ?? 0,
+            loanTerm: d.loanTerm ?? 0,
+            creditScore: d.creditScore ?? 0,
+            eligibilityScore:
+              d.eligibilityScore ?? d.eligibilityResult?.overallScore ?? 0,
+            isEligible: d.isEligible ?? d.eligibilityResult?.isEligible ?? false,
+            rejectionReason: d.rejectionReason,
+            panNumber: d.panNumber,
+            loanPurpose: d.loanPurpose,
+            createdAt,
+            status: d.status ?? 'pending',
+          };
+        });
+        setApplications(apps);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error('Firestore snapshot error:', error);
+        setIsLoading(false);
+      }
+    );
 
     return () => unsubscribe();
   }, [user]);
-  */
 
-  const addApplication = async (application: Omit<LoanApplication, 'id' | 'createdAt' | 'status'>) => {
-    /*
+  const addApplication = async (
+    application: Omit<LoanApplication, 'id' | 'createdAt' | 'status'>
+  ) => {
+    if (!user) return;
     try {
       await addDoc(collection(db, 'loan_applications'), {
         ...application,
+        userId: user.uid,
         createdAt: Timestamp.now(),
-        // ...
+        status: 'pending',
       });
     } catch (error) {
       console.error('Error adding application:', error);
+      throw error;
     }
-    */
-
-    // Mock add
-    const newApp: LoanApplication = {
-      ...application,
-      id: 'app-' + Date.now(),
-      createdAt: new Date().toISOString(),
-      status: 'pending'
-    };
-    setApplications(prev => [newApp, ...prev]);
   };
 
-  const updateApplicationStatus = async (id: string, status: 'pending' | 'approved' | 'rejected') => {
-    /*
+  const updateApplicationStatus = async (
+    id: string,
+    status: LoanApplication['status']
+  ) => {
     try {
       const docRef = doc(db, 'loan_applications', id);
       await updateDoc(docRef, { status });
     } catch (error) {
       console.error('Error updating status:', error);
+      throw error;
     }
-    */
-
-    // Mock update
-    setApplications(prev => prev.map(app =>
-      app.id === id ? { ...app, status } : app
-    ));
   };
 
   return (
-    <ApplicationContext.Provider value={{ applications, addApplication, updateApplicationStatus }}>
+    <ApplicationContext.Provider
+      value={{ applications, isLoading, addApplication, updateApplicationStatus }}
+    >
       {children}
     </ApplicationContext.Provider>
   );

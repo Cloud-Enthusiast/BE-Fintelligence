@@ -27,7 +27,7 @@ import { motion } from 'framer-motion';
 
 interface UpdateStatusPayload {
   id: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'info_requested';
 }
 type UpdateStatusFunc = (payload: UpdateStatusPayload) => void;
 
@@ -67,6 +67,8 @@ const Applications = () => {
         return <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200">Approved</Badge>;
       case 'rejected':
         return <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20">Rejected</Badge>;
+      case 'info_requested':
+        return <Badge variant="outline" className="bg-sky-50 text-sky-600 border-sky-200">Info Requested</Badge>;
       case 'completed':
         return <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200">Review Ready</Badge>;
       default:
@@ -79,7 +81,8 @@ const Applications = () => {
     const pending = all.filter(app => app.status === 'pending');
     const approved = all.filter(app => app.status === 'approved');
     const rejected = all.filter(app => app.status === 'rejected');
-    return { all, pending, approved, rejected };
+    const infoRequested = all.filter(app => app.status === 'info_requested');
+    return { all, pending, approved, rejected, infoRequested };
   }, [assessments]);
 
   if (isLoading) {

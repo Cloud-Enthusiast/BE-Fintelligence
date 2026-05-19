@@ -18,8 +18,10 @@ export interface MappedAssessment {
   eligibility_score: number;
   is_eligible: boolean;
   rejection_reason?: string;
+  pan_number?: string;
+  loan_purpose?: string;
   created_at: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'info_requested';
 }
 
 export const useFetchAssessments = () => {
@@ -48,6 +50,8 @@ export const useFetchAssessments = () => {
         eligibility_score: app.eligibilityScore,
         is_eligible: app.isEligible,
         rejection_reason: app.rejectionReason,
+        pan_number: app.panNumber,
+        loan_purpose: app.loanPurpose,
         created_at: app.createdAt,
         status: app.status,
       }));
