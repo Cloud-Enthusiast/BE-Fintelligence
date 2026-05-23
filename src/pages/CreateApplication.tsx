@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MSMEApplicationForm, MSMEApplicationFormValues } from '@/components/MSMEApplicationForm';
 import { useCreateAssessment } from '@/hooks/useCreateAssessment';
 import { useToast } from '@/hooks/use-toast';
@@ -6,14 +6,19 @@ import { useDocuments } from '@/contexts/DocumentContext';
 import { calculateEligibility } from '@/utils/MSMEEligibilityCalculator';
 import { useTour } from '@/components/Tour/TourContext';
 import { ELIGIBILITY_TOUR } from '@/components/Tour/tours';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import type { Customer } from '@/services/customerService';
 
 const CreateApplication = () => {
-        const navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
     const { toast } = useToast();
     const { documents } = useDocuments();
     const { mutate: createAssessment, isPending } = useCreateAssessment();
     const { startTour, isTourSeen } = useTour();
+
+    // Accept prefilledCustomer passed from the Customers page "Apply" button
+    const prefilledCustomer = (location.state as { prefilledCustomer?: Customer } | null)?.prefilledCustomer;
 
     useEffect(() => {
         if (!isTourSeen('eligibility_features')) {
@@ -24,11 +29,22 @@ const CreateApplication = () => {
         }
     }, [isTourSeen, startTour]);
 
-    // Sidebar toggle removed — handled by layout
-
     const handleSubmit = (values: MSMEApplicationFormValues) => {
-        const eligibilityScore = Math.min(95, Math.max(40, (values.annualRevenue / 100000) * 5 + 50));
-        const isEligible = eligibilityScore >= 60;
+        // Build a proper EligibilityInput — pass any docs already extracted in this session.
+        // MSMEEligibilityCalculator uses them for DSCR, current ratio, GST compliance, banking flags.
+        const extractedDocs = documents.map(d => d.extractedData);
+
+        const eligibilityResult = calculateEligibility({
+            annualRevenue: values.annualRevenue,
+            monthlyIncome: values.monthlyIncome,
+            existingLoanAmount: values.existingLoanAmount,
+            loanAmount: values.loanAmount,
+            loanTerm: values.loanTerm,
+            creditScore: values.creditScore,
+            businessType: values.businessType,
+            loanType: 'business_loan',
+            extractedDocuments: extractedDocs.length > 0 ? extractedDocs : undefined,
+        });
 
         const payload = {
             businessName: values.businessName,
@@ -41,10 +57,12 @@ const CreateApplication = () => {
             existingLoanAmount: values.existingLoanAmount,
             loanAmount: values.loanAmount,
             loanTerm: values.loanTerm,
-            creditScore: values.creditScore || 700,
-            eligibilityScore: Math.round(eligibilityScore),
-            isEligible,
-            rejectionReason: isEligible ? undefined : 'Did not meet minimum revenue/score criteria'
+            creditScore: values.creditScore,
+            eligibilityScore: eligibilityResult.overallScore,
+            isEligible: eligibilityResult.isEligible,
+            rejectionReason: eligibilityResult.rejectionReason,
+            // Full breakdown persisted so reviewers can see exactly how the score was reached
+            eligibilityBreakdown: eligibilityResult,
         };
 
         createAssessment(payload, {
@@ -67,19 +85,21 @@ const CreateApplication = () => {
 
     return (
         <>
+            <div className="max-w-4xl mx-auto">
+                <div className="mb-6">
+                    <h1 className="text-2xl font-bold text-gray-900">New Loan Application</h1>
+                    <p className="text-gray-600">Create a new application for MSME loan assessment</p>
+                </div>
 
-                    <div className="max-w-4xl mx-auto">
-                        <div className="mb-6">
-                            <h1 className="text-2xl font-bold text-gray-900">New Loan Application</h1>
-                            <p className="text-gray-600">Create a new application for MSME loan assessment</p>
-                        </div>
-
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                            <MSMEApplicationForm onSubmit={handleSubmit} isSubmitting={isPending} />
-                        </div>
-                    </div>
-                
-            </>
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <MSMEApplicationForm
+                        onSubmit={handleSubmit}
+                        isSubmitting={isPending}
+                        prefilledCustomer={prefilledCustomer}
+                    />
+                </div>
+            </div>
+        </>
     );
 };
 

@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import { useApplications } from '@/contexts/ApplicationContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { SCORING_CONFIG } from '@/config/scoringConfig';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion } from 'framer-motion';
@@ -82,27 +83,12 @@ const Analytics = () => {
     value,
   }));
 
-  // Loan amount range distribution
-  const loanRangeData = [
-    { name: '<₹10L', applications: 0 },
-    { name: '₹10L-₹25L', applications: 0 },
-    { name: '₹25L-₹50L', applications: 0 },
-    { name: '₹50L-₹1Cr', applications: 0 },
-    { name: '>₹1Cr', applications: 0 },
-  ];
+  // Loan amount range distribution — buckets come from SCORING_CONFIG
+  const loanRangeData = SCORING_CONFIG.loanAmountBuckets.map(b => ({ name: b.label, applications: 0 }));
 
   applications.forEach(app => {
-    if (app.loanAmount < 100000) {
-      loanRangeData[0].applications++;
-    } else if (app.loanAmount < 250000) {
-      loanRangeData[1].applications++;
-    } else if (app.loanAmount < 500000) {
-      loanRangeData[2].applications++;
-    } else if (app.loanAmount < 1000000) {
-      loanRangeData[3].applications++;
-    } else {
-      loanRangeData[4].applications++;
-    }
+    const idx = SCORING_CONFIG.loanAmountBuckets.findIndex(b => app.loanAmount < b.max);
+    if (idx >= 0) loanRangeData[idx].applications++;
   });
 
   const chartConfig = {

@@ -2,11 +2,14 @@ import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDocuments } from '@/contexts/DocumentContext';
+import { useCustomers } from '@/hooks/useCustomers';
+import { useLocation } from 'react-router-dom';
 import {
   extractMsmeDocument,
   getDocumentSummary,
   MsmeDocumentType,
 } from '@/services/msmeDocumentService';
+import { saveCustomerDocument } from '@/services/customerService';
 import DocumentUploadPanel from '@/components/DocumentUploadPanel';
 import FinancialSummaryCard from '@/components/FinancialSummaryCard';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +17,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import {
   MSMEDocumentType,
@@ -29,6 +34,8 @@ import {
   Eye,
   Zap,
   BarChart3,
+  User,
+  CloudUpload,
 } from 'lucide-react';
 import CibilReportView from '@/components/CibilReportView';
 import EligibilityReport from '@/components/EligibilityReport';
@@ -55,77 +62,29 @@ const initialUploadStates: Record<MSMEDocumentType, DocumentUploadState> = {
 const DocumentProcessor = () => {
   const { user } = useAuth();
   const { documents, addDocument, removeDocument, clearAllDocuments } = useDocuments();
+  const { customers } = useCustomers();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Accept preselectedCustomerId from Customers page navigation
+  const preselectedId = (location.state as { preselectedCustomerId?: string } | null)?.preselectedCustomerId ?? '';
 
   const [uploadStates, setUploadStates] = useState<Record<MSMEDocumentType, DocumentUploadState>>(initialUploadStates);
   const [selectedDocument, setSelectedDocument] = useState<ExtractedMSMEData | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [confirmSaveOpen, setConfirmSaveOpen] = useState(false);
-  const [pendingDoc, setPendingDoc] = useState<{file: File, type: MSMEDocumentType, data: ExtractedMSMEData} | null>(null);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>(preselectedId);
 
-  const handleSaveToFirebase = async (doc: {file: File, type: MSMEDocumentType, data: ExtractedMSMEData}) => {
-    try {
-      // Save to Firestore
-      const { collection, addDoc } = await import('firebase/firestore');
-      const { db } = await import('@/lib/firebase');
-      
-      await addDoc(collection(db, 'extracted_documents'), {
-        ...doc.data,
-        userId: user?.uid,
-        processedAt: new Date().toISOString(),
-      });
-
-      toast({
-        title: 'Saved to Database',
-        description: 'Extracted information has been persisted to Firebase.',
-      });
-    } catch (error) {
-      console.error('Error saving to Firestore:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Save Failed',
-        description: 'Could not save to database, but data is available locally.',
-      });
-    }
-  };
-
-  const finalizeExtraction = (saveToFirestore: boolean) => {
-    if (!pendingDoc) return;
-
-    const { file, type, data } = pendingDoc;
-
-    // Store in context (localStorage)
-    addDocument({
-      documentType: type,
-      fileName: file.name,
-      fileSize: file.size,
-      extractedData: data,
-    });
-
-    setUploadStates(prev => ({
-      ...prev,
-      [type]: { file, status: 'success', extractedData: data, error: null }
-    }));
-
-    if (saveToFirestore) {
-      handleSaveToFirebase(pendingDoc);
-    }
-
-    setConfirmSaveOpen(false);
-    setPendingDoc(null);
-  };
+  const selectedCustomer = customers.find(c => c.id === selectedCustomerId);
 
   const handleUpload = useCallback(async (file: File, type: MSMEDocumentType) => {
-    // Mark as processing
     setUploadStates(prev => ({
       ...prev,
       [type]: { ...prev[type], file, status: 'processing', error: null }
     }));
 
     try {
-      // Call Gemini Vision Cloud Function — works on the raw PDF/image visually
       const result = await extractMsmeDocument(file, type as MsmeDocumentType);
 
-      // Prepare compatibility object
       const msmeData: ExtractedMSMEData = {
         documentType: type,
         fileName: file.name,
@@ -136,13 +95,46 @@ const DocumentProcessor = () => {
         rawText: '',
       };
 
-      setPendingDoc({ file, type, data: msmeData });
-      setConfirmSaveOpen(true);
-
-      toast({
-        title: 'AI Extraction Complete',
-        description: `Gemini Vision successfully analysed your ${DOCUMENT_TYPE_CONFIG[type].label}.`,
+      // Always store in session context (localStorage) for the current workflow
+      addDocument({
+        documentType: type,
+        fileName: file.name,
+        fileSize: file.size,
+        extractedData: msmeData,
       });
+
+      setUploadStates(prev => ({
+        ...prev,
+        [type]: { file, status: 'success', extractedData: msmeData, error: null }
+      }));
+
+      // Auto-persist to Storage + Firestore when a customer is selected
+      if (selectedCustomerId && user) {
+        try {
+          await saveCustomerDocument(selectedCustomerId, user.uid, file, msmeData);
+          toast({
+            title: 'AI Extraction Complete',
+            description: (
+              <span>
+                Saved to{' '}
+                <strong>{selectedCustomer?.businessName ?? 'customer'}</strong>
+                {' '}— {DOCUMENT_TYPE_CONFIG[type].label} extracted and stored.
+              </span>
+            ) as any,
+          });
+        } catch (saveError) {
+          console.error('Failed to persist to Firestore/Storage:', saveError);
+          toast({
+            title: 'AI Extraction Complete',
+            description: `${DOCUMENT_TYPE_CONFIG[type].label} extracted. Could not save to database — data is available locally.`,
+          });
+        }
+      } else {
+        toast({
+          title: 'AI Extraction Complete',
+          description: `${DOCUMENT_TYPE_CONFIG[type].label} extracted. Select a customer above to save it permanently.`,
+        });
+      }
     } catch (error: any) {
       const errorMsg =
         error?.message?.includes('unauthenticated')
@@ -160,7 +152,7 @@ const DocumentProcessor = () => {
         description: errorMsg,
       });
     }
-  }, [addDocument]);
+  }, [addDocument, selectedCustomerId, selectedCustomer, user]);
 
   const handleClear = useCallback((type: MSMEDocumentType) => {
     setUploadStates(prev => ({ ...prev, [type]: initialUploadStates[type] }));
@@ -172,8 +164,6 @@ const DocumentProcessor = () => {
     setSelectedDocument(data);
     setDetailsOpen(true);
   };
-
-  const navigate = useNavigate();
 
   const completedDocs = Object.values(uploadStates).filter(s => s.status === 'success').length;
   const processingDocs = Object.values(uploadStates).filter(s => s.status === 'processing').length;
@@ -211,6 +201,50 @@ const DocumentProcessor = () => {
           </div>
         </div>
 
+        {/* Customer Selector */}
+        <Card className="border-primary/20 bg-primary/5">
+          <CardContent className="py-4 px-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-primary shrink-0">
+                <User className="h-4 w-4" />
+                Customer
+              </div>
+              <Select value={selectedCustomerId} onValueChange={setSelectedCustomerId}>
+                <SelectTrigger className="w-full sm:w-72 bg-white border-primary/20">
+                  <SelectValue placeholder="Select a customer to auto-save documents…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {customers.length === 0 ? (
+                    <div className="px-3 py-4 text-sm text-muted-foreground text-center">
+                      No customers yet — add one in the Customers page.
+                    </div>
+                  ) : (
+                    customers.map(c => (
+                      <SelectItem key={c.id} value={c.id}>
+                        <div className="flex flex-col">
+                          <span>{c.businessName}</span>
+                          <span className="text-xs text-muted-foreground">{c.fullName} · {c.email}</span>
+                        </div>
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
+              {selectedCustomer && (
+                <Badge variant="secondary" className="gap-1.5 shrink-0">
+                  <CloudUpload className="h-3.5 w-3.5" />
+                  Auto-saving to {selectedCustomer.businessName}
+                </Badge>
+              )}
+              {!selectedCustomerId && (
+                <span className="text-xs text-muted-foreground">
+                  Select a customer to automatically save extracted data to the database.
+                </span>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         <Tabs defaultValue="upload" className="space-y-6">
           <TabsList>
             <TabsTrigger value="upload" className="gap-2">
@@ -235,7 +269,7 @@ const DocumentProcessor = () => {
                   <div className="flex items-center gap-3">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary" />
                     <span className="text-primary font-medium">
-                      Gemini Vision is analysing your document...
+                      Gemini Vision is analysing your document…
                     </span>
                   </div>
                 </CardContent>
@@ -281,6 +315,7 @@ const DocumentProcessor = () => {
               </div>
             )}
           </TabsContent>
+
           {/* Eligibility Tab */}
           <TabsContent value="eligibility" className="space-y-6">
             <EligibilityReport
@@ -315,7 +350,6 @@ const DocumentProcessor = () => {
                   />
                 ) : (
                   <div className="space-y-6">
-                    {/* AI Analysis */}
                     {selectedDocument.aiAnalysis && (
                       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                         <h4 className="text-primary font-bold mb-2 flex items-center gap-2">
@@ -328,7 +362,6 @@ const DocumentProcessor = () => {
                       </div>
                     )}
 
-                    {/* Key Metrics */}
                     <div>
                       <h4 className="font-medium mb-3">Key Metrics</h4>
                       <div className="grid grid-cols-2 gap-3">
@@ -343,7 +376,6 @@ const DocumentProcessor = () => {
                       </div>
                     </div>
 
-                    {/* All Extracted Fields */}
                     <div>
                       <h4 className="font-medium mb-2">All Extracted Fields</h4>
                       <div className="bg-muted rounded-lg p-4">
@@ -366,27 +398,6 @@ const DocumentProcessor = () => {
               </div>
             )}
           </ScrollArea>
-        </DialogContent>
-      </Dialog>
-
-      {/* Confirmation Dialog */}
-      <Dialog open={confirmSaveOpen} onOpenChange={(open) => !open && finalizeExtraction(false)}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Save Extracted Information?</DialogTitle>
-            <DialogDescription>
-              Gemini has successfully extracted data from <strong>{pendingDoc?.file.name}</strong>. 
-              Would you like to save this permanently to the database?
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end gap-3 mt-4">
-            <Button variant="outline" onClick={() => finalizeExtraction(false)}>
-              No, keep locally
-            </Button>
-            <Button onClick={() => finalizeExtraction(true)} className="bg-primary hover:bg-primary/90">
-              Yes, save to DB
-            </Button>
-          </div>
         </DialogContent>
       </Dialog>
     </>

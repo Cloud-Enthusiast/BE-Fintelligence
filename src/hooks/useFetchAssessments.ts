@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useApplications } from '@/contexts/ApplicationContext';
+import type { EligibilityResult } from '@/utils/MSMEEligibilityCalculator';
 
 // Define the assessment type based on the application structure
 export interface MappedAssessment {
@@ -22,6 +23,8 @@ export interface MappedAssessment {
   loan_purpose?: string;
   created_at: string;
   status: 'pending' | 'approved' | 'rejected' | 'info_requested';
+  /** Full breakdown from MSMEEligibilityCalculator — persisted since P1 sprint */
+  eligibility_breakdown?: EligibilityResult;
 }
 
 export const useFetchAssessments = () => {
@@ -54,6 +57,7 @@ export const useFetchAssessments = () => {
         loan_purpose: app.loanPurpose,
         created_at: app.createdAt,
         status: app.status,
+        eligibility_breakdown: app.eligibilityBreakdown,
       }));
     },
     staleTime: 5 * 60 * 1000, // 5 minutes

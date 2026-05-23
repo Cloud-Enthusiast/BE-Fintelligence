@@ -8,16 +8,11 @@ export const useCreateAssessment = () => {
 
     return useMutation({
         mutationFn: async (newAssessment: Omit<LoanApplication, 'id' | 'createdAt' | 'status'>) => {
-            // Simulate API delay
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            // Add the new application via context
-            addApplication(newAssessment);
-
+            // Writes to Firestore via ApplicationContext — awaited properly.
+            await addApplication(newAssessment);
             return newAssessment;
         },
         onSuccess: () => {
-            // Invalidate and refetch assessments list
             queryClient.invalidateQueries({ queryKey: ['assessments'] });
         },
         onError: (error) => {

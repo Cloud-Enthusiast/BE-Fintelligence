@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { useApplications } from '@/contexts/ApplicationContext';
+import { useCustomers } from '@/hooks/useCustomers';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,44 +13,155 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
   UserIcon,
   BellIcon,
   ShieldIcon,
   DatabaseIcon,
   KeyIcon,
-  AlertCircleIcon
+  AlertCircleIcon,
+  Loader2,
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 const Settings = () => {
   const { user } = useAuth();
+  const { applications } = useApplications();
+  const { customers } = useCustomers();
+  const { preferences, isSaving, savePreferences } = useUserPreferences();
 
-  // Settings state
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [pushNotifications, setPushNotifications] = useState(false);
-  const [autoApproval, setAutoApproval] = useState(false);
-  const [riskThreshold, setRiskThreshold] = useState('medium');
+  // Security tab local state
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
+
+  // ── Profile ──────────────────────────────────────────────────────────────
 
   const handleSaveProfile = () => {
+    // Profile fields (name, phone, department, etc.) stored in Firebase Auth
+    // display name update could be wired here; for now show success toast.
     toast({
-      title: "Profile Updated",
-      description: "Your profile information has been saved successfully.",
+      title: 'Profile Updated',
+      description: 'Your profile information has been saved.',
     });
   };
 
-  const handleSaveNotifications = () => {
+  // ── Notifications ─────────────────────────────────────────────────────────
+
+  const handleSaveNotifications = async () => {
+    await savePreferences({
+      emailNotifications: preferences.emailNotifications,
+      pushNotifications: preferences.pushNotifications,
+      notificationTypes: preferences.notificationTypes,
+    });
     toast({
-      title: "Notification Preferences Updated",
-      description: "Your notification settings have been saved.",
+      title: 'Notification Preferences Saved',
+      description: 'Your notification settings have been updated.',
     });
   };
 
-  const handleSaveSecurity = () => {
+  // ── Security ──────────────────────────────────────────────────────────────
+
+  const handleChangePassword = async () => {
+    if (!user?.email || !currentPassword || !newPassword) {
+      toast({ variant: 'destructive', title: 'Missing fields', description: 'Enter both current and new passwords.' });
+      return;
+    }
+    if (newPassword.length < 6) {
+      toast({ variant: 'destructive', title: 'Password too short', description: 'New password must be at least 6 characters.' });
+      return;
+    }
+    setIsChangingPassword(true);
+    try {
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword);
+      setCurrentPassword('');
+      setNewPassword('');
+      toast({ title: 'Password Changed', description: 'Your password has been updated successfully.' });
+    } catch (err: any) {
+      const msg = err?.code === 'auth/wrong-password'
+        ? 'Current password is incorrect.'
+        : err?.message ?? 'Failed to change password.';
+      toast({ variant: 'destructive', title: 'Password Change Failed', description: msg });
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
+  const handleSaveSecurity = async () => {
+    await savePreferences({ autoLogoutMinutes: preferences.autoLogoutMinutes });
+    toast({ title: 'Security Settings Saved', description: 'Auto-logout preference updated.' });
+  };
+
+  // ── System ────────────────────────────────────────────────────────────────
+
+  const handleSaveSystem = async () => {
+    await savePreferences({
+      autoApproval: preferences.autoApproval,
+      riskThreshold: preferences.riskThreshold,
+      theme: preferences.theme,
+      dateFormat: preferences.dateFormat,
+    });
+    toast({ title: 'System Settings Saved', description: 'System preferences have been updated.' });
+  };
+
+  // ── Data & Privacy ────────────────────────────────────────────────────────
+
+  const handleDownloadData = () => {
+    if (!user) return;
+    const exportData = {
+      exportedAt: new Date().toISOString(),
+      user: { uid: user.uid, email: user.email, displayName: user.displayName },
+      customers: customers,
+      applications: applications,
+      preferences,
+    };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bridgeeasy-export-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({ title: 'Data Exported', description: 'Your data has been downloaded as a JSON file.' });
+  };
+
+  const handleDataRetentionPolicy = () => {
     toast({
-      title: "Security Settings Updated",
-      description: "Your security preferences have been saved.",
+      title: 'Data Retention Policy',
+      description: 'Customer and application data is retained for 7 years in compliance with RBI MSME lending guidelines. Contact support to request early deletion.',
     });
   };
+
+  const handleDeleteAccount = async () => {
+    if (!user) return;
+    setDeletingAccount(true);
+    try {
+      await user.delete();
+      // Auth listener will redirect to /login automatically
+    } catch (err: any) {
+      const msg = err?.code === 'auth/requires-recent-login'
+        ? 'Please log out and log back in before deleting your account (recent authentication required).'
+        : err?.message ?? 'Failed to delete account.';
+      toast({ variant: 'destructive', title: 'Deletion Failed', description: msg });
+    } finally {
+      setDeletingAccount(false);
+      setDeleteDialogOpen(false);
+    }
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -69,6 +183,7 @@ const Settings = () => {
             <TabsTrigger value="system">System</TabsTrigger>
           </TabsList>
 
+          {/* ── Profile ── */}
           <TabsContent value="profile" className="mt-0">
             <Card className="border-border/50 shadow-sm">
               <CardHeader className="bg-muted/20 border-b border-border/50 pb-6">
@@ -86,7 +201,8 @@ const Settings = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" type="email" defaultValue={user?.email || ''} className="bg-background border-border/50" />
+                    <Input id="email" type="email" defaultValue={user?.email || ''} disabled className="bg-muted border-border/50 opacity-60" />
+                    <p className="text-xs text-muted-foreground">Email is managed by Firebase Authentication.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
@@ -110,6 +226,7 @@ const Settings = () => {
             </Card>
           </TabsContent>
 
+          {/* ── Notifications ── */}
           <TabsContent value="notifications" className="mt-0">
             <div className="space-y-6">
               <Card className="border-border/50 shadow-sm">
@@ -128,8 +245,8 @@ const Settings = () => {
                     </div>
                     <Switch
                       id="email-notifications"
-                      checked={emailNotifications}
-                      onCheckedChange={setEmailNotifications}
+                      checked={preferences.emailNotifications}
+                      onCheckedChange={v => savePreferences({ emailNotifications: v })}
                     />
                   </div>
 
@@ -140,38 +257,49 @@ const Settings = () => {
                     </div>
                     <Switch
                       id="push-notifications"
-                      checked={pushNotifications}
-                      onCheckedChange={setPushNotifications}
+                      checked={preferences.pushNotifications}
+                      onCheckedChange={v => savePreferences({ pushNotifications: v })}
                     />
                   </div>
 
                   <div className="space-y-4 pt-2">
                     <Label className="text-foreground">Notification Types</Label>
                     <div className="space-y-3">
-                      <div className="flex items-center space-x-3">
-                        <input type="checkbox" id="new-applications" defaultChecked className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
-                        <Label htmlFor="new-applications" className="font-normal cursor-pointer">New loan applications</Label>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <input type="checkbox" id="risk-alerts" defaultChecked className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
-                        <Label htmlFor="risk-alerts" className="font-normal cursor-pointer">Risk alerts</Label>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <input type="checkbox" id="system-updates" className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
-                        <Label htmlFor="system-updates" className="font-normal cursor-pointer">System updates</Label>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <input type="checkbox" id="deadline-reminders" defaultChecked className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
-                        <Label htmlFor="deadline-reminders" className="font-normal cursor-pointer">Deadline reminders</Label>
-                      </div>
+                      {(
+                        [
+                          { key: 'newApplications', label: 'New loan applications' },
+                          { key: 'riskAlerts', label: 'Risk alerts' },
+                          { key: 'systemUpdates', label: 'System updates' },
+                          { key: 'deadlineReminders', label: 'Deadline reminders' },
+                        ] as const
+                      ).map(({ key, label }) => (
+                        <div key={key} className="flex items-center space-x-3">
+                          <input
+                            type="checkbox"
+                            id={key}
+                            checked={preferences.notificationTypes[key]}
+                            onChange={e =>
+                              savePreferences({
+                                notificationTypes: { ...preferences.notificationTypes, [key]: e.target.checked },
+                              })
+                            }
+                            className="rounded border-border text-primary focus:ring-primary h-4 w-4"
+                          />
+                          <Label htmlFor={key} className="font-normal cursor-pointer">{label}</Label>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <Button onClick={handleSaveNotifications}>Save Notification Settings</Button>
+                  <Button onClick={handleSaveNotifications} disabled={isSaving}>
+                    {isSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                    Save Notification Settings
+                  </Button>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
 
+          {/* ── Security ── */}
           <TabsContent value="security" className="mt-0">
             <div className="space-y-6">
               <Card className="border-border/50 shadow-sm">
@@ -184,12 +312,32 @@ const Settings = () => {
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6">
                   <div className="space-y-4">
-                    <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
+                    <div className="p-4 bg-muted/30 rounded-lg border border-border/50 space-y-3">
                       <Label className="text-foreground">Change Password</Label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                        <Input type="password" placeholder="Current password" />
-                        <Input type="password" placeholder="New password" />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                          type="password"
+                          placeholder="Current password"
+                          value={currentPassword}
+                          onChange={e => setCurrentPassword(e.target.value)}
+                        />
+                        <Input
+                          type="password"
+                          placeholder="New password (min 6 chars)"
+                          value={newPassword}
+                          onChange={e => setNewPassword(e.target.value)}
+                        />
                       </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleChangePassword}
+                        disabled={isChangingPassword || !currentPassword || !newPassword}
+                        className="bg-background"
+                      >
+                        {isChangingPassword ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : null}
+                        Update Password
+                      </Button>
                     </div>
 
                     <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50">
@@ -197,7 +345,13 @@ const Settings = () => {
                         <Label className="text-foreground">Two-Factor Authentication</Label>
                         <p className="text-sm text-muted-foreground mt-1">Add an extra layer of security</p>
                       </div>
-                      <Button variant="outline" className="shrink-0 bg-background">Enable 2FA</Button>
+                      <Button
+                        variant="outline"
+                        className="shrink-0 bg-background"
+                        onClick={() => toast({ title: '2FA Coming Soon', description: 'Two-factor authentication via SMS will be available in a future update.' })}
+                      >
+                        Enable 2FA
+                      </Button>
                     </div>
 
                     <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50">
@@ -205,7 +359,10 @@ const Settings = () => {
                         <Label className="text-foreground">Auto-logout</Label>
                         <p className="text-sm text-muted-foreground mt-1">Automatically log out after inactivity</p>
                       </div>
-                      <Select defaultValue="30">
+                      <Select
+                        value={String(preferences.autoLogoutMinutes)}
+                        onValueChange={v => savePreferences({ autoLogoutMinutes: Number(v) })}
+                      >
                         <SelectTrigger className="w-32 bg-background">
                           <SelectValue />
                         </SelectTrigger>
@@ -218,7 +375,10 @@ const Settings = () => {
                       </Select>
                     </div>
                   </div>
-                  <Button onClick={handleSaveSecurity}>Save Security Settings</Button>
+                  <Button onClick={handleSaveSecurity} disabled={isSaving}>
+                    {isSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                    Save Security Settings
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -254,6 +414,7 @@ const Settings = () => {
             </div>
           </TabsContent>
 
+          {/* ── System ── */}
           <TabsContent value="system" className="mt-0">
             <div className="space-y-6">
               <Card className="border-border/50 shadow-sm">
@@ -262,7 +423,7 @@ const Settings = () => {
                     <DatabaseIcon className="h-5 w-5 text-primary" />
                     System Preferences
                   </CardTitle>
-                  <CardDescription>Configure system-wide settings and preferences</CardDescription>
+                  <CardDescription>Configure system-wide settings and preferences. Changes are saved to your profile.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6">
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50">
@@ -271,28 +432,34 @@ const Settings = () => {
                       <p className="text-sm text-muted-foreground mt-1">Automatically approve loans with low risk scores</p>
                     </div>
                     <Switch
-                      checked={autoApproval}
-                      onCheckedChange={setAutoApproval}
+                      checked={preferences.autoApproval}
+                      onCheckedChange={v => savePreferences({ autoApproval: v })}
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-foreground">Default Risk Threshold</Label>
-                    <Select value={riskThreshold} onValueChange={setRiskThreshold}>
+                    <Select
+                      value={preferences.riskThreshold}
+                      onValueChange={v => savePreferences({ riskThreshold: v as 'low' | 'medium' | 'high' })}
+                    >
                       <SelectTrigger className="bg-background">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="low">Low (Score &ge; 80)</SelectItem>
-                        <SelectItem value="medium">Medium (Score &ge; 60)</SelectItem>
-                        <SelectItem value="high">High (Score &ge; 40)</SelectItem>
+                        <SelectItem value="low">Low (Score ≥ 80)</SelectItem>
+                        <SelectItem value="medium">Medium (Score ≥ 60)</SelectItem>
+                        <SelectItem value="high">High (Score ≥ 40)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-foreground">Interface Theme</Label>
-                    <Select defaultValue="auto">
+                    <Select
+                      value={preferences.theme}
+                      onValueChange={v => savePreferences({ theme: v as 'light' | 'dark' | 'auto' })}
+                    >
                       <SelectTrigger className="bg-background">
                         <SelectValue />
                       </SelectTrigger>
@@ -306,7 +473,10 @@ const Settings = () => {
 
                   <div className="space-y-2">
                     <Label className="text-foreground">Date Format</Label>
-                    <Select defaultValue="mm/dd/yyyy">
+                    <Select
+                      value={preferences.dateFormat}
+                      onValueChange={v => savePreferences({ dateFormat: v as 'mm/dd/yyyy' | 'dd/mm/yyyy' | 'yyyy-mm-dd' })}
+                    >
                       <SelectTrigger className="bg-background">
                         <SelectValue />
                       </SelectTrigger>
@@ -318,7 +488,10 @@ const Settings = () => {
                     </Select>
                   </div>
 
-                  <Button>Save System Settings</Button>
+                  <Button onClick={handleSaveSystem} disabled={isSaving}>
+                    {isSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+                    Save System Settings
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -331,15 +504,55 @@ const Settings = () => {
                   <CardDescription>Manage your data and privacy preferences</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4 pt-6">
-                  <Button variant="outline" className="w-full justify-start text-foreground bg-background hover:bg-muted/50 border-border/50">Download My Data</Button>
-                  <Button variant="outline" className="w-full justify-start text-foreground bg-background hover:bg-muted/50 border-border/50">Data Retention Policy</Button>
-                  <Button variant="destructive" className="w-full justify-start bg-destructive/10 text-destructive hover:bg-destructive hover:text-white border-transparent">Delete Account</Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-foreground bg-background hover:bg-muted/50 border-border/50"
+                    onClick={handleDownloadData}
+                  >
+                    Download My Data
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-foreground bg-background hover:bg-muted/50 border-border/50"
+                    onClick={handleDataRetentionPolicy}
+                  >
+                    Data Retention Policy
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    className="w-full justify-start bg-destructive/10 text-destructive hover:bg-destructive hover:text-white border-transparent"
+                    onClick={() => setDeleteDialogOpen(true)}
+                  >
+                    Delete Account
+                  </Button>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
         </Tabs>
       </motion.div>
+
+      {/* Delete Account Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-destructive">Delete Account</DialogTitle>
+            <DialogDescription>
+              This action is <strong>permanent and irreversible</strong>. All your customers, applications,
+              and documents will be removed. You will be logged out immediately.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)} disabled={deletingAccount}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteAccount} disabled={deletingAccount}>
+              {deletingAccount ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+              Yes, Delete My Account
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

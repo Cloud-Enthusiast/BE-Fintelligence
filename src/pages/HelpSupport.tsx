@@ -78,21 +78,27 @@ const HelpSupport = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-primary/50 group border-border/50">
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow hover:border-primary/50 group border-border/50"
+            onClick={() => window.open('mailto:support@befintelligence.com?subject=User+Guide+Request', '_blank')}
+          >
             <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
               <div className="rounded-full bg-primary/10 p-4 mb-4 group-hover:bg-primary/20 transition-colors">
                 <BookOpenIcon className="h-8 w-8 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2 text-lg">User Guide</h3>
-              <p className="text-sm text-muted-foreground mb-6">Complete documentation and tutorials</p>
+              <p className="text-sm text-muted-foreground mb-6">Request complete documentation and tutorials</p>
               <Button variant="outline" size="sm" className="w-full bg-background shadow-sm group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-colors">
                 <ExternalLinkIcon className="h-4 w-4 mr-2" />
-                View Guide
+                Request Guide
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-emerald-500/50 group border-border/50">
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow hover:border-emerald-500/50 group border-border/50"
+            onClick={() => window.open('https://www.youtube.com/@BridgeEasyMSME', '_blank')}
+          >
             <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
               <div className="rounded-full bg-emerald-500/10 p-4 mb-4 group-hover:bg-emerald-500/20 transition-colors">
                 <VideoIcon className="h-8 w-8 text-emerald-600" />
@@ -106,15 +112,18 @@ const HelpSupport = () => {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow hover:border-amber-500/50 group border-border/50">
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow hover:border-amber-500/50 group border-border/50"
+            onClick={() => window.open('mailto:support@befintelligence.com?subject=Live+Chat+Request', '_blank')}
+          >
             <CardContent className="p-8 text-center flex flex-col items-center justify-center h-full">
               <div className="rounded-full bg-amber-500/10 p-4 mb-4 group-hover:bg-amber-500/20 transition-colors">
                 <MessageSquareIcon className="h-8 w-8 text-amber-600" />
               </div>
-              <h3 className="font-semibold text-foreground mb-2 text-lg">Live Chat</h3>
-              <p className="text-sm text-muted-foreground mb-6">Chat with our support team</p>
+              <h3 className="font-semibold text-foreground mb-2 text-lg">Email Support</h3>
+              <p className="text-sm text-muted-foreground mb-6">Reach our support team by email</p>
               <Button variant="outline" size="sm" className="w-full bg-background shadow-sm group-hover:bg-amber-600 group-hover:text-white group-hover:border-amber-600 transition-colors">
-                Start Chat
+                Contact Us
               </Button>
             </CardContent>
           </Card>
@@ -175,33 +184,36 @@ const HelpSupport = () => {
                 <CardDescription>Get in touch with our support team</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-6">
-                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
-                  <div className="rounded-full bg-primary/10 p-3">
-                    <PhoneIcon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">Phone Support</p>
-                    <p className="text-sm text-muted-foreground mt-0.5">1-800-FINANCE (24/7)</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
+                <a
+                  href="mailto:support@befintelligence.com"
+                  className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors no-underline"
+                >
                   <div className="rounded-full bg-emerald-500/10 p-3">
                     <MailIcon className="h-5 w-5 text-emerald-600" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">Email Support</p>
-                    <p className="text-sm text-muted-foreground mt-0.5">support@befinance.com</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">support@befintelligence.com</p>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
                   <div className="rounded-full bg-amber-500/10 p-3">
                     <MessageSquareIcon className="h-5 w-5 text-amber-600" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Live Chat</p>
-                    <p className="text-sm text-muted-foreground mt-0.5">Available 9 AM - 6 PM EST</p>
+                    <p className="font-semibold text-foreground">Response Time</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">We respond within 24 hours on business days</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="rounded-full bg-primary/10 p-3">
+                    <PhoneIcon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Business Hours</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Monday – Friday, 9 AM – 6 PM IST</p>
                   </div>
                 </div>
               </CardContent>
@@ -259,25 +271,32 @@ const HelpSupport = () => {
 
             <Card className="border-border/50 shadow-sm">
               <CardHeader className="bg-muted/20 border-b border-border/50 pb-6">
-                <CardTitle className="text-lg">System Status</CardTitle>
-                <CardDescription>Current status of our services</CardDescription>
+                <CardTitle className="text-lg">Service Status</CardTitle>
+                <CardDescription>Live status of our infrastructure providers</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Loan Processing System</span>
-                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Database Services</span>
-                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Authentication System</span>
-                  <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-transparent font-medium">Operational</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Notification Services</span>
-                  <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-transparent font-medium">Degraded</Badge>
+                <p className="text-sm text-muted-foreground">
+                  BridgeEasy runs on Google Firebase infrastructure. For real-time service status, please check the official status pages:
+                </p>
+                <div className="space-y-2">
+                  <a
+                    href="https://status.firebase.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors group"
+                  >
+                    <span className="text-sm font-medium text-foreground">Firebase Status</span>
+                    <ExternalLinkIcon className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  </a>
+                  <a
+                    href="https://status.cloud.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3 border border-border/50 rounded-lg hover:bg-muted/30 transition-colors group"
+                  >
+                    <span className="text-sm font-medium text-foreground">Google Cloud Status</span>
+                    <ExternalLinkIcon className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                  </a>
                 </div>
               </CardContent>
             </Card>

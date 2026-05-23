@@ -4,6 +4,7 @@
 import { LoanApplication } from '@/contexts/ApplicationContext';
 import { ExtractedMSMEData, CIBILReportData, BankStatementData } from '@/types/msmeDocuments';
 import { EligibilityResult } from '@/utils/MSMEEligibilityCalculator';
+import { SCORING_CONFIG } from '@/config/scoringConfig';
 
 export interface RiskScore {
   overall: number;           // 0-100 (higher = riskier)
@@ -85,7 +86,9 @@ export const calculateRiskScore = (
       const score = parseInt(cibil.creditScore);
 
       if (!isNaN(score)) {
-        if (score < 600) {
+        // Thresholds sourced from SCORING_CONFIG — not hardcoded
+        const criticalThreshold = SCORING_CONFIG.cibil.good - 50; // 600
+        if (score < criticalThreshold) {
           flags.push({
             id: 'credit_score_critical',
             type: 'critical',
@@ -94,12 +97,12 @@ export const calculateRiskScore = (
             impact: 25
           });
           category.credit += 30;
-        } else if (score < 650) {
+        } else if (score < SCORING_CONFIG.cibil.good) {
           flags.push({
             id: 'credit_score_warning',
             type: 'warning',
             title: 'Below Average Credit Score',
-            description: `Credit score of ${score} is below preferred threshold`,
+            description: `Credit score of ${score} is below preferred threshold (${SCORING_CONFIG.cibil.good})`,
             impact: 15
           });
           category.credit += 20;
@@ -159,7 +162,7 @@ export const calculateRiskScore = (
   }
 
   // Loan amount vs eligibility score risk
-  if (application.eligibilityScore < 60) {
+  if (application.eligibilityScore < SCORING_CONFIG.risk.medium) {
     flags.push({
       id: 'low_eligibility',
       type: 'warning',
@@ -171,7 +174,7 @@ export const calculateRiskScore = (
   }
 
   // Large loan amount risk
-  if (application.loanAmount > 5000000) { // 50 lakhs
+  if (application.loanAmount > SCORING_CONFIG.largeLoanThreshold) {
     flags.push({
       id: 'large_loan',
       type: 'info',
@@ -187,11 +190,11 @@ export const calculateRiskScore = (
   const categoryAvg = (category.credit + category.financial + category.operational + category.industry) / 4;
   const overall = Math.min(100, Math.max(0, (baseRisk + flagImpact + categoryAvg) / 2));
 
-  // Determine severity
+  // Determine severity — derived from SCORING_CONFIG.risk thresholds
   let severity: RiskScore['severity'];
   if (overall >= 75) severity = 'critical';
   else if (overall >= 50) severity = 'high';
-  else if (overall >= 25) severity = 'medium';
+  else if (overall >= SCORING_CONFIG.risk.medium) severity = 'medium';
   else severity = 'low';
 
   return {
@@ -212,7 +215,10 @@ export const generateRiskAlerts = (applications: LoanApplication[]): RiskAlert[]
   const alerts: RiskAlert[] = [];
 
   applications.forEach(app => {
-    const riskScore = calculateRiskScore(app);
+    // Pass eligibilityBreakdown (persisted on the application since P1) so
+    // the risk engine uses the full calculated breakdown rather than falling
+    // back to the generic 50-point base risk.
+    const riskScore = calculateRiskScore(app, undefined, app.eligibilityBreakdown);
 
     if (riskScore.severity === 'critical' || riskScore.severity === 'high') {
       alerts.push({
@@ -242,7 +248,7 @@ export const generateRiskAlerts = (applications: LoanApplication[]): RiskAlert[]
 export const calculatePortfolioRisk = (applications: LoanApplication[]): PortfolioRiskSummary => {
   const riskScores = applications.map(app => ({
     app,
-    risk: calculateRiskScore(app)
+    risk: calculateRiskScore(app, undefined, app.eligibilityBreakdown),
   }));
 
   const distribution = {
@@ -285,7 +291,7 @@ export const calculatePortfolioRisk = (applications: LoanApplication[]): Portfol
       return t >= start && t < end;
     });
     if (weekApps.length === 0) return { period, avgScore: 0, approvalRate: 0 };
-    const weekRiskScores = weekApps.map(app => calculateRiskScore(app));
+    const weekRiskScores = weekApps.map(app => calculateRiskScore(app, undefined, app.eligibilityBreakdown));
     const avg = Math.round(
       weekRiskScores.reduce((sum, r) => sum + r.overall, 0) / weekRiskScores.length
     );

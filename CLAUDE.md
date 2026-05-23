@@ -138,10 +138,10 @@ DOCUMENT_AI_BANK_PROCESSOR_ID
 | Context | What It Manages | Persistence |
 |---------|----------------|-------------|
 | `AuthContext` | Firebase user, login/logout methods | Firebase Auth session |
-| `ApplicationContext` | Loan applications list and status | localStorage (mock mode — Firestore integration commented out) |
-| `DocumentContext` | Uploaded documents per session | localStorage (key: `be_finance_documents`) |
+| `ApplicationContext` | Loan applications list and status | **Firestore** `loan_applications` collection (real, not mocked). Query is scoped `where('userId','==',uid)` — requires composite index `(userId ASC, createdAt DESC)`. |
+| `DocumentContext` | Uploaded documents per session | localStorage (key: `be_finance_documents`) — session-only; Firestore/Storage persistence happens via `saveCustomerDocument()` in `customerService.ts` when a customer is selected in DocumentProcessor. |
 
-> **Note:** `ApplicationContext` currently uses mock data. Backend Firestore integration is stubbed but commented out.
+> **Note:** `ApplicationContext` is **fully Firestore-backed**. The previous note about "mock mode / commented out" was stale — it was cleaned up in the P1 sprint (2026-05-23).
 
 ---
 
@@ -179,11 +179,16 @@ Return validated structured JSON to frontend
 
 ## Firestore Collections
 
-| Collection | Access Control |
-|-----------|---------------|
-| `loan_applications` | Create if signed in + owner; read/update if owner or admin; delete if admin |
-| `applications` | Same as above |
-| `users/{userId}` | Read/write only for self |
+| Collection | Access Control | Notes |
+|-----------|---------------|-------|
+| `loan_applications` | Create if signed in + owner; read/update if owner or admin; delete if admin | Contains `eligibilityBreakdown` (full `EligibilityResult` from `MSMEEligibilityCalculator`) |
+| `applications` | Same as above | Legacy alias |
+| `customers/{customerId}` | Create/read/update/delete if owner | Master customer entity. Added P1 sprint 2026-05-23. |
+| `customers/{customerId}/documents/{docId}` | Same as parent | Extracted doc data + Storage path. Written by `saveCustomerDocument()`. |
+| `customers/{customerId}/cibilAssessments/{assessmentId}` | Same as parent | Historical CIBIL pulls per customer |
+| `extracted_documents` | Create if signed in + owner; read/update/delete if owner | Legacy opt-in save from DocumentProcessor — superseded by `customers/{id}/documents` |
+| `users/{userId}` | Read/write only for self | |
+| `users/{userId}/preferences/{prefDoc}` | Read/write only for self | Settings persistence (Phase 3) |
 
 ---
 
@@ -204,7 +209,8 @@ Return validated structured JSON to frontend
 
 ## Things to Be Careful About
 
-- The `ApplicationContext` mock mode: Firestore writes are disabled. Don't accidentally re-enable them without testing security rules.
+- **Firestore composite index required:** `loan_applications` query uses `where('userId','==',uid)` + `orderBy('createdAt','desc')`. Deploy the index or Firestore will reject the query. Same applies to `customers` collection.
+- **Customer-first workflow:** `saveCustomerDocument()` in `customerService.ts` requires a `customerId`. In DocumentProcessor, if no customer is selected, docs are saved to localStorage only — not to Firestore/Storage.
 - Azapi.ai is on **sandbox** credentials — do not use production CIBIL parsing until the API key is swapped.
 - `VITE_GEMINI_API_KEY` in the frontend is exposed to the browser — only safe because it's rate-limited. Long term, proxy via Cloud Functions.
 - `functions/` has its own `package.json` and `tsconfig.json` — always `cd functions && npm run build` after changing function code.

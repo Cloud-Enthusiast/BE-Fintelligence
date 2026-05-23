@@ -38,6 +38,7 @@ export const useFetchSingleBasicAssessment = (id: string) => {
         loan_purpose: app.loanPurpose,
         created_at: app.createdAt,
         status: app.status,
+        eligibility_breakdown: app.eligibilityBreakdown,
       };
     },
     enabled: !!id,

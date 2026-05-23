@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle, AlertTriangle, Info, Loader2 } from 'lucide-react'; // Added Loader2
+import { AlertCircle, CheckCircle, AlertTriangle, Info, Loader2, TrendingUp, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { useFetchSingleBasicAssessment } from '@/hooks/useFetchSingleBasicAssessment';
 import { formatCurrency } from '@/utils/formatters';
 import { Progress } from '@/components/ui/progress';
@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { SCORING_CONFIG, getRiskTextColor, getRiskBgColor } from '@/config/scoringConfig';
 
 interface LoanApplicationReviewProps {
   applicationId?: string;
@@ -167,10 +168,10 @@ const LoanApplicationReview = ({
                 <span className="text-sm font-medium text-gray-500">Credit Score</span>
                 <span className={cn(
                   "font-medium",
-                  displayData.creditScore >= 700 ? "text-green-600" :
-                    displayData.creditScore >= 600 ? "text-yellow-600" : "text-red-600"
+                  displayData.creditScore >= SCORING_CONFIG.cibil.excellent ? "text-green-600" :
+                    displayData.creditScore >= SCORING_CONFIG.cibil.good ? "text-yellow-600" : "text-red-600"
                 )}>
-                  {displayData.creditScore}
+                  {displayData.creditScore || '—'}
                 </span>
               </div>
               <Separator />
@@ -417,6 +418,97 @@ const LoanApplicationReview = ({
           </CardContent>
         </Card>
       </div>
+
+      {/* Eligibility Breakdown — rendered when the full EligibilityResult is persisted on the application */}
+      {currentApplication.eligibility_breakdown && (
+        <div className="mt-6">
+          <Card className="border-border/50 shadow-sm">
+            <CardHeader className="border-b border-border/50 pb-4">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Eligibility Breakdown
+              </CardTitle>
+              <CardDescription>
+                Full scoring rationale from MSMEEligibilityCalculator — computed at time of submission
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-5 space-y-5">
+              {/* Top summary */}
+              <div className="flex flex-wrap gap-4 items-center">
+                <div className="flex items-center gap-2">
+                  {currentApplication.eligibility_breakdown.isEligible ? (
+                    <ShieldCheck className="h-5 w-5 text-emerald-600" />
+                  ) : (
+                    <ShieldAlert className="h-5 w-5 text-destructive" />
+                  )}
+                  <Badge
+                    className={currentApplication.eligibility_breakdown.isEligible
+                      ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                      : 'bg-destructive/10 text-destructive border-destructive/20'}
+                  >
+                    {currentApplication.eligibility_breakdown.isEligible ? 'Eligible' : 'Not Eligible'}
+                  </Badge>
+                </div>
+                <span className={cn('text-2xl font-bold', getRiskTextColor(currentApplication.eligibility_breakdown.overallScore))}>
+                  {currentApplication.eligibility_breakdown.overallScore}/100
+                </span>
+                {currentApplication.eligibility_breakdown.rejectionReason && (
+                  <span className="text-sm text-destructive italic">{currentApplication.eligibility_breakdown.rejectionReason}</span>
+                )}
+                {currentApplication.eligibility_breakdown.eligibilityNote && currentApplication.eligibility_breakdown.isEligible && (
+                  <span className="text-sm text-emerald-700 italic">{currentApplication.eligibility_breakdown.eligibilityNote}</span>
+                )}
+              </div>
+
+              {/* Score breakdown bars */}
+              {currentApplication.eligibility_breakdown.breakdown && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {Object.entries(currentApplication.eligibility_breakdown.breakdown).map(([key, val]) => {
+                    const score = typeof val === 'object' && val !== null && 'score' in val
+                      ? (val as { score: number }).score
+                      : typeof val === 'number' ? val : null;
+                    if (score === null) return null;
+                    const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+                    return (
+                      <div key={key}>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-muted-foreground">{label}</span>
+                          <span className={cn('font-semibold', getRiskTextColor(score))}>{score}/100</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                          <div
+                            className={cn('h-full rounded-full transition-all duration-500', getRiskBgColor(score))}
+                            style={{ width: `${score}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Key metrics */}
+              {currentApplication.eligibility_breakdown.metrics && (
+                <div>
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Key Metrics</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {Object.entries(currentApplication.eligibility_breakdown.metrics)
+                      .filter(([, v]) => v !== undefined && v !== null)
+                      .map(([key, value]) => (
+                        <div key={key} className="bg-muted/40 rounded-lg p-3">
+                          <p className="text-xs text-muted-foreground capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
+                          <p className="text-sm font-semibold text-foreground mt-0.5">
+                            {typeof value === 'number' ? value.toFixed(2) : String(value)}
+                          </p>
+                        </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* Decision Actions */}
       <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6 shadow-sm" data-tour="review-decision-actions">

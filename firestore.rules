@@ -13,9 +13,8 @@ service cloud.firestore {
     }
 
     // ── loan_applications ─────────────────────────────────────────
-    // Authenticated users can create their own applications.
-    // Users can only read/update their own; admins can read all.
-    // Only admins can delete.
+    // Frontend query MUST include where('userId','==', uid) for collection reads
+    // to satisfy this rule — see ApplicationContext.tsx.
     match /loan_applications/{docId} {
       allow create: if isSignedIn()
                     && request.resource.data.userId == request.auth.uid;
@@ -41,6 +40,34 @@ service cloud.firestore {
                     && request.auth.token.admin == true;
     }
 
+    // ── customers ─────────────────────────────────────────────────
+    // Primary customer entity. Officers own their customer records.
+    match /customers/{customerId} {
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid;
+
+      allow read, update, delete: if isSignedIn()
+                                  && isOwner(resource.data.userId);
+
+      // Extracted document data per customer
+      match /documents/{docId} {
+        allow create: if isSignedIn()
+                      && request.resource.data.userId == request.auth.uid;
+
+        allow read, update, delete: if isSignedIn()
+                                    && isOwner(resource.data.userId);
+      }
+
+      // CIBIL assessment history per customer
+      match /cibilAssessments/{assessmentId} {
+        allow create: if isSignedIn()
+                      && request.resource.data.userId == request.auth.uid;
+
+        allow read, update, delete: if isSignedIn()
+                                    && isOwner(resource.data.userId);
+      }
+    }
+
     // ── extracted_documents ───────────────────────────────────────
     match /extracted_documents/{docId} {
       allow create: if isSignedIn()
@@ -51,9 +78,14 @@ service cloud.firestore {
     }
 
     // ── users ─────────────────────────────────────────────────────
-    // Users can only read and write their own profile document.
+    // Top-level user profile document.
     match /users/{userId} {
       allow read, write: if isSignedIn() && isOwner(userId);
+
+      // Per-user preferences (theme, notification toggles, etc.)
+      match /preferences/{prefDoc} {
+        allow read, write: if isSignedIn() && isOwner(userId);
+      }
     }
   }
 }

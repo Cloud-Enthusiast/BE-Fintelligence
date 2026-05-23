@@ -7,10 +7,12 @@ import {
   updateDoc,
   doc,
   orderBy,
+  where,
   Timestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from './AuthContext';
+import type { EligibilityResult } from '@/utils/MSMEEligibilityCalculator';
 
 export interface LoanApplication {
   id: string;
@@ -32,6 +34,8 @@ export interface LoanApplication {
   loanPurpose?: string;
   createdAt: string;
   status: 'pending' | 'approved' | 'rejected' | 'info_requested';
+  /** Full breakdown from MSMEEligibilityCalculator — persisted so reviewers see exactly how the score was reached */
+  eligibilityBreakdown?: EligibilityResult;
 }
 
 interface ApplicationContextType {
@@ -65,8 +69,11 @@ export const ApplicationProvider = ({ children }: { children: ReactNode }) => {
 
     setIsLoading(true);
 
+    // NOTE: this query requires a composite index on (userId ASC, createdAt DESC).
+    // If missing, Firestore will throw a "requires an index" error with a link to create it.
     const q = query(
       collection(db, 'loan_applications'),
+      where('userId', '==', user.uid),
       orderBy('createdAt', 'desc')
     );
 
@@ -103,6 +110,7 @@ export const ApplicationProvider = ({ children }: { children: ReactNode }) => {
             loanPurpose: d.loanPurpose,
             createdAt,
             status: d.status ?? 'pending',
+            eligibilityBreakdown: d.eligibilityBreakdown ?? undefined,
           };
         });
         setApplications(apps);
@@ -138,9 +146,12 @@ export const ApplicationProvider = ({ children }: { children: ReactNode }) => {
     id: string,
     status: LoanApplication['status']
   ) => {
+    if (!user) throw new Error('Not authenticated');
     try {
+      // Firestore security rules enforce ownership — only the doc owner can update.
+      // The rule: allow update: if isOwner(resource.data.userId)
       const docRef = doc(db, 'loan_applications', id);
-      await updateDoc(docRef, { status });
+      await updateDoc(docRef, { status, updatedAt: Timestamp.now() });
     } catch (error) {
       console.error('Error updating status:', error);
       throw error;

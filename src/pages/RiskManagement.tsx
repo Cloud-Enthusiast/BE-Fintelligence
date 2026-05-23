@@ -17,15 +17,17 @@ import {
   ShieldQuestionIcon
 } from 'lucide-react';
 import { generateRiskAlerts } from '@/utils/riskScoring';
+import { SCORING_CONFIG } from '@/config/scoringConfig';
 
 const RiskManagement = () => {
   const { user } = useAuth();
   const { applications } = useApplications();
 
-  // Calculate risk metrics
-  const highRiskApps = applications.filter(app => app.eligibilityScore < 60);
-  const mediumRiskApps = applications.filter(app => app.eligibilityScore >= 60 && app.eligibilityScore < 80);
-  const lowRiskApps = applications.filter(app => app.eligibilityScore >= 80);
+  // Calculate risk metrics — thresholds from SCORING_CONFIG
+  const { medium: mediumThreshold, low: lowThreshold } = SCORING_CONFIG.risk;
+  const highRiskApps = applications.filter(app => app.eligibilityScore < mediumThreshold);
+  const mediumRiskApps = applications.filter(app => app.eligibilityScore >= mediumThreshold && app.eligibilityScore < lowThreshold);
+  const lowRiskApps = applications.filter(app => app.eligibilityScore >= lowThreshold);
 
   const totalPortfolioValue = applications
     .filter(app => app.status === 'approved')
@@ -82,7 +84,7 @@ const RiskManagement = () => {
                 </div>
               </div>
               <div className="text-3xl font-bold tracking-tight text-destructive">{highRiskApps.length}</div>
-              <p className="text-xs text-muted-foreground mt-1 font-medium">Score &lt; 60</p>
+              <p className="text-xs text-muted-foreground mt-1 font-medium">Score &lt; {mediumThreshold}</p>
             </CardContent>
           </Card>
 
@@ -95,7 +97,7 @@ const RiskManagement = () => {
                 </div>
               </div>
               <div className="text-3xl font-bold tracking-tight text-amber-600">{mediumRiskApps.length}</div>
-              <p className="text-xs text-muted-foreground mt-1 font-medium">Score 60-79</p>
+              <p className="text-xs text-muted-foreground mt-1 font-medium">Score {mediumThreshold}–{lowThreshold - 1}</p>
             </CardContent>
           </Card>
 
@@ -108,7 +110,7 @@ const RiskManagement = () => {
                 </div>
               </div>
               <div className="text-3xl font-bold tracking-tight text-emerald-600">{lowRiskApps.length}</div>
-              <p className="text-xs text-muted-foreground mt-1 font-medium">Score &ge; 80</p>
+              <p className="text-xs text-muted-foreground mt-1 font-medium">Score &ge; {lowThreshold}</p>
             </CardContent>
           </Card>
 
@@ -274,20 +276,18 @@ const RiskManagement = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between items-center p-4 bg-destructive/5 rounded-lg border border-destructive/10">
                       <span className="text-sm font-semibold text-foreground">High Risk Threshold</span>
-                      <span className="text-sm font-bold text-destructive">{'Score < 60'}</span>
+                      <span className="text-sm font-bold text-destructive">Score &lt; {mediumThreshold}</span>
                     </div>
                     <div className="flex justify-between items-center p-4 bg-amber-500/5 rounded-lg border border-amber-500/10">
                       <span className="text-sm font-semibold text-foreground">Medium Risk Threshold</span>
-                      <span className="text-sm font-bold text-amber-600">Score 60-79</span>
+                      <span className="text-sm font-bold text-amber-600">Score {mediumThreshold}–{lowThreshold - 1}</span>
                     </div>
                     <div className="flex justify-between items-center p-4 bg-emerald-500/5 rounded-lg border border-emerald-500/10">
                       <span className="text-sm font-semibold text-foreground">Low Risk Threshold</span>
-                      <span className="text-sm font-bold text-emerald-600">Score &ge; 80</span>
+                      <span className="text-sm font-bold text-emerald-600">Score &ge; {lowThreshold}</span>
                     </div>
-                    <div className="pt-4">
-                      <Button className="w-full shadow-sm" variant="outline">
-                        Configure Thresholds
-                      </Button>
+                    <div className="pt-4 text-xs text-muted-foreground text-center">
+                      Thresholds are defined in <code>src/config/scoringConfig.ts</code>
                     </div>
                   </div>
                 </CardContent>
